@@ -156,4 +156,21 @@ project-name/
 
 The `_` directory should make support files easy to find while keeping top-level entrypoints clean.
 
+Avoid vague junk-drawer directories such as:
+
+```text
+includes/
+misc/
+stuff/
+old/
+new/
+common/
+utils/
+helpers/
+```
+
+Directory names should describe what the files are, not vaguely how they are used.
+
+For example, PHP partials and helpers should live under `_/php/`, not `_/includes/`.
+
 This section is a placeholder for a fuller standard.

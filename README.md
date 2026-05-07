@@ -1,6 +1,12 @@
 # standards
 
-Public standards, reusable shell components, prompt guidance, and operator-style conventions for my local tools, helper applications, dotfiles, security workflows, and project ecosystems.
+Public standards, reusable shell components, prompt guidance, and operator-style conventions for my local tools, helper applications, dotfiles, security workflows, publication workflows, and project ecosystems.
+
+This repository can look like a collection of shell and repository style guides at first glance.
+
+It is broader than that.
+
+It is a codified operational architecture for documenting, reviewing, publishing, and maintaining technical systems with both human and AI operators in mind.
 
 This repository exists to:
 
@@ -8,6 +14,7 @@ This repository exists to:
 - keep projects visually and operationally consistent
 - define reusable shell components
 - define script, documentation, commit, prompt, and directory-structure standards
+- define publication, audit, and OPSEC review practices
 - give AI coding tools a canonical source for applying my style
 - maintain a cohesive view of my projects and operating patterns
 
@@ -35,8 +42,38 @@ The goal is eliminating ambiguity.
 - shell prompt standards
 - AI prompt guidance for applying these standards
 - repository audit and refactor guidance
+- repository taxonomy
+- media asset publication workflow
+- OPSEC methodology
+- publication audit prompts
 - operational standards authority for other projects
 - examples and reusable patterns
+
+These pieces are meant to connect:
+
+```text
+taxonomy
+    ->
+workflow standards
+    ->
+naming conventions
+    ->
+publication pipelines
+    ->
+OPSEC methodology
+    ->
+audit prompts
+    ->
+AI-operational prompts
+    ->
+repository publication systems
+```
+
+Most repositories stop at one layer: a style guide, a naming convention, a prompt snippet, an OPSEC checklist, or documentation advice.
+
+This repository connects those layers into a repeatable operating system.
+
+It documents how systems should be documented, reviewed, operationalized, and safely published.
 
 ## Operational standards authority
 
@@ -60,6 +97,13 @@ This level of centralized engineering standards infrastructure is more commonly 
 This repository applies the same operational thinking at an individual scale.
 
 See [differentiator.md](differentiator.md) for why this repository matters as a public portfolio artifact.
+
+For concrete examples of the operating architecture, see:
+
+- [docs/repo-taxonomy.md](docs/repo-taxonomy.md)
+- [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
+- [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
+- [prompts/publication-opsec-audit.md](prompts/publication-opsec-audit.md)
 
 ## Directory structure
 

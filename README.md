@@ -103,7 +103,7 @@ For concrete examples of the operating architecture, see:
 - [docs/repo-taxonomy.md](docs/repo-taxonomy.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
-- [prompts/publication-opsec-audit.md](prompts/publication-opsec-audit.md)
+- [prompts/publication-opsec-02-audit.md](prompts/publication-opsec-02-audit.md)
 
 ## Directory structure
 

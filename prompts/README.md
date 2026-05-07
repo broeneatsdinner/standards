@@ -20,7 +20,17 @@ Prompts that explain baseline behavior, directory purpose, or general guidance d
 
 ## OPSEC prompt integration
 
-When adding or changing an OPSEC-related standard, workflow, doctrine, or submodule, review `prompts/publication-opsec-audit.md`.
+Publication OPSEC workflow prompts use numbered filenames when execution order matters:
+
+```text
+publication-opsec-01-initiate.md
+publication-opsec-02-audit.md
+publication-opsec-03-media-remediation.md
+```
+
+The number encodes the intended workflow position so terminal and GitHub file listings show the pipeline order naturally.
+
+When adding or changing an OPSEC-related standard, workflow, doctrine, or submodule, review `prompts/publication-opsec-02-audit.md`.
 
 If the new or changed document defines an exposure surface, review step, publication workflow, asset handling procedure, or safety requirement, the publication audit prompt should incorporate or reference it.
 

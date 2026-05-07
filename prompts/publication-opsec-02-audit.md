@@ -13,7 +13,7 @@ Do not commit, delete, rewrite, redact, publish, rename, move, or otherwise modi
 Copy and paste this into Codex to run the publication OPSEC audit against the current repository:
 
 ```text
-Please use prompts/publication-opsec-audit.md as your operating prompt and apply it to this repository.
+Please use prompts/publication-opsec-02-audit.md as your operating prompt and apply it to this repository.
 
 This is a pre-publication OPSEC/security audit workflow run.
 

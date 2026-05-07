@@ -23,7 +23,7 @@ Produce a report only.
 
 Do not commit, delete, rewrite, redact, publish, rename, move, or otherwise modify anything.
 
-Scan text, documentation, filenames, directory names, links, embedded URLs, images, screenshots, maps, metadata, and git history where possible.
+Scan text, documentation, filenames, directory names, links, embedded URLs, images, videos, screenshots, maps, PDFs, other binary/media assets, metadata, and git history where possible.
 
 After the audit, show me:
 
@@ -32,6 +32,8 @@ After the audit, show me:
 - file/path references
 - specific concern for each finding
 - recommended remediation for each finding
+- media and metadata findings
+- raw/private asset intake findings
 - whether each finding blocks publication
 - files that appear safe
 - audit limitations
@@ -61,7 +63,10 @@ Inspect repository content and structure, including:
 - embedded URLs
 - screenshots
 - images
+- videos
 - maps
+- PDFs
+- other binary/media assets
 - EXIF and location metadata when possible
 - git history when possible
 
@@ -76,6 +81,51 @@ Examples include:
 - git log and git grep
 
 Do not install new tools or access network resources unless separately approved.
+
+## Media asset metadata guidance
+
+Identify image, video, screenshot, map, PDF, and other binary/media assets.
+
+When tooling is available, inspect media and document metadata for:
+
+- EXIF
+- GPS/location data
+- device make/model
+- camera, app, or software names
+- timestamps
+- author/creator fields
+- document history
+- thumbnails or previews
+- embedded coordinates
+
+Treat screenshots as high-risk until reviewed for visible:
+
+- browser tabs
+- terminal paths
+- account names
+- map pins
+- reflections
+- documents
+- receipts
+- labels
+- QR codes
+- barcodes
+- background details
+
+Flag raw or private asset intake folders if they are tracked, staged, or otherwise prepared for publication.
+
+Recommend keeping raw/private asset intake ignored, including:
+
+- `assets/private-inbox/`
+- `assets/inbox/` when used for raw unsorted intake
+
+Recommend committing only curated public-safe copies.
+
+Recommend stripping metadata from public images before commit.
+
+If raw assets were ever committed, recommend reviewing git history for exposed metadata or visible private content.
+
+Report media risks and recommended remediation only. Do not strip metadata, move files, delete files, rewrite history, or otherwise modify assets automatically.
 
 ## Risks to flag
 
@@ -197,6 +247,8 @@ Look for:
 - old private URLs
 - renamed files with sensitive names
 - deleted images, maps, screenshots, or documents
+- raw/private asset intake folders or files that were later moved or deleted
+- media metadata from prior commits, including EXIF, GPS/location data, device/app fields, timestamps, author/creator fields, thumbnails, previews, document history, or embedded coordinates
 - prior versions of README or docs that exposed personal information
 
 Report history findings separately from current working tree findings.
@@ -226,10 +278,12 @@ Produce a report with these sections:
 
 1. Summary
 2. Findings by severity
-3. Git history findings
-4. Files that appear safe
-5. Limitations
-6. Recommended next actions
+3. Media and metadata findings
+4. Raw/private asset intake findings
+5. Git history findings
+6. Files that appear safe
+7. Limitations
+8. Recommended next actions
 
 For each finding, include:
 

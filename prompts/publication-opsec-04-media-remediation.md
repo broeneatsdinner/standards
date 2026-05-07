@@ -1,0 +1,170 @@
+# Publication OPSEC Media Remediation Prompt
+
+Use this prompt only after a publication OPSEC audit has produced findings and a human has explicitly approved curated-media remediation.
+
+The goal is to inspect and clean approved public media copies before publication.
+
+Do not commit anything.
+
+## Invocation instructions
+
+Copy and paste this into Codex after audit findings have been reviewed and curated-media remediation has been explicitly approved:
+
+```text
+Please use prompts/publication-opsec-04-media-remediation.md as your operating prompt and apply it to this repository.
+
+This is an approved curated-media remediation workflow.
+
+Use docs/media-asset-workflow.md and the prior audit findings from prompts/publication-opsec-02-audit.md as the remediation basis.
+
+Approved public media scope:
+
+- [describe the approved public asset folders or files here]
+
+Do not touch assets/private-inbox/, assets/contact-sheets/, raw intake originals, ignored private assets, git history, or unrelated files.
+
+Preserve public filenames unless I explicitly approve a safe rename.
+
+Do not commit anything.
+
+After remediation, show me:
+
+- files inspected
+- metadata found before cleanup
+- actions taken
+- metadata status after cleanup
+- files that could not be inspected or cleaned
+- remaining issues
+- git status
+```
+
+## Task
+
+Apply approved curated-media remediation for publication OPSEC findings.
+
+Use only the audit findings and the explicit human-approved public media scope.
+
+Inspect and clean metadata where tooling is available.
+
+## Required references
+
+Use these files as operating context:
+
+- `docs/media-asset-workflow.md`
+- `prompts/publication-opsec-02-audit.md`
+
+Follow the media workflow's distinction between raw intake, private quarantine, contact sheet review, curated public copies, metadata stripping, and final publication audit.
+
+## Required basis
+
+This prompt requires:
+
+- prior audit findings
+- explicit human approval
+- clear public media remediation scope
+
+If those are missing, stop and ask for them.
+
+Do not infer broad media authority from the existence of this prompt.
+
+## Scope
+
+Allowed targets, when explicitly in scope:
+
+- curated public media copies
+- `assets/gear/`
+- `assets/workflow/`
+- `assets/reference/`
+- `assets/finished-drinks/`
+- other explicitly approved public asset folders
+
+Allowed remediation actions:
+
+- inspect metadata
+- strip metadata
+- remove embedded thumbnails or previews where tooling supports it
+- create cleaned public copies when needed and approved
+- preserve existing public filenames
+- rename public files only when explicitly approved as safe
+
+## Metadata to inspect
+
+When tooling is available, inspect approved public media for:
+
+- EXIF
+- GPS/location data
+- device make/model
+- camera/app/software
+- timestamps
+- author/creator fields
+- thumbnails/previews
+- embedded coordinates
+
+Treat missing tooling as a limitation.
+
+Do not install new tools or access network resources unless separately approved.
+
+## Out of scope
+
+Do not touch:
+
+- `assets/private-inbox/`
+- `assets/contact-sheets/`
+- raw intake originals
+- ignored private assets
+- private quarantine folders
+- unrelated files
+- text remediation outside approved media references
+- git history
+- secrets
+- credentials
+
+Do not rewrite history.
+
+Do not delete raw assets.
+
+Do not publish anything.
+
+Do not commit anything.
+
+Do not rename files unless explicitly approved.
+
+## Remediation rules
+
+Before editing, identify the approved files or folders being inspected.
+
+Record metadata found before cleanup without exposing sensitive values unnecessarily.
+
+Strip metadata from approved public media copies where tooling supports it.
+
+Preserve public filenames unless a safe rename is explicitly approved.
+
+If metadata cannot be inspected or cleaned, report the file and the limitation.
+
+If visible content creates a publication risk that metadata cleanup cannot solve, report it as remaining work.
+
+If cleanup would require touching raw/private intake, git history, or ignored assets, stop and report the boundary.
+
+## Verification
+
+After cleanup, inspect metadata again where tooling is available.
+
+Confirm whether the targeted metadata was removed.
+
+Check `git status`.
+
+Do not treat metadata cleanup as visible-content review completion.
+
+## Report format
+
+Produce a report with these sections:
+
+1. Files inspected
+2. Metadata found before cleanup
+3. Actions taken
+4. Metadata status after cleanup
+5. Files that could not be inspected or cleaned
+6. Remaining issues
+7. Git status
+
+State clearly that no commit was made.

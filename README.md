@@ -105,6 +105,44 @@ For concrete examples of the operating architecture, see:
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
 - [prompts/publication-opsec-02-audit.md](prompts/publication-opsec-02-audit.md)
 
+## Publication OPSEC prompt architecture
+
+The publication OPSEC workflow is intentionally ordered instead of hidden inside one large all-purpose prompt.
+
+The prompt filenames use numeric prefixes so the sequence is visible in terminal output, editor sidebars, and GitHub file listings:
+
+```text
+publication-opsec-01-initiate.md
+publication-opsec-02-audit.md
+publication-opsec-03-text-remediation.md
+publication-opsec-04-media-remediation.md
+```
+
+That ordering makes the workflow clean and coherent to both humans and machines.
+
+The architecture separates three responsibilities:
+
+- initiation establishes the publication context and operating constraints
+- audit inspects the repository and produces a report only
+- remediation happens later through approved, scoped follow-up prompts
+
+The audit phase does not mutate files.
+
+It does not redact, rewrite, delete, move, rename, commit, publish, or otherwise repair anything automatically.
+
+Remediation requires a separate human-approved instruction with clear scope.
+
+This avoids:
+
+- silent mutation
+- review bypass
+- one giant magic prompt behavior
+- ambiguity about whether the AI has authority to change the repository
+
+The point is not to claim operational maturity.
+
+The workflow demonstrates it: discovery, assessment, approval, and repair are separate phases with visible boundaries.
+
 ## Directory structure
 
 ```text

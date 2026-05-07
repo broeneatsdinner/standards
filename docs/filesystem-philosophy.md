@@ -119,3 +119,43 @@ Input data, generated output, logs, and temporary files should remain separated.
 A well-structured system should not require explanation.
 
 If explanation is required, the structure is part of the problem.
+
+## Underscore support directory
+
+The `_` directory is a project-local support namespace.
+
+It holds files that support public or root-level entrypoints but should not clutter the root of the project or web directory.
+
+This convention is especially useful for website projects, but may also apply to other project types.
+
+Example web layout:
+
+```text
+html/
+├── index.html
+└── _/
+    ├── css/
+    ├── js/
+    ├── php/
+    ├── python/
+    ├── assets/
+    └── includes/
+```
+
+Example project layout:
+
+```text
+project-name/
+├── README.md
+├── main.sh
+└── _/
+    ├── shell/
+    ├── python/
+    ├── data/
+    ├── output/
+    └── assets/
+```
+
+The `_` directory should make support files easy to find while keeping top-level entrypoints clean.
+
+This section is a placeholder for a fuller standard.

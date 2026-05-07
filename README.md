@@ -75,3 +75,20 @@ The `examples/`, `assets/`, and `templates/` directories are intentionally prese
 A well-structured system should not require explanation.
 
 If explanation is required, the structure is part of the problem.
+
+## Operational standards authority
+
+This repo is not just documentation.
+
+It is a reusable operational standards authority.
+
+That means:
+
+- humans can read it
+- AI coding tools can consume it
+- future repos can reference it
+- reusable shell components can be imported from it
+- audits and refactors can be standardized against it
+- project-structure decisions have a canonical source
+
+In practice, this repo functions as personal engineering standards infrastructure.

@@ -59,7 +59,7 @@ This level of centralized engineering standards infrastructure is more commonly 
 
 This repository applies the same operational thinking at an individual scale.
 
-See [DIFFERENTIATOR.MD](DIFFERENTIATOR.MD) for why this repository matters as a public portfolio artifact.
+See [differentiator.md](differentiator.md) for why this repository matters as a public portfolio artifact.
 
 ## Directory structure
 

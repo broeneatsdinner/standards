@@ -56,8 +56,7 @@ domain.name/
 │       ├── css/
 │       ├── js/
 │       ├── php/
-│       ├── assets/
-│       └── includes/
+│       └── assets/
 ├── logs/
 ├── backups/
 └── config/
@@ -138,8 +137,7 @@ html/
     ├── js/
     ├── php/
     ├── python/
-    ├── assets/
-    └── includes/
+    └── assets/
 ```
 
 Example project layout:

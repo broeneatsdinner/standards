@@ -15,21 +15,23 @@ This is a filename-audit workflow run.
 
 Audit the repository for filename and directory naming violations.
 
-Apply only safe, obvious renames.
+This is a report-only audit.
 
-Do not commit anything.
+Do not rename, normalize, move, rewrite, delete, edit, or commit anything unless separately instructed.
 
-Preserve formatting.
+Identify findings and remediation candidates only.
 
-Update internal references when a safe rename requires it.
+Recommend follow-up remediation workflows where appropriate.
 
-After making changes, show me:
+After the audit, show me:
 
-- what files or directories were renamed
-- what references were updated
-- the git diff
-- any remaining naming issues
-- confirmation that you did not commit
+- filename and directory findings
+- extension/content mismatches or MIME/type inconsistencies
+- candidate remediations
+- references that would need updates during remediation
+- recommended follow-up workflow
+- git status
+- confirmation that you did not mutate the repository
 
 Pay special attention to Markdown filename standards.
 ```
@@ -45,11 +47,12 @@ Look for names that are:
 - overly clever
 - incorrectly cased
 - using non-preferred extensions
+- using extensions that do not match actual file type
 - acting as vague junk-drawer names
 
-Make safe, minimal improvements where appropriate.
+Report findings and candidate remediations.
 
-Do not commit anything yet.
+Do not mutate the repository during the audit.
 
 ## Standards to apply
 
@@ -109,42 +112,64 @@ Known mappings:
 .html  not .htm
 ```
 
-Do not rename extensions if doing so would break references, imports, URLs, build tooling, deployment paths, or external links unless you also safely update every reference.
+For media files, verify that the filename extension matches the actual file type when local tooling makes that possible.
+
+Examples:
+
+- `.jpg` files should contain JPEG data
+- `.png` files should contain PNG data
+
+Treat `.jpg` files containing PNG content as publication-quality defects.
+
+Flag MIME/type inconsistencies, file-signature mismatches, and extension/content mismatches separately from naming-style issues.
+
+These mismatches can break previews, MIME detection, static-site builds, automation, indexing, cache behavior, and downstream workflows.
+
+Flag extension changes that would require reference, import, URL, build, deployment, or external-link updates.
+
+Do not silently normalize media filenames as part of an unrelated audit or metadata remediation workflow.
+
+Recommend media extension normalization only as an explicit follow-up remediation step, with affected references updated and verified during that remediation.
 
 ## Safety constraints
 
-Make minimal edits only.
+Do not edit files during the audit.
 
-Preserve existing formatting.
+Do not reorganize the repository structure.
 
-Do not reorganize the repository structure unless explicitly asked.
+Do not rename, normalize, move, rewrite, delete, or commit anything.
 
-Do not rename vendored, generated, archived, third-party, dependency, cache, or build-output files.
+Do not recommend renaming vendored, generated, archived, third-party, dependency, cache, or build-output files unless the repository clearly treats them as maintained source artifacts.
 
-Do not rename files referenced by external systems unless you can safely update the references.
+Flag files referenced by external systems as higher-risk remediation candidates.
 
-When uncertain, do not rename. Report the issue instead.
+When uncertain, report the uncertainty instead of implying remediation authority.
 
 ## Required workflow
 
 1. Inspect the repository.
-2. Identify candidate filename and directory issues.
-3. Apply only safe, obvious renames.
-4. Update internal references when a safe rename requires it.
-5. Leave uncertain cases unchanged.
-6. Report what changed and what was skipped.
+2. Audit filename and directory naming against the standards.
+3. Check media extension/content consistency where tooling is available.
+4. Identify candidate filename, directory, and normalization findings.
+5. Identify references, imports, URLs, build paths, deployment paths, external links, manifests, indexes, or documentation paths that would need updates during remediation.
+6. Recommend follow-up remediation or normalization workflows where appropriate.
+7. Produce findings only.
+8. Do not mutate the repository.
 
 ## Final report
 
 When finished, report:
 
-- files renamed
-- directories renamed
-- references updated
-- items intentionally skipped
-- unsafe or uncertain rename candidates
+- filename findings
+- directory findings
+- candidate extension normalization findings
+- extension/content mismatches or MIME/type inconsistencies found
+- affected references or downstream surfaces that remediation would need to update
+- unsafe or uncertain remediation candidates
 - any recommended follow-up work
+- git status
+- confirmation that no files were renamed, normalized, moved, rewritten, deleted, committed, or otherwise changed
 
-Do not commit the changes.
+Do not commit anything.
 
-Wait for review before committing.
+Wait for explicit remediation approval before making changes.

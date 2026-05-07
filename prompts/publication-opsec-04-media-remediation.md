@@ -94,6 +94,7 @@ Allowed remediation actions:
 - strip metadata
 - remove embedded thumbnails or previews where tooling supports it
 - create cleaned public copies when needed and approved
+- report extension/content mismatches as publication-quality defects
 - preserve existing public filenames
 - rename public files only when explicitly approved as safe
 
@@ -149,6 +150,10 @@ Record metadata found before cleanup without exposing sensitive values unnecessa
 Strip metadata from approved public media copies where tooling supports it.
 
 Preserve public filenames unless a safe rename is explicitly approved.
+
+Do not treat metadata remediation as filename/type normalization.
+
+If a file's extension does not match its actual type, report it as a separate publication-quality issue unless normalization has been explicitly approved for this run.
 
 When numbered contact sheets or indexes are available, use stable integer identifiers in notes and reports alongside the public filename or source filename.
 

@@ -233,6 +233,7 @@ Naming guidance:
 - use hyphen-separated words
 - use descriptive names
 - use `.jpg`, not `.jpeg`
+- make the filename extension match the actual file type
 - avoid UUID names
 - avoid camera-default names
 - avoid screenshot-default names
@@ -256,6 +257,27 @@ The public filename should help a reader understand why the asset exists.
 
 It should not preserve private collection history.
 
+The public filename should also describe the file truthfully.
+
+A `.jpg` filename that contains PNG data is a publication-quality defect even when the image is otherwise safe to publish.
+
+That mismatch is not primarily an OPSEC finding. It is a filename normalization, repository-quality, and tooling-consistency problem.
+
+Extension/content mismatches can break image tooling, static-site builds, repository previews, MIME detection, search indexing, cache behavior, automation, and downstream workflows that route files by extension.
+
+Metadata remediation and filename/type normalization are separate phases:
+
+- metadata remediation strips or reduces embedded private data in approved public media copies
+- filename/type normalization makes public filenames, extensions, references, and rendered outputs consistent with the actual asset type
+
+Do not silently rename media files during metadata remediation.
+
+Normalize filenames only through an explicit approved remediation step.
+
+When normalization is approved, update every internal reference, import, link, manifest entry, generated index, and documentation path that points at the renamed asset.
+
+After normalization, verify that repository previews, documentation rendering, static builds, and relevant automation still resolve and display the asset correctly.
+
 ### 7. Final publication audit
 
 Run a final publication audit before making the repository public or before publishing a major documentation update.
@@ -268,6 +290,7 @@ Review:
 - generated contact sheets
 - number-to-filename indexes
 - filenames
+- extension/content consistency
 - visible image content
 - media metadata
 - git history when relevant

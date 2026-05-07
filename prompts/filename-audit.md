@@ -1,30 +1,29 @@
 # Filename Audit Prompt
 
-Use the standards repository as the source of truth for filename and directory naming conventions.
+Use this prompt when auditing a repository for filename and directory naming consistency.
 
-Audit the current repository for filename consistency, clarity, and naming hygiene.
+Refer to the standards repository as the source of truth.
 
-## Goals
+## Task
 
-Improve:
+Audit the current repository for filename and directory naming issues.
 
-- readability
-- predictability
-- consistency
-- navigability
-- operator clarity
+Look for names that are:
 
-Reduce:
+- unclear
+- inconsistent
+- overly clever
+- incorrectly cased
+- using non-preferred extensions
+- acting as vague junk-drawer names
 
-- ambiguity
-- junk-drawer naming
-- inconsistent casing
-- inconsistent extensions
-- unclear directory purpose
+Make safe, minimal improvements where appropriate.
 
-## Filename standards
+Do not commit anything yet.
 
-Prefer filenames that are:
+## Standards to apply
+
+Prefer filenames and directories that are:
 
 - lowercase
 - descriptive
@@ -32,32 +31,7 @@ Prefer filenames that are:
 - operationally clear
 - consistent with surrounding files
 
-Avoid filenames that are:
-
-- vague
-- overly clever
-- inconsistent
-- redundant
-- difficult to scan quickly
-
-## Extension standards
-
-Use the preferred canonical extension for each file type.
-
-Current standards include:
-
-```text
-.jpg   not .jpeg
-.html  not .htm
-```
-
-Do not rename extensions that would break external tooling, URLs, imports, references, or APIs without updating references safely.
-
-## Directory naming standards
-
-Directory names should describe what the files are, not vaguely how they are used.
-
-Avoid vague junk-drawer directories such as:
+Avoid vague junk-drawer directory names such as:
 
 ```text
 misc/
@@ -72,38 +46,55 @@ includes/
 
 Unless the repository defines them very specifically.
 
-Prefer names that clearly describe the contents.
+Directory names should describe what files are, not vaguely how they are used.
 
-Examples:
+## Extension standards
+
+Use preferred canonical extensions.
+
+Known mappings:
 
 ```text
-php/
-css/
-js/
-python/
-assets/
-output/
-logs/
+.jpg   not .jpeg
+.html  not .htm
 ```
 
-## Safety rules
+Do not rename extensions if doing so would break references, imports, URLs, build tooling, deployment paths, or external links unless you also safely update every reference.
 
-Make minimal changes only.
+## Safety constraints
 
-Do not rename files unnecessarily.
+Make minimal edits only.
+
+Preserve existing formatting.
 
 Do not reorganize the repository structure unless explicitly asked.
 
-Do not rename externally referenced files without updating references safely.
+Do not rename vendored, generated, archived, third-party, dependency, cache, or build-output files.
 
-When uncertain whether a rename is safe, report it instead of changing it.
+Do not rename files referenced by external systems unless you can safely update the references.
 
-## Report
+When uncertain, do not rename. Report the issue instead.
 
-After the audit, summarize:
+## Required workflow
 
-- renamed files
-- renamed directories
-- skipped items
-- possible unsafe renames
-- naming inconsistencies that need human review
+1. Inspect the repository.
+2. Identify candidate filename and directory issues.
+3. Apply only safe, obvious renames.
+4. Update internal references when a safe rename requires it.
+5. Leave uncertain cases unchanged.
+6. Report what changed and what was skipped.
+
+## Final report
+
+When finished, report:
+
+- files renamed
+- directories renamed
+- references updated
+- items intentionally skipped
+- unsafe or uncertain rename candidates
+- any recommended follow-up work
+
+Do not commit the changes.
+
+Wait for review before committing.

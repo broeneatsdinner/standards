@@ -34,7 +34,30 @@ The goal is eliminating ambiguity.
 - filesystem and project-structure standards
 - shell prompt standards
 - AI prompt guidance for applying these standards
+- repository audit and refactor guidance
+- operational standards authority for other projects
 - examples and reusable patterns
+
+## Operational standards authority
+
+This repo is not just documentation.
+
+It is a reusable operational standards authority.
+
+That means:
+
+- humans can read it
+- AI coding tools can consume it
+- future repos can reference it
+- reusable shell components can be imported from it
+- audits and refactors can be standardized against it
+- project-structure decisions have a canonical source
+
+In practice, this repo functions as personal engineering standards infrastructure.
+
+This level of centralized engineering standards infrastructure is more commonly found in mature engineering organizations with dedicated platform, tooling, or developer-experience functions.
+
+This repository applies the same operational thinking at an individual scale.
 
 ## Directory structure
 
@@ -75,24 +98,3 @@ The `examples/`, `assets/`, and `templates/` directories are intentionally prese
 A well-structured system should not require explanation.
 
 If explanation is required, the structure is part of the problem.
-
-## Operational standards authority
-
-This repo is not just documentation.
-
-It is a reusable operational standards authority.
-
-That means:
-
-- humans can read it
-- AI coding tools can consume it
-- future repos can reference it
-- reusable shell components can be imported from it
-- audits and refactors can be standardized against it
-- project-structure decisions have a canonical source
-
-In practice, this repo functions as personal engineering standards infrastructure.
-
-This level of centralized engineering standards infrastructure is more commonly found in mature engineering organizations with dedicated platform, tooling, or developer-experience functions.
-
-This repository applies the same operational thinking at an individual scale.

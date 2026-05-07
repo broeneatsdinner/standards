@@ -18,17 +18,30 @@ The `Invocation instructions` section must contain copy/paste-ready text for run
 
 Prompts that explain baseline behavior, directory purpose, or general guidance do not need `Invocation instructions`.
 
-## OPSEC prompt integration
+## Ordered prompt workflows
 
-Publication OPSEC workflow prompts use numbered filenames when execution order matters:
+Some prompt sets are numbered because they represent an ordered operational workflow.
+
+For example, publication OPSEC prompts use:
 
 ```text
 publication-opsec-01-initiate.md
 publication-opsec-02-audit.md
-publication-opsec-03-media-remediation.md
+publication-opsec-03-text-remediation.md
+publication-opsec-04-media-remediation.md
 ```
 
-The number encodes the intended workflow position so terminal and GitHub file listings show the pipeline order naturally.
+The number indicates workflow order.
+
+The name after the number indicates the phase.
+
+Audit prompts report findings.
+
+Remediation prompts make approved, scoped changes after human review.
+
+This keeps workflow control, audit, and repair separate while making the sequence readable to both humans and AI systems.
+
+## OPSEC prompt integration
 
 When adding or changing an OPSEC-related standard, workflow, doctrine, or submodule, review `prompts/publication-opsec-02-audit.md`.
 

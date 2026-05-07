@@ -31,7 +31,7 @@ When entering an unfamiliar system:
 
 ```text
 bin/      user-facing commands and executable entrypoints
-lib/      reusable sourced/imported components
+shell/      reusable sourced/imported components
 scripts/  internal helper scripts
 docs/     documentation and standards
 examples/ working examples and reference implementations
@@ -75,7 +75,7 @@ The root of `html/` should stay clean and should primarily contain public entryp
 project-name/
 ├── README.md
 ├── bin/
-├── lib/
+├── shell/
 ├── scripts/
 ├── docs/
 ├── examples/
@@ -85,7 +85,7 @@ project-name/
 
 `bin/` is for user-facing commands.
 
-`lib/` is for reusable sourced components.
+`shell/` is for reusable sourced components.
 
 `scripts/` is for internal helpers.
 

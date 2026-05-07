@@ -128,7 +128,7 @@ cp $source_file $destination_file
 
 User-facing commands belong in `bin/`.
 
-Reusable sourced code belongs in `lib/`.
+Reusable sourced code belongs in `shell/`.
 
 Internal project helpers belong in `scripts/`.
 

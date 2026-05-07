@@ -28,7 +28,7 @@ Common project directories:
 
 ```text
 docs/       documentation
-lib/        reusable code
+shell/        reusable code
 bin/        user-facing commands
 scripts/    internal helper scripts
 examples/   example usage
@@ -91,7 +91,7 @@ Example:
 project-name/
 ├── README.md
 ├── bin/
-├── lib/
+├── shell/
 ├── docs/
 └── examples/
 ```

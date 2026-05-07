@@ -41,7 +41,7 @@ The goal is eliminating ambiguity.
 standards/
 ├── README.md
 ├── docs/
-├── lib/
+├── shell/
 ├── prompts/
 ├── examples/
 ├── assets/

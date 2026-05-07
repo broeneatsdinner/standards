@@ -31,7 +31,7 @@ RESET=""
 The exact escape sequences belong in reusable library files such as:
 
 ```text
-lib/colors.sh
+shell/colors.sh
 ```
 
 ## Naming
@@ -122,7 +122,7 @@ Use dim colors for context, metadata, separators, secondary labels, and less imp
 Shared colors should live in:
 
 ```text
-lib/colors.sh
+shell/colors.sh
 ```
 
 Project-specific scripts should source the shared library instead of redefining the same colors repeatedly.
@@ -130,8 +130,8 @@ Project-specific scripts should source the shared library instead of redefining 
 Example:
 
 ```bash
-# shellcheck source=../lib/colors.sh
-source "$script_dir/../lib/colors.sh"
+# shellcheck source=../shell/colors.sh
+source "$script_dir/../shell/colors.sh"
 ```
 
 ## Visual consistency

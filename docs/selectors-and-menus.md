@@ -88,7 +88,7 @@ A tool should not require arrow-key interaction if it is intended to be used in 
 Shared selector behavior should live in:
 
 ```text
-lib/selector.sh
+shell/selector.sh
 ```
 
 Project-specific scripts should source the shared selector library instead of reimplementing menu behavior repeatedly.

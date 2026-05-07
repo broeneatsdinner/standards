@@ -4,6 +4,36 @@ Use this prompt when auditing a repository for filename and directory naming con
 
 Refer to the standards repository as the source of truth.
 
+## Invocation instructions
+
+Copy and paste this into Codex to run the filename audit against the current repository:
+
+```text
+Please use prompts/filename-audit.md as your operating prompt and apply it to this repository.
+
+This is a filename-audit workflow run.
+
+Audit the repository for filename and directory naming violations.
+
+Apply only safe, obvious renames.
+
+Do not commit anything.
+
+Preserve formatting.
+
+Update internal references when a safe rename requires it.
+
+After making changes, show me:
+
+- what files or directories were renamed
+- what references were updated
+- the git diff
+- any remaining naming issues
+- confirmation that you did not commit
+
+Pay special attention to Markdown filename standards.
+```
+
 ## Task
 
 Audit the current repository for filename and directory naming issues.

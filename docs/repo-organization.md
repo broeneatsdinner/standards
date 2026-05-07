@@ -150,3 +150,36 @@ A repository should answer the first question immediately:
 ```text
 Where am I, and what matters here?
 ```
+
+## Repository description
+
+Every public repository should have a GitHub repository description.
+
+The description should be one short sentence that explains what the repo is and why it exists.
+
+It should be specific enough to orient a visitor before they open the README.
+
+Good descriptions are:
+
+- short
+- specific
+- plain-language
+- project-focused
+- useful without additional context
+
+Avoid descriptions that are vague, cute, empty, or overly broad.
+
+Good:
+
+```text
+Public standards, reusable shell components, prompt guidance, and operator-style conventions for my tools, dotfiles, automation workflows, and project ecosystems.
+```
+
+Avoid:
+
+```text
+My stuff
+Misc tools
+Personal repo
+Experiments
+```

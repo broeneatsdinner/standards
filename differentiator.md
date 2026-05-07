@@ -45,8 +45,8 @@ It is an ordered workflow whose filenames make the sequence visible in terminal 
 ```text
 publication-opsec-01-initiate.md
 publication-opsec-02-audit.md
-publication-opsec-03-text-remediation.md
-publication-opsec-04-media-remediation.md
+publication-opsec-03-remediate-text.md
+publication-opsec-04-remediate-media.md
 ```
 
 That structure is legible to humans and machines at the same time.

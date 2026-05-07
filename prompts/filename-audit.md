@@ -12,7 +12,7 @@ Use the numbered workflow prompts instead:
 
 - `prompts/filename-01-initiate.md`
 - `prompts/filename-02-audit.md`
-- `prompts/filename-03-remediation.md`
+- `prompts/filename-03-remediate.md`
 
 This file remains only so older instructions that reference `prompts/filename-audit.md` do not fail silently.
 
@@ -63,6 +63,6 @@ Use `prompts/filename-02-audit.md`.
 
 If scope, repository context, or normalization authority is unclear, start with `prompts/filename-01-initiate.md`.
 
-If a human has reviewed audit findings and explicitly approved a scoped mutation, use `prompts/filename-03-remediation.md`.
+If a human has reviewed audit findings and explicitly approved a scoped mutation, use `prompts/filename-03-remediate.md`.
 
 Do not mutate the repository from this compatibility redirect.

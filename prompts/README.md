@@ -27,15 +27,23 @@ For example, publication OPSEC prompts use:
 ```text
 publication-opsec-01-initiate.md
 publication-opsec-02-audit.md
-publication-opsec-03-text-remediation.md
-publication-opsec-04-media-remediation.md
+publication-opsec-03-remediate-text.md
+publication-opsec-04-remediate-media.md
 ```
 
 The number indicates workflow order.
 
 The name after the number indicates the phase.
 
-Audit prompts report findings.
+`01-initiate` prompts establish scope, intent, and authority boundaries.
+
+`02-audit` prompts report findings without changing repository state.
+
+`03` and later remediation modules should use imperative `remediate-*` names, with `remediate` reserved for a single general remediation authority in a workflow family.
+
+Each number must be unique within a workflow family.
+
+Remediation modules represent specific approved mutation authorities, such as `remediate-text`, `remediate-media`, or `remediate` for a narrowly scoped workflow.
 
 Remediation prompts make approved, scoped changes after human review.
 

@@ -188,6 +188,18 @@ Visible sequencing also helps humans and AI systems understand where they are in
 
 Numbered prompt workflows, explicit phase names, and report-only language make the operating state legible in terminal output, editor sidebars, GitHub file listings, and conversation history.
 
+Within a workflow family, numbers must be unique and preserve the operating sequence.
+
+Use `01-initiate` for the initiation prompt that establishes scope.
+
+Use `02-audit` for the report-only prompt that produces findings.
+
+Use `03` and later numbers for remediation modules, named imperatively as `remediate-*` when the workflow has specific mutation authorities.
+
+Use `remediate` only when the workflow family has a single general remediation authority.
+
+Each remediation module represents a specific approved mutation authority, such as text redaction, media metadata cleanup, filename normalization, or reference updates.
+
 ## Operational governance
 
 This architecture treats workflow phases as governance boundaries.

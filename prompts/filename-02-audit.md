@@ -69,13 +69,13 @@ Use these files as operating context:
 
 - `docs/workflow-architecture.md`
 - `docs/media-asset-workflow.md`
-- `prompts/filename-03-remediation.md`
+- `prompts/filename-03-remediate.md`
 
 Use `docs/workflow-architecture.md` to preserve the report-only audit boundary.
 
 Use `docs/media-asset-workflow.md` when reviewing media assets, public-safe asset names, extension standards, raw/private intake paths, and curated public copies.
 
-Use `prompts/filename-03-remediation.md` only as a possible approved follow-up workflow.
+Use `prompts/filename-03-remediate.md` only as a possible approved follow-up workflow.
 
 ## Standards to apply
 

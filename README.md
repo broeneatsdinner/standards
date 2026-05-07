@@ -114,8 +114,8 @@ The prompt filenames use numeric prefixes so the sequence is visible in terminal
 ```text
 publication-opsec-01-initiate.md
 publication-opsec-02-audit.md
-publication-opsec-03-text-remediation.md
-publication-opsec-04-media-remediation.md
+publication-opsec-03-remediate-text.md
+publication-opsec-04-remediate-media.md
 ```
 
 That ordering makes the workflow clean and coherent to both humans and machines.

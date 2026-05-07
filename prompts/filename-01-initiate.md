@@ -52,7 +52,7 @@ Use these files as operating context:
 - `docs/workflow-architecture.md`
 - `docs/media-asset-workflow.md`
 - `prompts/filename-02-audit.md`
-- `prompts/filename-03-remediation.md`
+- `prompts/filename-03-remediate.md`
 
 Use `docs/workflow-architecture.md` to preserve the initiation -> audit -> remediation sequence.
 
@@ -60,7 +60,7 @@ Use `docs/media-asset-workflow.md` to identify media filename, extension, MIME/t
 
 Use `prompts/filename-02-audit.md` as the next report-only audit phase.
 
-Use `prompts/filename-03-remediation.md` only as a possible follow-up mutation phase after findings are reviewed and explicitly approved.
+Use `prompts/filename-03-remediate.md` only as a possible follow-up mutation phase after findings are reviewed and explicitly approved.
 
 ## Repository and publication context
 
@@ -131,7 +131,7 @@ Recommend normalization only as a possible follow-up after report-only audit fin
 
 Recommend running `prompts/filename-02-audit.md` for the report-only audit phase when filename, directory-name, extension, MIME/type, or reference impacts need inspection.
 
-Recommend `prompts/filename-03-remediation.md` only after:
+Recommend `prompts/filename-03-remediate.md` only after:
 
 - audit findings exist
 - a human has reviewed the findings

@@ -11,7 +11,7 @@ Do not commit anything.
 Copy and paste this into Codex after audit findings have been reviewed and filename remediation has been explicitly approved:
 
 ```text
-Please use prompts/filename-03-remediation.md as your operating prompt and apply it to this repository.
+Please use prompts/filename-03-remediate.md as your operating prompt and apply it to this repository.
 
 This is an approved filename remediation workflow.
 

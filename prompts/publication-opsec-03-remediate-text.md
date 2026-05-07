@@ -11,7 +11,7 @@ Do not commit anything.
 Copy and paste this into Codex after audit findings have been reviewed and text remediation has been explicitly approved:
 
 ```text
-Please use prompts/publication-opsec-03-text-remediation.md as your operating prompt and apply it to this repository.
+Please use prompts/publication-opsec-03-remediate-text.md as your operating prompt and apply it to this repository.
 
 This is an approved text/documentation remediation workflow.
 

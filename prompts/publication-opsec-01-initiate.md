@@ -117,8 +117,8 @@ Remediation must happen only after:
 
 Use separate scoped remediation prompts for follow-up work:
 
-- `prompts/publication-opsec-03-text-remediation.md` for approved text and documentation remediation
-- `prompts/publication-opsec-04-media-remediation.md` for approved curated-media remediation
+- `prompts/publication-opsec-03-remediate-text.md` for approved text and documentation remediation
+- `prompts/publication-opsec-04-remediate-media.md` for approved curated-media remediation
 
 ## Safety constraints
 

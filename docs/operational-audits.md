@@ -44,6 +44,16 @@ Audit inspects and reports within that frame.
 
 Remediation changes repository state only after approval.
 
+In numbered prompt workflows, `01-initiate` establishes scope, `02-audit` reports findings, and `03` or later remediation modules perform approved mutation work.
+
+Numbers must be unique within a workflow family.
+
+Remediation modules should use imperative `remediate-*` names when they represent specific mutation authorities.
+
+Use `remediate` only when the workflow family has a single general remediation authority.
+
+Each remediation module represents a specific approved mutation authority.
+
 Example:
 
 ```text

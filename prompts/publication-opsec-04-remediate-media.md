@@ -11,7 +11,7 @@ Do not commit anything.
 Copy and paste this into Codex after audit findings have been reviewed and curated-media remediation has been explicitly approved:
 
 ```text
-Please use prompts/publication-opsec-04-media-remediation.md as your operating prompt and apply it to this repository.
+Please use prompts/publication-opsec-04-remediate-media.md as your operating prompt and apply it to this repository.
 
 This is an approved curated-media remediation workflow.
 

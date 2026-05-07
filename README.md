@@ -78,8 +78,8 @@ standards/
 
 ```text
 docs/       written standards, philosophy, and conventions
-shell/      reusable shell components such as colors, headers, loaders, selectors, and text effects
-prompts/    AI-assistant prompts and shell-prompt standards
+shell/      reusable shell components such as colors, headers, loaders, selectors, text effects, and shell prompts
+prompts/    AI-assistant prompts for applying these standards
 examples/   working examples that demonstrate the standards in practice
 assets/     visual reference assets such as ANSI art, ASCII art, screenshots, and palette references
 templates/  starter directory and file structures for common project types
@@ -90,7 +90,7 @@ templates/  starter directory and file structures for common project types
 ```text
 docs/       core written standards
 shell/      initial reusable shell component stubs
-prompts/    AI and shell prompt standards
+prompts/    AI prompt standards
 ```
 
 The `examples/`, `assets/`, and `templates/` directories are intentionally present as planned expansion areas.

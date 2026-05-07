@@ -1,10 +1,11 @@
 # Prompts
 
-This directory contains prompt standards in two senses:
+This directory contains AI-assistant prompts and instructions for applying this repository's standards.
+
+Shell prompt standards are not kept here. They live under:
 
 ```text
-ai/      prompts and instructions for AI coding assistants
-shell/   shell prompt architecture and prompt style standards
+shell/prompts/
 ```
 
-The goal is to keep both human-facing terminal prompts and AI-assistant instructions aligned with the same operator standards.
+This keeps AI prompts separate from PS1/shell prompt standards.

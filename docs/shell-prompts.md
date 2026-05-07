@@ -5,7 +5,7 @@ This document defines shell prompt standards at a high level.
 Detailed shell prompt standards live under:
 
 ```text
-prompts/shell/
+shell/prompts/
 ```
 
 ## Prompt styles

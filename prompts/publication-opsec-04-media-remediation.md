@@ -55,6 +55,12 @@ Use these files as operating context:
 
 Follow the media workflow's distinction between raw intake, private quarantine, contact sheet review, curated public copies, metadata stripping, and final publication audit.
 
+For large media sets, expect private numbered contact sheets and local number-to-filename indexes to exist as review artifacts.
+
+Use those integer identifiers when they are provided in the approved scope or audit findings.
+
+Do not publish contact sheets or indexes by default.
+
 ## Required basis
 
 This prompt requires:
@@ -77,6 +83,10 @@ Allowed targets, when explicitly in scope:
 - `assets/reference/`
 - `assets/finished-drinks/`
 - other explicitly approved public asset folders
+
+Private contact sheets and number-to-filename indexes may be read as review context when explicitly approved.
+
+They are not publication targets by default.
 
 Allowed remediation actions:
 
@@ -110,6 +120,7 @@ Do not touch:
 
 - `assets/private-inbox/`
 - `assets/contact-sheets/`
+- contact sheet number indexes unless explicitly approved as read-only review context
 - raw intake originals
 - ignored private assets
 - private quarantine folders
@@ -138,6 +149,10 @@ Record metadata found before cleanup without exposing sensitive values unnecessa
 Strip metadata from approved public media copies where tooling supports it.
 
 Preserve public filenames unless a safe rename is explicitly approved.
+
+When numbered contact sheets or indexes are available, use stable integer identifiers in notes and reports alongside the public filename or source filename.
+
+Do not copy private source filenames into public filenames unless explicitly approved and public-safe.
 
 If metadata cannot be inspected or cleaned, report the file and the limitation.
 

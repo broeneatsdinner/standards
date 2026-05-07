@@ -100,6 +100,12 @@ Recommend running `prompts/publication-opsec-02-audit.md` for the report-only au
 
 The audit phase should inspect repository content, filenames, links, media, metadata, raw/private asset paths, and git history where possible.
 
+Media-heavy repositories may need the numbered contact-sheet workflow from `docs/media-asset-workflow.md` before remediation.
+
+For large image sets, recommend private contact sheets with stable integer identifiers, original filenames, and local number-to-filename indexes so audit findings and human approvals can refer to assets clearly.
+
+Those review artifacts should remain private and ignored unless intentionally sanitized for publication.
+
 The audit phase must not modify files.
 
 Remediation must happen only after:

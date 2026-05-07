@@ -116,9 +116,34 @@ The contact sheet is a review artifact.
 
 It helps compare similar images, select public candidates, detect obvious exposure issues, and avoid accidentally publishing the wrong source file.
 
+For large image sets, use numbered contact sheets.
+
+Each thumbnail should show:
+
+- a stable integer identifier
+- the original source filename
+
+Generate a local index that maps each number to its source filename.
+
+Example:
+
+```text
+1 -> IMG_4921.jpeg
+2 -> Screenshot 2026-05-07 at 9.14.03 AM.png
+3 -> receipt-counter-setup.jpg
+```
+
+Use the integer identifiers during human and AI classification discussion.
+
+This reduces review friction, avoids copy/paste errors with UUID or camera-default filenames, improves audit traceability, and makes human/AI collaboration clearer.
+
 Contact sheets generated from private intake should normally stay ignored.
 
 They may contain thumbnails of private, discarded, or not-yet-redacted images.
+
+The number-to-filename index is also a review artifact.
+
+Keep contact sheets and number indexes private and ignored unless they have been intentionally sanitized and reviewed for publication.
 
 Do not publish a contact sheet just because it is convenient.
 
@@ -241,6 +266,7 @@ Review:
 - staged media files
 - ignored intake paths
 - generated contact sheets
+- number-to-filename indexes
 - filenames
 - visible image content
 - media metadata
@@ -302,6 +328,10 @@ Raw photos of the counter, grinder, espresso machine, tools, cups, workflow step
 Those files should then be moved into `assets/private-inbox/` and ignored.
 
 A local contact sheet can be generated from `assets/private-inbox/` to review which images explain the system.
+
+For larger asset sets, the contact sheet should number each thumbnail and show the original filename.
+
+A local index should map each number back to the source filename so review can refer to images by stable integers.
 
 Each image is classified as `public candidate`, `reference-only`, `discard`, or `needs crop/redaction`.
 

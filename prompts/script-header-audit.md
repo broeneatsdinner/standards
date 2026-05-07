@@ -4,6 +4,32 @@ Use the standards repository as the source of truth for style, structure, and op
 
 Audit the current repository against those standards.
 
+## Invocation instructions
+
+Copy and paste this into Codex to run the repository standards audit against the current repository:
+
+```text
+Please use prompts/script-header-audit.md as your operating prompt and apply it to this repository.
+
+This is a repository standards audit workflow run.
+
+Audit the repository for standards violations.
+
+Apply only safe, obvious fixes.
+
+Do not commit anything.
+
+Preserve formatting.
+
+After making changes, show me:
+
+- what files were changed
+- what standards were applied
+- the git diff
+- any remaining standards issues
+- confirmation that you did not commit
+```
+
 ## Scope
 
 Check for:

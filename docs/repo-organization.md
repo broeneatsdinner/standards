@@ -102,6 +102,26 @@ Then explain what each directory means.
 
 Use clear lowercase names for directories unless the ecosystem has a strong convention otherwise.
 
+README.md is the intentional conventional exception for Markdown filenames.
+
+All other Markdown files should use lowercase filenames with a lowercase `.md` extension.
+
+Good:
+
+```text
+README.md
+shell-style.md
+differentiator.md
+```
+
+Bad:
+
+```text
+DIFFERENTIATOR.MD
+Differentiator.md
+differentiator.MD
+```
+
 Prefer:
 
 ```text

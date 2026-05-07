@@ -34,6 +34,7 @@ After the audit, show me:
 - recommended remediation for each finding
 - media and metadata findings
 - raw/private asset intake findings
+- deviations from `docs/media-asset-workflow.md`, if any
 - whether each finding blocks publication
 - files that appear safe
 - audit limitations
@@ -86,6 +87,8 @@ Do not install new tools or access network resources unless separately approved.
 
 Identify image, video, screenshot, map, PDF, and other binary/media assets.
 
+Use `docs/media-asset-workflow.md` as the expected workflow for raw intake, private quarantine, contact sheet review, classification, metadata stripping, curated public copies, and final publication audit.
+
 When tooling is available, inspect media and document metadata for:
 
 - EXIF
@@ -113,6 +116,8 @@ Treat screenshots as high-risk until reviewed for visible:
 - background details
 
 Flag raw or private asset intake folders if they are tracked, staged, or otherwise prepared for publication.
+
+Flag deviations from `docs/media-asset-workflow.md` when raw intake, private quarantine, contact sheets, classification, metadata stripping, or curated public copies appear to be bypassed.
 
 Recommend keeping raw/private asset intake ignored, including:
 
@@ -281,9 +286,10 @@ Produce a report with these sections:
 3. Media and metadata findings
 4. Raw/private asset intake findings
 5. Git history findings
-6. Files that appear safe
-7. Limitations
-8. Recommended next actions
+6. Media asset workflow deviations
+7. Files that appear safe
+8. Limitations
+9. Recommended next actions
 
 For each finding, include:
 

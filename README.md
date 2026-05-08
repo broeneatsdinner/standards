@@ -32,6 +32,7 @@ The goal is eliminating ambiguity.
 
 - shell style standards
 - graphical script header standards
+- script content and comment standards
 - comment and description conventions
 - reusable shell components
 - selector/menu conventions
@@ -151,36 +152,61 @@ The workflow demonstrates it: discovery, assessment, approval, and repair are se
 standards/
 ├── README.md
 ├── docs/
-├── shell/
 ├── prompts/
+├── shell/
+├── directory_structures/
 ├── examples/
-├── assets/
-└── templates/
+└── assets/
 ```
 
 ## Directory meanings
 
 ```text
-docs/       written standards, philosophy, and conventions
-shell/      reusable shell components such as colors, headers, loaders, selectors, text effects, and shell prompts
-prompts/    AI-assistant prompts for applying these standards
-examples/   working examples that demonstrate the standards in practice
-assets/     visual reference assets such as ANSI art, ASCII art, screenshots, palette references, and typography fixtures
-templates/  starter directory and file structures for common project types
+docs/
+    written standards, rationale, conventions, and human-readable authority
+
+prompts/
+    AI-facing prompt material that tells assistants how to apply the standards
+
+shell/
+    reusable implementation components, helpers, loaders, colors, headers,
+    selectors, and text effects
+
+directory_structures/
+    starting structures, project skeletons, and reusable filesystem layouts
+
+examples/
+    working examples that demonstrate the standards in practice
+
+assets/
+    visual reference assets such as ANSI art, ASCII art, screenshots, palette
+    references, typography fixtures, and other supporting media
 ```
+
+The `docs/` directory is the canonical authority for written standards. The `prompts/` directory should point AI tools at those standards and explain how to apply them. The `shell/` directory contains reusable implementation pieces. The `directory_structures/` directory contains example or starter filesystem layouts that can be copied, adapted, or used as references.
 
 `assets/typography/` contains reusable chat and document rendering fixtures for Markdown-to-HTML/PDF workflows.
 
 ## Current populated areas
 
 ```text
-docs/       core written standards
-shell/      initial reusable shell component stubs
-prompts/    AI prompt standards
-templates/  starter structures for common project types
+docs/
+    core written standards
+
+prompts/
+    AI prompt standards and publication-audit workflows
+
+shell/
+    initial reusable shell component stubs
+
+directory_structures/
+    starter structures and reusable layouts for common project types
+
+assets/
+    typography fixtures and visual reference assets
 ```
 
-The `examples/` and `assets/` directories are intentionally present as planned expansion areas.
+The `examples/` directory is intentionally present as a planned expansion area.
 
 ## Core principle
 

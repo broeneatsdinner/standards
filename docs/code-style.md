@@ -82,20 +82,24 @@ When generating copy/paste content for chat, avoid nested Markdown fences when p
 
 Nested fences are a common source of broken rendering and broken copy/paste in chat interfaces. The safest default is to avoid demonstrating fence syntax with live nested fence examples.
 
+When literal Markdown fence content must be included, prefer tilde fences for the outer chat code block if the content contains backticks.
+
 Rules:
 
 - Prefer descriptive prose when explaining Markdown fence behavior.
 - Do not create examples that accidentally exercise the failure mode being documented.
-- Avoid placing Markdown fenced blocks inside other Markdown fenced blocks unless the outer fence is longer than every inner fence.
-- If content contains a three-backtick fence, the outer chat response block must use at least four backticks.
-- If content contains a four-backtick fence, the outer chat response block must use at least five backticks.
+- Avoid placing Markdown fenced blocks inside other Markdown fenced blocks when practical.
+- If the content contains backtick fences, prefer an outer tilde fence.
+- If using backticks for the outer fence, the outer fence must be longer than every inner backtick fence.
+- If the content contains a three-backtick fence and the outer fence also uses backticks, the outer fence must use at least four backticks.
+- If the content contains a four-backtick fence and the outer fence also uses backticks, the outer fence must use at least five backticks.
 - For highly sensitive copy/paste patches, prefer one complete outer fenced block and avoid mixing prose into the middle of the command block.
-- When a heredoc is used to generate Markdown, make sure the chat response fence is long enough to contain the heredoc content safely.
-- Fence examples are especially easy to break in chat UIs. When documenting fence behavior, prefer descriptive prose or carefully tested longer outer fences.
+- When a heredoc is used to generate Markdown, make sure the chat response fence cannot be closed by the heredoc content.
+- Fence examples are especially easy to break in chat UIs. When documenting fence behavior, prefer descriptive prose or carefully tested tilde-fenced outer blocks.
 
 Principle:
 
-Use prose to explain fence mechanics. Use longer outer fences only when literal fence content must be copied exactly.
+Use prose to explain fence mechanics. When literal backtick fence content must be copied exactly, use an outer tilde fence by default.
 
 ## Commands in examples
 

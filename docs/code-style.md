@@ -64,6 +64,27 @@ Prefer neutral prompts such as `$` in reusable examples unless the exact prompt 
 
 When generating copy/paste Markdown that contains nested code fences, use longer outer fences such as four backticks to avoid breaking Markdown rendering.
 
+## Chat Markdown fence safety
+
+When generating copy/paste content for chat, avoid nested Markdown fences when practical.
+
+Nested fences are a common source of broken rendering and broken copy/paste in chat interfaces. The safest default is to avoid demonstrating fence syntax with live nested fence examples.
+
+Rules:
+
+- Prefer descriptive prose when explaining Markdown fence behavior.
+- Do not create examples that accidentally exercise the failure mode being documented.
+- Avoid placing Markdown fenced blocks inside other Markdown fenced blocks unless the outer fence is longer than every inner fence.
+- If content contains a three-backtick fence, the outer chat response block must use at least four backticks.
+- If content contains a four-backtick fence, the outer chat response block must use at least five backticks.
+- For highly sensitive copy/paste patches, prefer one complete outer fenced block and avoid mixing prose into the middle of the command block.
+- When a heredoc is used to generate Markdown, make sure the chat response fence is long enough to contain the heredoc content safely.
+- Fence examples are especially easy to break in chat UIs. When documenting fence behavior, prefer descriptive prose or carefully tested longer outer fences.
+
+Principle:
+
+Use prose to explain fence mechanics. Use longer outer fences only when literal fence content must be copied exactly.
+
 ## Commands in examples
 
 Avoid pagers in commands shown for review, copy, or paste when practical.
@@ -72,7 +93,7 @@ Prefer `--no-pager`, `GIT_PAGER=cat`, `PAGER=cat`, or equivalent approaches.
 
 Do not assume helper scripts should be installed into `~/bin`.
 
-In the user's environment, helper commands normally live in `~/.dotfiles/bin`, often as symlinks to scripts in project repositories, `~/Shell`, or other maintained source locations.
+Helper commands may live in a user-managed command directory such as `~/.dotfiles/bin`, often as symlinks to scripts in project repositories, `~/Shell`, or other maintained source locations.
 
 Only suggest `PATH` changes when the task explicitly calls for installation or environment setup.
 

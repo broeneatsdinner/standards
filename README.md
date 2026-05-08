@@ -165,9 +165,11 @@ docs/       written standards, philosophy, and conventions
 shell/      reusable shell components such as colors, headers, loaders, selectors, text effects, and shell prompts
 prompts/    AI-assistant prompts for applying these standards
 examples/   working examples that demonstrate the standards in practice
-assets/     visual reference assets such as ANSI art, ASCII art, screenshots, and palette references
+assets/     visual reference assets such as ANSI art, ASCII art, screenshots, palette references, and typography fixtures
 templates/  starter directory and file structures for common project types
 ```
+
+`assets/typography/` contains reusable chat and document rendering fixtures for Markdown-to-HTML/PDF workflows.
 
 ## Current populated areas
 

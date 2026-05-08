@@ -19,7 +19,7 @@ If that path is unavailable, use the public standards repository URL supplied fo
 
 https://github.com/broeneatsdinner/standards
 
-Read prompts/project-initialization.md first. Then read the referenced standards cascade. After reading the applicable standards, summarize the active rules for the current task before making edits or giving implementation instructions.
+Read prompts/project-initialization.md first. Then read the referenced standards cascade. If standards may have changed recently, re-fetch the relevant files from the standards repository before applying them. After reading the applicable standards, summarize the active rules for the current task before making edits or giving implementation instructions.
 
 Do not modify files until the applicable standards have been read or until you have clearly stated which referenced files were unavailable or not relevant.
 ```
@@ -43,6 +43,16 @@ First, look for the standards repository at:
 If that path does not exist or is not accessible, use the public standards repository URL supplied by the user or session.
 
 When operating in a remote or temporary environment, clone or inspect the public repository before applying standards, unless the user explicitly says not to fetch it.
+
+## Standards freshness
+
+When using a local standards repository, prefer the current working copy if it is available.
+
+When using Git, fetch or pull before relying on standards if the user asks for the latest version or if recent standards changes are relevant.
+
+When using a public web source, prefer the latest default-branch content. If the user indicates that the standards were recently updated, re-fetch the relevant files instead of relying on cached conversation context.
+
+Do not assume previously loaded standards are current after the user says the repository has changed.
 
 ## Initialization procedure
 

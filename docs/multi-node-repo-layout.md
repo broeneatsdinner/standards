@@ -47,7 +47,7 @@ project-name/
 ├── tools/
 ├── docs/
 ├── assets/
-└── templates/
+└── directory_structures/
 ```
 
 `nodes/` contains deployment targets or trust-boundary roles.
@@ -60,7 +60,7 @@ project-name/
 
 `assets/` contains sanitized diagrams, reference screenshots, static media, or publication-safe supporting material.
 
-`templates/` contains reusable example files, config templates, service templates, and scaffolding that can be copied into node-local deployment paths.
+`directory_structures/` contains reusable example files, config templates, service templates, and scaffolding that can be copied into node-local deployment paths.
 
 Use only what the project needs.
 

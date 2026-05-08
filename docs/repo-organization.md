@@ -40,7 +40,7 @@ logs/       runtime logs
 tmp/        temporary files
 config/     configuration
 prompts/    AI assistant prompts and instructions
-templates/  reusable starting structures
+directory_structures/  reusable starting structures
 ```
 
 ## Public repositories

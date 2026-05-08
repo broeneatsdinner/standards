@@ -9,7 +9,7 @@ Use `training/` for synthetic or sanitized samples.
 Before public release, review:
 
 - docs
-- templates
+- template files
 - config snapshots
 - screenshots
 - captures

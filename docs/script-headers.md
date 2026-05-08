@@ -4,6 +4,11 @@ This document defines graphical script-header standards.
 
 Script headers should make files immediately recognizable, visually consistent, and easy to scan.
 
+## Related standards
+
+For standards covering comments and documentation inside the body of scripts,
+including commented directory trees, see `docs/script-content.md`.
+
 ## Standard graphical header
 
 Use a short graphical header near the top of important scripts:

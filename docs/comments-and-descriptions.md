@@ -2,6 +2,8 @@
 
 This document defines comment and description standards for scripts, configuration files, documentation, and reusable components.
 
+For general cross-language code-style rules, including minimal diffs, reusable examples, and indentation, see `docs/code-style.md`.
+
 ## Philosophy
 
 Comments should explain intent.
@@ -13,6 +15,8 @@ Comments should not create noise.
 ## Single-line comments
 
 Use single-# comments for one-line descriptions.
+
+Do not use double-## comments for ordinary setting descriptions.
 
 Preferred:
 

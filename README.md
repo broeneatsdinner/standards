@@ -31,6 +31,7 @@ The goal is eliminating ambiguity.
 ## What this repo contains
 
 - shell style standards
+- cross-language code style standards
 - graphical script header standards
 - script content and comment standards
 - comment and description conventions
@@ -103,6 +104,7 @@ See [differentiator.md](differentiator.md) for why this repository matters as a 
 For concrete examples of the operating architecture, see:
 
 - [docs/repo-taxonomy.md](docs/repo-taxonomy.md)
+- [docs/code-style.md](docs/code-style.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)

@@ -12,6 +12,10 @@ For standards covering comments and documentation inside the body of scripts,
 including function comments and commented directory trees, see
 `docs/script-content.md`.
 
+For general cross-language code-style rules, including indentation, minimal
+diffs, reusable examples, and environment-neutral commands, see
+`docs/code-style.md`.
+
 ## Shebangs
 
 Executable scripts should use `/usr/bin/env` shebangs so the interpreter is

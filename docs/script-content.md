@@ -4,6 +4,8 @@ This document covers comments, examples, workflow notes, directory trees, functi
 
 For top-of-file script identity, graphical headers, shebangs, and `# description:` conventions, see `docs/script-headers.md`.
 
+For general cross-language code-style rules, including indentation, reusable examples, minimal diffs, and environment-neutral command examples, see `docs/code-style.md`.
+
 ## General comment style
 
 Normal explanatory comments inside script bodies should be manually wrapped around 80 columns.
@@ -58,6 +60,8 @@ Rules:
 - Prefer useful operational comments over decorative comments.
 
 ## Indentation and alignment
+
+The canonical cross-language indentation standard lives in `docs/code-style.md`.
 
 Use tabs for indentation.
 
@@ -170,4 +174,4 @@ The same separator pattern applies inside nested directories. In the example, th
 
 The directory slashes are intentional. They make it clear that `examples/`, `final-1024-png/`, `icns/`, `source-png/`, and `upscaled-png/` are directories, not files.
 
-Do not include personal shell prompts, usernames, hostnames, machine names, home paths, project paths, or other environment-specific identifiers in reusable examples. Use a neutral prompt such as `$` unless the exact prompt is part of the subject being documented.
+Do not include personal shell prompts, usernames, hostnames, machine names, home paths, project paths, or other environment-specific identifiers in reusable examples. Use a neutral prompt such as `$` unless the exact prompt is part of the subject being documented. See `docs/code-style.md` for the canonical reusable-example standard.

@@ -2,6 +2,8 @@
 
 This document defines shell-script style standards for my local tools, helper applications, dotfiles, and operator workflows.
 
+For general cross-language code-style rules, including indentation, minimal diffs, reusable examples, and environment-neutral commands, see `docs/code-style.md`.
+
 ## Core style
 
 - Prefer Bash for portable helper scripts unless there is a specific reason to use Zsh.
@@ -13,6 +15,8 @@ This document defines shell-script style standards for my local tools, helper ap
 - Keep user-facing output clear, direct, and operational.
 
 ## Indentation
+
+The canonical cross-language indentation standard lives in `docs/code-style.md`.
 
 Use tabs for indentation.
 

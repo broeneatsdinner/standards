@@ -2,6 +2,8 @@
 
 This document defines commit message standards for my repositories.
 
+For general code-style constraints that also affect commit messages, such as avoiding emojis unless a project explicitly requires them, see `docs/code-style.md`.
+
 ## Philosophy
 
 A commit message should describe the meaningful change, not just the files touched.
@@ -13,6 +15,8 @@ A future reader should be able to scan `git log --oneline` and understand how th
 ## Format
 
 Use short, direct, sentence-case commit subjects.
+
+The subject should be a tight, concise one-line summary.
 
 Preferred:
 
@@ -27,6 +31,7 @@ Refactor prompt rendering
 Avoid noisy or vague subjects:
 
 ```text
+update files
 updates
 misc changes
 fix stuff
@@ -64,6 +69,8 @@ Update README for dotfiles architecture
 
 A commit should usually represent one coherent change.
 
+Prefer small, scoped commits after each meaningful change.
+
 Good:
 
 ```text
@@ -79,6 +86,12 @@ Add script header standards and rewrite aliases and change macOS defaults
 ## Commit body
 
 Use a body when the reason matters, the change has risk, or the implementation needs context.
+
+When useful, include a concise explanatory description after the one-line summary.
+
+The body should explain what changed and why without becoming verbose.
+
+Commit descriptions should support review, rollback, and future archaeology.
 
 Example:
 

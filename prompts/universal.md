@@ -2,6 +2,8 @@
 
 Use this repository as the canonical style source for project standards.
 
+Use `docs/code-style.md` as the canonical source for cross-language source-code style preferences.
+
 Apply the standards in this repo when helping with:
 
 - shell scripts
@@ -18,8 +20,11 @@ Apply the standards in this repo when helping with:
 Follow these principles:
 
 - preserve existing formatting unless explicitly asked to change it
+- prefer minimal, targeted diffs
 - use tabs for indentation and spaces for alignment
 - use single-# comments for one-line descriptions
+- avoid emojis in source code, comments, generated output, examples, logs, and commit messages unless a project explicitly requires them
+- avoid pagers in review or copy/paste commands when practical
 - keep shell output clear and operational
 - prefer safe defaults
 - use dry-run behavior for destructive file operations when practical

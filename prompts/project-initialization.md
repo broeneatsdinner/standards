@@ -10,6 +10,62 @@ Before generating or modifying code, documentation, prompts, examples, scripts, 
 
 Use this file as the entrypoint, then follow the standards cascade below.
 
+## Activation prompt
+
+Use this prompt at the start of a ChatGPT or Codex session:
+
+```text
+Apply the project initialization standard for this session.
+
+First, locate the standards repository.
+
+If a standards repository is available at ~/Documents/Git/standards, use it.
+
+If this is a repository-aware coding tool and that path is unavailable, use the public standards repository URL supplied for this session.
+
+If this is ChatGPT and the repository is not already available in the conversation, use the public standards repository URL supplied by the user, uploaded standards files, or current conversation context.
+
+Read prompts/project-initialization.md first. Then read the referenced standards cascade. After reading the applicable standards, summarize the active rules for the current task before making edits.
+
+Do not modify files until the applicable standards have been read or until you have clearly stated which referenced files were unavailable or not relevant.
+```
+
+## Standards repository location
+
+First, look for the standards repository at:
+
+```text
+~/Documents/Git/standards
+```
+
+If that path does not exist or is not accessible, use the public standards repository URL supplied by the user or session.
+
+When operating in a remote or temporary environment, clone or inspect the public repository before applying standards, unless the user explicitly says not to fetch it.
+
+## Initialization procedure
+
+When this prompt is applied in Codex or another repository-aware AI coding tool, do not treat it as a standalone summary.
+
+First, locate the standards repository.
+
+Prefer:
+
+```text
+~/Documents/Git/standards
+```
+
+If that path is unavailable, use the public standards repository URL supplied by the user or session.
+
+Then read this file from the standards repository.
+
+Then read each referenced standards document in the standards cascade when it exists.
+
+Also inspect relevant files under `directory_structures/` when repository layout, project scaffolding, or multi-node architecture is part of the task.
+
+After reading the applicable standards, summarize the active rules for the current task before making changes.
+
+Do not begin editing until the applicable standards have been read, or until you have clearly stated which referenced files were missing or not relevant.
+
 ## Standards cascade
 
 Apply these standards in order when relevant:
@@ -27,6 +83,18 @@ Apply these standards in order when relevant:
 11. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
 
 When standards overlap, prefer the most specific applicable document. For general source-code style, use `docs/code-style.md` as the canonical authority.
+
+## ChatGPT behavior
+
+When this prompt is applied in ChatGPT, do not assume access to the local filesystem.
+
+Use the standards already present in the conversation first.
+
+If the standards repository is not present in the conversation, use uploaded standards files, current conversation context, or the public standards repository URL supplied by the user.
+
+When using a public repository source, read `prompts/project-initialization.md` first, then read the referenced standards cascade.
+
+Summarize the active standards before giving project-specific code or modification instructions.
 
 ## Default behavior
 
@@ -60,7 +128,7 @@ Use neutral reusable examples. Do not include personal shell prompts, usernames,
 
 Avoid pagers in commands shown for review, copy, or paste when practical. Prefer `git --no-pager`, `GIT_PAGER=cat`, `PAGER=cat`, or equivalent approaches.
 
-Do not assume helper scripts should be installed into `~/bin`. In the user's environment, helper commands normally live in `~/.dotfiles/bin`, often as symlinks to scripts in project repositories, `~/Shell`, or other maintained source locations.
+Do not assume helper scripts should be installed into `~/bin`. Helper commands may live in a user-managed command directory such as `~/.dotfiles/bin`, often as symlinks to scripts in project repositories, `~/Shell`, or other maintained source locations.
 
 Only suggest `PATH` changes when the task explicitly calls for installation or environment setup.
 

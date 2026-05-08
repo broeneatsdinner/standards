@@ -148,6 +148,12 @@ The point is not to claim operational maturity.
 
 The workflow demonstrates it: discovery, assessment, approval, and repair are separate phases with visible boundaries.
 
+## Project initialization
+
+Use `prompts/project-initialization.md` as the entrypoint for new projects, repository work, Codex sessions, and ChatGPT coding threads.
+
+That prompt locates the standards repository, reads the relevant standards cascade, and establishes the operating rules before edits begin.
+
 ## Directory structure
 
 ```text

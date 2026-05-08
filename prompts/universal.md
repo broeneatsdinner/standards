@@ -1,6 +1,8 @@
 # Universal AI Prompt
 
-Use this repository as the canonical style source for project standards.
+Use this repository as the canonical style source for projects and chats.
+
+For new project or coding sessions, start with `prompts/project-initialization.md`.
 
 Use `docs/code-style.md` as the canonical source for cross-language source-code style preferences.
 

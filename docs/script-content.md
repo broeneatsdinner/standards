@@ -1,12 +1,89 @@
 # Script Content Standards
 
-This document covers comments, examples, workflow notes, directory trees, and
-other documentation that appears inside the body of scripts.
+This document covers comments, examples, workflow notes, directory trees,
+function comments, and other documentation that appears inside the body of
+scripts.
 
 For top-of-file script identity, graphical headers, shebangs, and
 `# description:` conventions, see `docs/script-headers.md`.
 
-## Commented Directory Trees
+## General comment style
+
+Normal explanatory comments inside script bodies should be manually wrapped
+around 80 columns.
+
+This applies to function comments, workflow comments, usage notes, and longer
+explanatory blocks.
+
+The `# description:` metadata line is an exception. It may remain a single line
+because external tools may consume it and handle their own formatting.
+
+Do not force-wrap command examples, URLs, paths, regexes, option names, or other
+literal text when wrapping would make the content harder to copy, search, or
+understand.
+
+Use this principle:
+
+```text
+Wrap prose comments around 80 columns; do not damage literals.
+```
+
+## Function comments
+
+Shell functions should usually have a short comment immediately above the
+function definition.
+
+Function comments should explain what the function does, not restate the
+function name mechanically.
+
+Good:
+
+```bash
+# Print an informational message to stdout.
+log() {
+  printf '%s\n' "$*"
+}
+
+# Print an error message to stderr and exit non-zero.
+fail() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+# Verify that a required command exists before continuing.
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || fail "Required command not found: $1"
+}
+```
+
+Rules:
+
+- Put the comment immediately above the function.
+- Use single-# comments.
+- Wrap function comments around 80 columns.
+- Explain purpose, side effects, output, or failure behavior when relevant.
+- Do not add noisy comments for tiny functions when the behavior is already
+  completely obvious from the name and body.
+- Prefer useful operational comments over decorative comments.
+
+## Indentation and alignment
+
+Use tabs for indentation.
+
+Use spaces for visual alignment.
+
+This applies to source code, shell snippets, config examples, and generated
+script examples unless a language or file format has a specific reason to do
+otherwise.
+
+Rules:
+
+- Use tabs for indentation levels.
+- Use spaces for alignment within a line.
+- Do not use spaces as a substitute for indentation in shell code.
+- Do not use tabs for column alignment after non-tab text.
+
+## Commented directory trees
 
 When including an example directory tree inside source-code comments, the tree
 does not need to be literal command output. It should prioritize readability,
@@ -44,7 +121,7 @@ Use commented directory trees to show:
 
 - When separating files from subdirectories within the same directory level, use
   the appropriate commented vertical tree connector line instead of a blank
-  commented line. For example, use "# │" at the root level, or "# │   │" at a
+  commented line. For example, use `# │` at the root level, or `# │   │` at a
   nested level, so the tree still reads as a continuous structure.
 
 - The separator belongs to the directory level, not to the file above it. Do not
@@ -77,6 +154,7 @@ Use commented directory trees to show:
 
 ### Good example
 
+```text
 # For reference, this is an exhaustive example directory tree after the script
 # has generated final-1024-png and icns outputs:
 #
@@ -111,6 +189,7 @@ Use commented directory trees to show:
 #     ├── Favorites.png
 #     ├── Get Info-topaz-wonder.png
 #     └── Get Info.png
+```
 
 ### Notes
 
@@ -119,13 +198,14 @@ intentional. It separates root-level files from the directory workflow they
 operate on while preserving the visual continuity of the tree.
 
 The same separator pattern applies inside nested directories. In the example,
-the "# │   │" line separates files inside examples/ from the examples/
+the `# │   │` line separates files inside `examples/` from the `examples/`
 subdirectories.
 
-The directory slashes are intentional. They make it clear that examples,
-final-1024-png, icns, source-png, and upscaled-png are directories, not files.
+The directory slashes are intentional. They make it clear that `examples/`,
+`final-1024-png/`, `icns/`, `source-png/`, and `upscaled-png/` are directories,
+not files.
 
 Do not include personal shell prompts, usernames, hostnames, machine names, home
 paths, project paths, or other environment-specific identifiers in reusable
-examples. Use a neutral prompt such as "$" unless the exact prompt is part of
+examples. Use a neutral prompt such as `$` unless the exact prompt is part of
 the subject being documented.

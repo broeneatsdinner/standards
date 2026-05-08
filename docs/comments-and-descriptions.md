@@ -12,6 +12,20 @@ They should help a future reader understand why something exists, what role it s
 
 Comments should not create noise.
 
+## Redundancy
+
+Avoid saying the same thing twice in adjacent sentences, headings, comments, or bullets.
+
+Name the thing once. Then explain what it does.
+
+Humor is allowed when it makes the standard more memorable:
+
+```text
+Welcome to the Department of Redundancy Department. You have been promoted.
+```
+
+Use the joke as a review signal for duplicated phrasing, not as a reason to remove useful context.
+
 ## Single-line comments
 
 Use single-# comments for one-line descriptions.

@@ -1,0 +1,490 @@
+/*
+documents.css
+
+Formal document typography for standards documents converted from Google Docs
+to Markdown, then rendered to static HTML or PDF.
+*/
+
+:root {
+	--doc-bg: #ffffff;
+	--doc-paper: #ffffff;
+	--doc-text: #101214;
+	--doc-muted: #626971;
+	--doc-subtle: #8a9097;
+	--doc-divider: #e7e7e7;
+	--doc-header-divider: #d4d4d4;
+	--doc-surface: #f7f7f7;
+	--doc-code-bg: #eeeeee;
+	--doc-code-block-bg: #f6f6f6;
+	--doc-note-bg: #f7f9fc;
+	--doc-note-border: #b8c7dd;
+	--doc-warning-bg: #fff8e8;
+	--doc-warning-border: #e2b756;
+	--doc-page-width: 760px;
+	--doc-content-width: 680px;
+	--doc-font-sans:
+		ui-sans-serif,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		Helvetica,
+		Arial,
+		"Noto Sans",
+		sans-serif,
+		"Apple Color Emoji",
+		"Segoe UI Emoji";
+	--doc-font-mono:
+		ui-monospace,
+		SFMono-Regular,
+		Menlo,
+		Monaco,
+		Consolas,
+		"Liberation Mono",
+		"Courier New",
+		monospace;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--doc-bg);
+	color: var(--doc-text);
+	font-family: var(--doc-font-sans);
+	font-size: 16px;
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+.doc-page {
+	box-sizing: border-box;
+	width: min(100%, var(--doc-page-width));
+	min-height: 100vh;
+	padding: 42px 40px 52px;
+	background: var(--doc-paper);
+}
+
+.doc-header,
+.doc-content,
+.doc-footer {
+	width: min(100%, var(--doc-content-width));
+}
+
+.doc-header {
+	margin: 0 0 38px;
+	padding-bottom: 22px;
+	border-bottom: 1px solid var(--doc-header-divider);
+}
+
+.doc-title {
+	margin: 0 0 9px;
+	font-size: 34px;
+	line-height: 1.08;
+	font-weight: 720;
+	letter-spacing: -0.024em;
+}
+
+.doc-subtitle {
+	margin: 0 0 18px;
+	color: #3d4248;
+	font-size: 18px;
+	line-height: 1.42;
+	font-weight: 450;
+	letter-spacing: -0.012em;
+}
+
+.doc-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 14px;
+	margin: 0;
+	color: var(--doc-muted);
+	font-size: 12.5px;
+	line-height: 1.35;
+	font-weight: 650;
+	letter-spacing: 0.01em;
+	text-transform: uppercase;
+}
+
+.doc-content {
+	color: var(--doc-text);
+	font-size: 16px;
+	line-height: 1.65;
+	font-weight: 450;
+	letter-spacing: -0.01em;
+}
+
+.doc-content > :first-child {
+	margin-top: 0;
+}
+
+.doc-content > :last-child {
+	margin-bottom: 0;
+}
+
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4,
+.doc-content h5,
+.doc-content h6 {
+	margin: 1.5em 0 0.45em;
+	color: var(--doc-text);
+	line-height: 1.2;
+	font-weight: 720;
+	letter-spacing: -0.018em;
+}
+
+.doc-content h1 {
+	margin-top: 1.8em;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--doc-divider);
+	font-size: 27px;
+}
+
+.doc-content h2 {
+	font-size: 23px;
+}
+
+.doc-content h3 {
+	font-size: 19px;
+}
+
+.doc-content h4 {
+	font-size: 16.5px;
+}
+
+.doc-content h5,
+.doc-content h6 {
+	color: #343940;
+	font-size: 14px;
+	letter-spacing: 0.01em;
+	text-transform: uppercase;
+}
+
+.doc-content p {
+	margin: 0 0 15px;
+}
+
+.doc-content strong {
+	font-weight: 720;
+}
+
+.doc-content em {
+	font-style: italic;
+}
+
+.doc-content a {
+	color: #1f5fbf;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+}
+
+.doc-content ul,
+.doc-content ol {
+	margin: 0 0 16px 1.45em;
+	padding: 0;
+}
+
+.doc-content li {
+	margin: 5px 0;
+	padding-left: 0.16em;
+}
+
+.doc-content li > ul,
+.doc-content li > ol {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.doc-content blockquote {
+	margin: 0 0 18px;
+	padding: 2px 0 2px 17px;
+	border-left: 3px solid var(--doc-header-divider);
+	color: #3f444a;
+}
+
+.doc-pullquote {
+	margin: 28px 0;
+	padding: 0 26px;
+	border-left: 0;
+	color: #202327;
+	font-size: 22px;
+	line-height: 1.35;
+	font-weight: 650;
+	letter-spacing: -0.018em;
+	text-align: center;
+}
+
+.doc-content hr {
+	margin: 30px 0;
+	border: 0;
+	border-top: 1px solid var(--doc-divider);
+}
+
+:not(pre) > code,
+.doc-path {
+	display: inline;
+	padding: 0.025em 0.36em 0.13em;
+	border-radius: 5px;
+	background: var(--doc-code-bg);
+	color: var(--doc-text);
+	font-family: var(--doc-font-mono);
+	font-size: 0.9em;
+	font-weight: 500;
+	line-height: inherit;
+	letter-spacing: -0.018em;
+	white-space: nowrap;
+	vertical-align: baseline;
+}
+
+.doc-path {
+	border: 1px solid #dedede;
+	background: #f5f5f5;
+}
+
+.doc-code,
+.doc-figure,
+.doc-callout {
+	margin: 0 0 18px;
+}
+
+.doc-code {
+	border: 1px solid var(--doc-divider);
+	border-radius: 8px;
+	overflow: hidden;
+	background: var(--doc-code-block-bg);
+}
+
+.doc-code-header {
+	padding: 7px 11px;
+	border-bottom: 1px solid var(--doc-divider);
+	color: var(--doc-muted);
+	font-size: 12px;
+	line-height: 1.3;
+	font-weight: 650;
+	letter-spacing: 0.01em;
+}
+
+pre {
+	margin: 0;
+	padding: 13px 14px;
+	overflow-x: auto;
+	color: var(--doc-text);
+	font-family: var(--doc-font-mono);
+	font-size: 13.25px;
+	line-height: 1.5;
+	font-weight: 450;
+	letter-spacing: 0;
+	tab-size: 2;
+	white-space: pre;
+}
+
+pre code {
+	padding: 0;
+	border-radius: 0;
+	background: transparent;
+	font: inherit;
+	letter-spacing: inherit;
+	white-space: pre;
+}
+
+.doc-table-wrap {
+	width: 100%;
+	margin: 0 0 22px;
+	overflow-x: auto;
+}
+
+.doc-table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	font-size: 14px;
+	line-height: 1.42;
+	letter-spacing: -0.006em;
+}
+
+.doc-table th,
+.doc-table td {
+	padding: 10px 0;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid var(--doc-divider);
+}
+
+.doc-table th {
+	padding-top: 0;
+	padding-bottom: 7px;
+	border-bottom: 1px solid var(--doc-header-divider);
+	font-size: 13.6px;
+	font-weight: 720;
+}
+
+.doc-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.doc-caption {
+	margin: 7px 0 0;
+	color: var(--doc-muted);
+	font-size: 13px;
+	line-height: 1.4;
+	font-weight: 450;
+}
+
+.doc-callout {
+	padding: 12px 14px;
+	border: 1px solid var(--doc-note-border);
+	border-left-width: 4px;
+	border-radius: 8px;
+	background: var(--doc-note-bg);
+}
+
+.doc-callout-title {
+	margin: 0 0 4px;
+	font-size: 13px;
+	line-height: 1.35;
+	font-weight: 750;
+	letter-spacing: 0.01em;
+	text-transform: uppercase;
+}
+
+.doc-callout--warning {
+	border-color: var(--doc-warning-border);
+	background: var(--doc-warning-bg);
+}
+
+.doc-footnotes {
+	margin-top: 28px;
+	padding-top: 14px;
+	border-top: 1px solid var(--doc-divider);
+	color: #35393f;
+	font-size: 13.5px;
+	line-height: 1.5;
+}
+
+.doc-appendix {
+	margin-top: 36px;
+	padding-top: 18px;
+	border-top: 2px solid var(--doc-header-divider);
+}
+
+.doc-page-break {
+	margin: 34px 0;
+	padding: 9px 0;
+	border-top: 1px dashed var(--doc-header-divider);
+	border-bottom: 1px dashed var(--doc-header-divider);
+	color: var(--doc-muted);
+	font-size: 12.5px;
+	font-weight: 650;
+	letter-spacing: 0.01em;
+	text-align: center;
+	text-transform: uppercase;
+	break-after: page;
+	page-break-after: always;
+}
+
+.doc-footer {
+	margin-top: 44px;
+	padding-top: 14px;
+	border-top: 1px solid var(--doc-divider);
+	color: var(--doc-muted);
+	font-size: 12.5px;
+	line-height: 1.4;
+	font-weight: 500;
+}
+
+.doc-footer-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.doc-page-number::after {
+	content: "Page";
+}
+
+@media (max-width: 760px) {
+	.doc-page {
+		padding: 28px 20px 38px;
+	}
+
+	.doc-title {
+		font-size: 29px;
+	}
+
+	.doc-subtitle {
+		font-size: 16.5px;
+	}
+
+	.doc-pullquote {
+		padding: 0 8px;
+		font-size: 19px;
+	}
+
+	.doc-footer-row {
+		display: block;
+	}
+}
+
+@media print {
+	@page {
+		margin: 0.72in 0.68in;
+	}
+
+	html,
+	body {
+		background: #ffffff;
+	}
+
+	.doc-page {
+		width: auto;
+		min-height: 0;
+		padding: 0;
+	}
+
+	.doc-header,
+	.doc-content,
+	.doc-footer {
+		width: 100%;
+	}
+
+	.doc-content h1,
+	.doc-content h2,
+	.doc-content h3,
+	.doc-content h4,
+	.doc-content h5,
+	.doc-content h6 {
+		break-after: avoid;
+		page-break-after: avoid;
+	}
+
+	.doc-table-wrap,
+	.doc-figure,
+	.doc-code,
+	.doc-callout,
+	.doc-footnotes,
+	.doc-appendix {
+		break-inside: avoid;
+		page-break-inside: avoid;
+	}
+
+	.doc-content a {
+		color: var(--doc-text);
+	}
+
+	.doc-page-break {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		color: transparent;
+	}
+
+	* {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+}

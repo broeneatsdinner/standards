@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Typography - Documents Tear Sheet</title>
+	<link rel="stylesheet" href="documents.css">
+</head>
+<body>
+	<main class="doc-page">
+		<header class="doc-header">
+			<h1 class="doc-title">Public Standards Repository Guide</h1>
+			<p class="doc-subtitle">A formal document typography tear sheet for Markdown converted from Google Docs.</p>
+			<div class="doc-meta" aria-label="Document metadata">
+				<span>Author: Standards Maintainer</span>
+				<time datetime="2026-05-07">Date: May 7, 2026</time>
+				<span>Status: Draft for review</span>
+				<span>Classification: Public</span>
+			</div>
+		</header>
+
+		<article class="doc-content">
+			<h1>1. Document Purpose</h1>
+			<p>This tear sheet demonstrates a restrained standards style for formal documents exported from Google Docs to Markdown, then rendered as a static page or PDF. The design is intentionally quiet, operator-readable, and suitable for public repository documentation.</p>
+			<p>Body copy supports <strong>strong emphasis</strong>, <em>emphasis</em>, links to <a href="https://example.com">reference material</a>, and inline snippets such as <code>publication-check</code> or <span class="doc-path">docs/publishing.md</span>.</p>
+
+			<h2>1.1 Scope</h2>
+			<p>The stylesheet is intended for standards, guides, policy notes, operating procedures, and exported planning documents. It should not look like a chat transcript, dashboard, or marketing page.</p>
+
+			<h3>1.1.1 Repository Placement</h3>
+			<p>Document assets belong in <span class="doc-path">assets/typography/</span>. Filenames should stay lowercase and descriptive, except for established names such as <span class="doc-path">README.md</span>.</p>
+
+			<h4>Heading Level Four</h4>
+			<p>Lower heading levels should remain useful for converted Google Docs outlines without becoming visually noisy.</p>
+
+			<h5>Heading Level Five</h5>
+			<p>Use small uppercase treatment for deep sections, appendices, and checklist subsections.</p>
+
+			<h6>Heading Level Six</h6>
+			<p>Reserve level six for rare converted-document structures.</p>
+
+			<hr>
+
+			<h1>2. Lists and Structure</h1>
+			<p>Lists should preserve the rhythm of Google Docs while becoming cleaner and more compact in the rendered standards format.</p>
+			<ul>
+				<li>Use clear, specific filenames.</li>
+				<li>Keep public examples sanitized.
+					<ul>
+						<li>Use placeholders for infrastructure names.</li>
+						<li>Avoid private account names, internal hostnames, or screenshots with local state.</li>
+					</ul>
+				</li>
+				<li>Prefer durable standards over temporary notes.</li>
+			</ul>
+			<ol>
+				<li>Draft the standard in Google Docs.</li>
+				<li>Export or convert the document to Markdown.</li>
+				<li>Review the Markdown for public repository readiness.
+					<ol>
+						<li>Run a filename audit.</li>
+						<li>Run a publication safety review.</li>
+					</ol>
+				</li>
+			</ol>
+
+			<h1>3. Quotes and Callouts</h1>
+			<blockquote>
+				<p>Formal documents often quote policy language, review notes, or short excerpts from source material. The blockquote should read as supporting context.</p>
+			</blockquote>
+
+			<blockquote class="doc-pullquote">
+				<p>Standards are most useful when they make the correct path easier to repeat.</p>
+			</blockquote>
+
+			<div class="doc-callout">
+				<p class="doc-callout-title">Note</p>
+				<p>Use notes for clarifications, assumptions, and non-blocking review context.</p>
+			</div>
+
+			<div class="doc-callout doc-callout--warning">
+				<p class="doc-callout-title">Warning</p>
+				<p>Do not publish secrets, private identifiers, real infrastructure names, or operational details that belong in a private runbook.</p>
+			</div>
+
+			<h1>4. Tables, Captions, and Code</h1>
+			<p>Tables should remain readable in print and PDF output, with top-aligned content for multi-line Markdown cells.</p>
+
+			<figure class="doc-figure">
+				<div class="doc-table-wrap">
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Document type</th>
+								<th>Recommended location</th>
+								<th>Publication rule</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Standard</td>
+								<td><span class="doc-path">docs/</span></td>
+								<td>Must be durable, named clearly, and safe for a public repo.</td>
+							</tr>
+							<tr>
+								<td>Prompt</td>
+								<td><span class="doc-path">prompts/</span></td>
+								<td>Must produce reviewable output and avoid encouraging disclosure of private details.</td>
+							</tr>
+							<tr>
+								<td>Example</td>
+								<td><span class="doc-path">examples/</span></td>
+								<td>Must use sanitized placeholders and avoid live deployment facts.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<figcaption class="doc-caption">Table 1. Example document categories and public repository placement.</figcaption>
+			</figure>
+
+			<p>Monospace blocks are useful for short config examples, command excerpts, and generated Markdown snippets.</p>
+			<div class="doc-code">
+				<div class="doc-code-header">Markdown</div>
+				<pre><code>## Publication Review
+
+- Confirm filenames are lowercase and descriptive.
+- Replace private names with placeholders.
+- Move sensitive operational details to private runbooks.</code></pre>
+			</div>
+
+			<h1>5. Citations and Footnotes</h1>
+			<p>Converted documents may include footnotes or citation markers. Keep them compact and separate from the main argument.<sup><a href="#doc-fn-1">1</a></sup></p>
+			<section class="doc-footnotes" aria-label="Footnotes">
+				<ol>
+					<li id="doc-fn-1">Example citation entry with source title, publisher, and access date. Replace with real public sources only when citations are required.</li>
+				</ol>
+			</section>
+
+			<div class="doc-page-break">Page break example</div>
+
+			<section class="doc-appendix">
+				<h1>Appendix A: Publication Checklist</h1>
+				<p>The appendix demonstrates a late-document section that should remain readable when printed or split across PDF pages.</p>
+				<ol>
+					<li>Confirm the document title and subtitle are accurate.</li>
+					<li>Confirm public examples do not contain private identifiers.</li>
+					<li>Confirm tables, figures, callouts, and code blocks do not split awkwardly across pages.</li>
+					<li>Confirm the footer area is ready for page-number injection by the PDF renderer.</li>
+				</ol>
+			</section>
+		</article>
+
+		<footer class="doc-footer">
+			<div class="doc-footer-row">
+				<span>Public Standards Repository Guide</span>
+				<span class="doc-page-number" aria-label="Page number placeholder"></span>
+			</div>
+		</footer>
+	</main>
+</body>
+</html>

@@ -12,6 +12,20 @@ Preserve existing formatting when editing existing files.
 
 Avoid unrelated whitespace cleanup, quote normalization, comment rewriting, or stylistic churn unless explicitly requested.
 
+## Trailing whitespace
+
+Do not leave accidental trailing spaces or tabs at the end of lines.
+
+Remove accidental trailing whitespace from lines being edited.
+
+Do not perform broad trailing-whitespace cleanup across unrelated files unless the task is explicitly a cleanup pass.
+
+Preserve intentional trailing whitespace when a file format uses it semantically.
+
+In Markdown, two trailing spaces at the end of a line are allowed when intentionally used to create a hard line break.
+
+Do not replace intentional Markdown hard-break spacing with HTML `<br>` tags unless a project explicitly uses that style.
+
 ## Indentation and alignment
 
 Use tabs for indentation and spaces for alignment unless a language or file format has a specific reason to do otherwise.

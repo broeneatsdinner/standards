@@ -152,6 +152,8 @@ The workflow demonstrates it: discovery, assessment, approval, and repair are se
 
 Use `prompts/project-initialization.md` as the entrypoint for new projects, repository work, Codex sessions, and ChatGPT coding threads.
 
+That file includes the standard first prompt to paste at the start of a new ChatGPT or Codex session.
+
 That prompt locates the standards repository, reads the relevant standards cascade, and establishes the operating rules before edits begin.
 
 ## Directory structure

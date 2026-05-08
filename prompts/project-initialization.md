@@ -1,6 +1,28 @@
 # Project Initialization Prompt
 
-Use this prompt when starting a new project, repository, Codex session, or ChatGPT coding thread.
+## Standard startup prompt
+
+Use this prompt at the start of a new ChatGPT chat, local Codex session, or remote Codex session:
+
+```text
+Apply the project initialization standard for this session.
+
+First, locate the standards repository.
+
+If a standards repository is available at:
+
+~/Documents/Git/standards
+
+use it.
+
+If that path is unavailable, use the public standards repository URL supplied for this session:
+
+https://github.com/broeneatsdinner/standards
+
+Read prompts/project-initialization.md first. Then read the referenced standards cascade. After reading the applicable standards, summarize the active rules for the current task before making edits or giving implementation instructions.
+
+Do not modify files until the applicable standards have been read or until you have clearly stated which referenced files were unavailable or not relevant.
+```
 
 This repository is the canonical standards authority for coding, documentation, shell, prompt, repository, and publication workflows.
 

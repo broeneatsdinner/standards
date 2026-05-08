@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Standards Repository Build - Chat Export</title>
+	<link rel="stylesheet" href="chats.css">
+</head>
+<body>
+	<main class="chat-export">
+		<header class="chat-transcript-header">
+			<h1>Standards Repository Build - Chat Export</h1>
+			<p>A realistic exported conversation about building a public standards repository with an AI assistant.</p>
+			<div class="chat-meta" aria-label="Transcript metadata">
+				<span>Source: AI Chat Export</span>
+				<span>Model: Example Assistant</span>
+				<span>Exported: 2026-05-07 16:10 MDT</span>
+				<span>Conversation: public-standards-repo</span>
+			</div>
+		</header>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:02:00-06:00">May 7, 2026, 3:02 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>I want this repository to become my public standards library: repo structure, naming rules, prompt templates, operational checklists, and safe publication guidance. Help me keep it useful without accidentally publishing private infrastructure details.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T15:02:18-06:00">May 7, 2026, 3:02 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<p>Good target. I would treat the repo as a public handbook, not an operations mirror. The useful public material is the <strong>shape of decisions</strong>: naming, review gates, templates, and examples with sanitized placeholders.</p>
+
+					<ol>
+						<li>Create a stable top-level structure.</li>
+						<li>Add filename and path audits before publication.</li>
+						<li>Keep infrastructure examples abstract enough to teach patterns without exposing deployment facts.</li>
+						<li>Use AI prompts as maintenance tools, not as a substitute for review.</li>
+					</ol>
+
+					<div class="callout">
+						<p class="callout-title">Note</p>
+						<p>For public examples, use placeholders like <code>example-node-a</code>, <code>repo.example</code>, and <code>203.0.113.10</code> only when documentation requires an example address range.</p>
+					</div>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:04:40-06:00">May 7, 2026, 3:04 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>Give me a repo tree. Keep it practical. I do not want a museum of empty folders.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T15:05:12-06:00">May 7, 2026, 3:05 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<p>Start with a small tree and let real documents earn their place.</p>
+
+					<div class="code-block">
+						<div class="code-block__header">
+							<span>Repository tree</span>
+						</div>
+						<pre><code>standards/
+  README.md
+  LICENSE
+  docs/
+    publishing.md
+    opsec.md
+    naming.md
+  prompts/
+    repo-audit.md
+    filename-review.md
+    publication-check.md
+  examples/
+    infrastructure/
+      multi-node-layout.md
+    markdown/
+      chat-export.md
+  assets/
+    typography/
+      chats.css
+      chats-tearsheet.html
+      chats-conversation.html</code></pre>
+					</div>
+
+					<p>The path <span class="path-chip">prompts/publication-check.md</span> should be one of the highest-value files because it turns your standards into a repeatable review step.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:08:26-06:00">May 7, 2026, 3:08 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>Run a filename audit conceptually. What should the script or prompt look for?</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T15:09:04-06:00">May 7, 2026, 3:09 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<h2>Filename Audit Checklist</h2>
+					<p>The audit should be boring and strict. It is there to catch accidental mess before human review.</p>
+
+					<ul>
+						<li>Reject filenames with spaces, dates used as version numbers, or local machine names.</li>
+						<li>Flag words that imply private scope, such as <code>secret</code>, <code>internal</code>, <code>prod</code>, or <code>personal</code>.</li>
+						<li>Require lowercase kebab-case for Markdown documents.</li>
+						<li>Check examples for placeholder naming, not real hostnames or account names.</li>
+					</ul>
+
+					<div class="command-block">
+						<div class="code-block__header">
+							<span>Shell</span>
+							<button class="copy-button" type="button">Copy</button>
+						</div>
+						<pre><code>find . -type f \
+  -not -path './.git/*' \
+  -not -path './node_modules/*' \
+  | sort</code></pre>
+					</div>
+
+					<div class="terminal-output">
+						<div class="code-block__header">
+							<span>Terminal output</span>
+						</div>
+						<pre><code>./README.md
+./docs/naming.md
+./docs/opsec.md
+./docs/publishing.md
+./examples/infrastructure/multi-node-layout.md
+./prompts/filename-review.md
+./prompts/publication-check.md
+./prompts/repo-audit.md</code></pre>
+					</div>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:13:37-06:00">May 7, 2026, 3:13 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>I also want a section for multi-node infrastructure repos. Safe enough to publish, but still useful.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T15:14:28-06:00">May 7, 2026, 3:14 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<p>Use a pattern document, not a live inventory. The document can explain node roles and repository boundaries without naming real hosts, regions, credentials, providers, or routing details.</p>
+
+					<div class="table-wrap">
+						<table class="chat-table">
+							<thead>
+								<tr>
+									<th>Public concept</th>
+									<th>Safe rendering</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Node role</td>
+									<td>Use names like <code>control-node</code>, <code>worker-node</code>, and <code>backup-node</code>.</td>
+								</tr>
+								<tr>
+									<td>Repository boundary</td>
+									<td>Document which files belong in app, infra, and standards repos without exposing live deployment names.</td>
+								</tr>
+								<tr>
+									<td>Network detail</td>
+									<td>Describe trust zones and review requirements. Avoid real addresses, routes, VPN names, or firewall rules.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<p>A good filename for that page is <span class="path-chip">examples/infrastructure/multi-node-layout.md</span>.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:18:02-06:00">May 7, 2026, 3:18 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>Show me the kind of OPSEC edit you mean.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T15:18:41-06:00">May 7, 2026, 3:18 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<p>Here is the pattern. Keep the workflow and remove the identifying facts.</p>
+
+					<div class="diff-block">
+						<div class="code-block__header">
+							<span>Diff</span>
+						</div>
+						<pre><code><span class="diff-remove">- Deploy the worker from my laptop to the live west rack using the private host label.</span>
+<span class="diff-remove">- Keep the real service account name in the example so future me remembers it.</span>
+<span class="diff-add">+ Deploy from an operator workstation to a worker node using the documented release checklist.</span>
+<span class="diff-add">+ Use placeholder account names in public examples and keep real identifiers in private runbooks.</span></code></pre>
+					</div>
+
+					<div class="callout callout--warning">
+						<p class="callout-title">Warning</p>
+						<p>Do not publish real host labels, account names, private routing hints, emergency access procedures, or screenshots that reveal local browser state.</p>
+					</div>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:22:10-06:00">May 7, 2026, 3:22 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>Now give me a reusable AI prompt that keeps the repo clean before publication.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T15:23:06-06:00">May 7, 2026, 3:23 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<h2>Publication Review Prompt</h2>
+					<p>Use this as the prompt body for <span class="path-chip">prompts/publication-check.md</span>. It is intentionally specific about outputs.</p>
+
+					<div class="code-block">
+						<div class="code-block__header">
+							<span>Markdown prompt</span>
+							<button class="copy-button" type="button">Copy</button>
+						</div>
+						<pre><code>Review this repository for public publication readiness.
+
+Focus on:
+1. Filenames and paths that imply private infrastructure.
+2. Markdown examples that include real identifiers.
+3. Screenshots, terminal output, or diffs that reveal local state.
+4. Prompt files that encourage unsafe disclosure.
+5. Documents that belong in a private runbook instead of this public repo.
+
+Return:
+- Blockers
+- Warnings
+- Safe-to-publish notes
+- Suggested edits by file path</code></pre>
+					</div>
+
+					<p>Run it after mechanical checks and before committing publication-oriented changes. The prompt should produce a review report, not silently rewrite the repo.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Tool</span>
+				<time datetime="2026-05-07T15:24:19-06:00">May 7, 2026, 3:24 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--tool" aria-label="Tool output">
+				<div class="chat-content">
+					<p>Example structured result from a local audit command.</p>
+					<div class="tool-output">
+						<div class="code-block__header">
+							<span>Tool output</span>
+						</div>
+						<pre><code>{
+  "status": "review_needed",
+  "blockers": 0,
+  "warnings": 2,
+  "files_checked": 18,
+  "notes": [
+    "Replace vague draft filenames before publication.",
+    "Keep infrastructure examples placeholder-only."
+  ]
+}</code></pre>
+					</div>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T15:26:44-06:00">May 7, 2026, 3:26 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>That gives me the shape. Keep it public, useful, and repeatable.</p>
+				</div>
+			</article>
+		</section>
+	</main>
+</body>
+</html>

@@ -41,18 +41,18 @@ Good:
 ```bash
 # Print an informational message to stdout.
 log() {
-  printf '%s\n' "$*"
+	printf '%s\n' "$*"
 }
 
 # Print an error message to stderr and exit non-zero.
 fail() {
-  printf 'ERROR: %s\n' "$*" >&2
-  exit 1
+	printf 'ERROR: %s\n' "$*" >&2
+	exit 1
 }
 
 # Verify that a required command exists before continuing.
 need_cmd() {
-  command -v "$1" >/dev/null 2>&1 || fail "Required command not found: $1"
+	command -v "$1" >/dev/null 2>&1 || fail "Required command not found: $1"
 }
 ```
 

@@ -106,6 +106,32 @@ Apply these standards in order when relevant:
 
 When standards overlap, prefer the most specific applicable document. For general source-code style, use `docs/code-style.md` as the canonical authority.
 
+## Specialized prompt loading
+
+The initialization prompt should be fast to run once at the start of a session.
+
+Do not load every specialized prompt file by default.
+
+Always load the standing standards cascade, including `prompts/universal.md`.
+
+Treat the remaining files under `prompts/` as specialized workflow prompts. Inspect `prompts/README.md` or list `prompts/` to understand what specialized workflows are available, but only read the full specialized prompt files when the current task enters that workflow.
+
+Examples:
+
+- Load `publication-opsec-*` prompts when preparing, auditing, remediating, or publishing public repositories, public screenshots, logs, configs, media, or portfolio artifacts.
+- Load `filename-*` prompts when auditing, normalizing, or remediating filenames.
+- Load `script-header-audit.md` when auditing script headers.
+
+When a specialized workflow has numbered phases, respect the phase boundaries.
+
+Do not jump from initiation to audit, remediation, deletion, renaming, redaction, or publication unless the user explicitly approves that scope.
+
+If a task may involve public exposure, OPSEC, sanitization, screenshots, logs, configs, infrastructure details, secrets, private identifiers, or publication readiness, pause and load the relevant publication OPSEC prompt before giving implementation instructions or making edits.
+
+Principle:
+
+Initialize once. Load standing standards immediately. Load specialized workflow prompts only when the task requires them.
+
 ## ChatGPT behavior
 
 When this prompt is applied in ChatGPT, do not assume access to the local filesystem.

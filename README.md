@@ -39,6 +39,7 @@ The goal is eliminating ambiguity.
 - color definitions and palette pairings
 - commit message standards
 - filesystem and project-structure standards
+- multi-node secure systems repository standards
 - shell prompt standards
 - AI prompt guidance for applying these standards
 - repository audit and refactor guidance
@@ -102,6 +103,7 @@ For concrete examples of the operating architecture, see:
 
 - [docs/repo-taxonomy.md](docs/repo-taxonomy.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
+- [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
 - [prompts/publication-opsec-02-audit.md](prompts/publication-opsec-02-audit.md)
 
@@ -173,9 +175,10 @@ templates/  starter directory and file structures for common project types
 docs/       core written standards
 shell/      initial reusable shell component stubs
 prompts/    AI prompt standards
+templates/  starter structures for common project types
 ```
 
-The `examples/`, `assets/`, and `templates/` directories are intentionally present as planned expansion areas.
+The `examples/` and `assets/` directories are intentionally present as planned expansion areas.
 
 ## Core principle
 

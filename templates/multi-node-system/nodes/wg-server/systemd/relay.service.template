@@ -1,0 +1,13 @@
+[Unit]
+Description=Example relay service
+After=network-online.target
+
+[Service]
+Type=simple
+User=<service-user>
+WorkingDirectory=<path-to-working-copy>/nodes/wg-server/<service-name>
+ExecStart=<path-to-working-copy>/nodes/wg-server/<service-name>/run.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

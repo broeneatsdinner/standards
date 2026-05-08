@@ -1,0 +1,7 @@
+# Sanitized firewall rule snapshot.
+# Replace placeholders locally and do not commit live infrastructure identifiers.
+
+allow tcp <ssh-port>
+allow udp <wireguard-port>
+allow tcp 443
+deny inbound default

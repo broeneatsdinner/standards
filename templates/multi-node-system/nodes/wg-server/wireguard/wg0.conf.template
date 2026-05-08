@@ -1,0 +1,8 @@
+[Interface]
+Address = <wg-server-tunnel-address>
+ListenPort = <wireguard-port>
+PrivateKey = <server-private-key>
+
+[Peer]
+PublicKey = <internal-relay-public-key>
+AllowedIPs = <internal-relay-tunnel-address>/32

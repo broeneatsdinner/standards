@@ -1,0 +1,6 @@
+{
+	"event": "example",
+	"source": "synthetic",
+	"relay": "public-relay",
+	"target": "internal-relay"
+}

@@ -1,0 +1,6 @@
+# Sanitized firewall rule snapshot.
+# The internal relay should not expose services to the public internet.
+
+allow from <trusted-lan-range>
+allow from <wireguard-interface>
+deny inbound default

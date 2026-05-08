@@ -1,0 +1,13 @@
+# nginx-style reverse proxy template.
+
+server {
+	listen 443 ssl;
+	server_name <public-hostname>;
+
+	location / {
+		proxy_pass http://127.0.0.1:<local-port>;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	}
+}

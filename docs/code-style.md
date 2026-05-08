@@ -1,6 +1,6 @@
 # Code Style
 
-This document defines cross-language source-code style standards for my repositories.
+This document defines cross-language source-code style standards for repositories.
 
 It is the canonical home for code-style preferences that are not specific to shell headers, script-body comments, or another narrower standard.
 
@@ -63,6 +63,18 @@ Do not include personal shell prompts, usernames, hostnames, machine names, home
 Prefer neutral prompts such as `$` in reusable examples unless the exact prompt is the subject being documented.
 
 When generating copy/paste Markdown that contains nested code fences, use longer outer fences such as four backticks to avoid breaking Markdown rendering.
+
+## Reusable examples versus live troubleshooting
+
+Reusable examples, templates, prompts, starter files, and public-facing documentation should use neutral placeholders instead of personal names, usernames, hostnames, private paths, IP addresses, or environment-specific identifiers.
+
+Live troubleshooting is different. When responding to a specific user-provided terminal transcript, file path, log, command output, or repository state, it is acceptable to refer to the concrete details the user supplied when those details are necessary for accuracy.
+
+Do not promote those live details into reusable examples, templates, standards, prompts, or public-facing documentation unless they have been sanitized.
+
+Principle:
+
+Use real details to solve the live problem. Use neutral placeholders for reusable material.
 
 ## Chat Markdown fence safety
 

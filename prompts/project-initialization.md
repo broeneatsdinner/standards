@@ -32,26 +32,6 @@ Before generating or modifying code, documentation, prompts, examples, scripts, 
 
 Use this file as the entrypoint, then follow the standards cascade below.
 
-## Activation prompt
-
-Use this prompt at the start of a ChatGPT or Codex session:
-
-```text
-Apply the project initialization standard for this session.
-
-First, locate the standards repository.
-
-If a standards repository is available at ~/Documents/Git/standards, use it.
-
-If this is a repository-aware coding tool and that path is unavailable, use the public standards repository URL supplied for this session.
-
-If this is ChatGPT and the repository is not already available in the conversation, use the public standards repository URL supplied by the user, uploaded standards files, or current conversation context.
-
-Read prompts/project-initialization.md first. Then read the referenced standards cascade. After reading the applicable standards, summarize the active rules for the current task before making edits.
-
-Do not modify files until the applicable standards have been read or until you have clearly stated which referenced files were unavailable or not relevant.
-```
-
 ## Standards repository location
 
 First, look for the standards repository at:

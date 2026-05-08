@@ -3,86 +3,226 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Typography - Chats - Study</title>
+	<title>Typography - Chat Export Tear Sheet</title>
 	<link rel="stylesheet" href="chats.css">
 </head>
 <body>
-	<main class="chat-frame">
-		<section class="chat-message assistant" aria-label="Assistant message">
-			<p class="assistant-intro">Yep. Final build:</p>
-
-			<div class="table-wrap">
-				<button class="copy-button" aria-label="Copy table">
-					<svg class="chat-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-						<rect x="9" y="3" width="12" height="12" rx="3"></rect>
-						<rect x="3" y="9" width="12" height="12" rx="3"></rect>
-					</svg>
-				</button>
-
-				<table class="chat-table" aria-label="Final coffee build">
-					<thead>
-						<tr>
-							<th>Component</th>
-							<th>Pick</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Grinder</td>
-							<td>Timemore Chestnut C5 Pro ESP, black</td>
-						</tr>
-						<tr>
-							<td>Brewer</td>
-							<td>AeroPress Clear</td>
-						</tr>
-						<tr>
-							<td>Beans</td>
-							<td>Ink! Espresso 89 whole beans</td>
-						</tr>
-						<tr>
-							<td>Milk</td>
-							<td>Whole milk</td>
-						</tr>
-						<tr>
-							<td>Mug</td>
-							<td>Snow Peak 450 double-wall</td>
-						</tr>
-						<tr>
-							<td>Kettle</td>
-							<td>Balmuda THE KETTLE</td>
-						</tr>
-					</tbody>
-				</table>
+	<main class="chat-export">
+		<header class="chat-transcript-header">
+			<h1>Typography - Chat Export Tear Sheet</h1>
+			<p>Reusable rendering samples for Markdown-based AI chat exports targeting PDFs and static websites.</p>
+			<div class="chat-meta" aria-label="Transcript metadata">
+				<span>Source: Chat Export</span>
+				<span>Model: Example AI</span>
+				<span>Exported: 2026-05-07 14:30 MDT</span>
+				<span>Conversation: typography-standards</span>
 			</div>
+		</header>
 
-			<p class="assistant-body-copy">That’s a <code>proper</code> little home/camp coffee system: fresh grind, visible brew, tunable recipe, black/titanium/clear aesthetic, and it starts paying you back every time you skip the $7 cortado.</p>
-
-			<div class="chat-actions" aria-label="Message actions">
-				<svg class="chat-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-					<rect x="9" y="3" width="12" height="12" rx="3"></rect>
-					<rect x="3" y="9" width="12" height="12" rx="3"></rect>
-				</svg>
-				<svg class="chat-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-					<path d="M12 4v13"></path>
-					<path d="M7 12l5 5 5-5"></path>
-					<path d="M5 20h14"></path>
-				</svg>
-				<svg class="chat-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-					<path d="M20 12a8 8 0 0 1-14 5"></path>
-					<path d="M4 12a8 8 0 0 1 14-5"></path>
-					<path d="M18 3v6h-4"></path>
-					<path d="M6 21v-4h4"></path>
-				</svg>
-				<svg class="chat-action-icon" viewBox="0 0 24 24" aria-hidden="true">
-					<circle cx="5" cy="12" r="1.5"></circle>
-					<circle cx="12" cy="12" r="1.5"></circle>
-					<circle cx="19" cy="12" r="1.5"></circle>
-				</svg>
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>User</span>
+				<time datetime="2026-05-07T14:21:00-06:00">May 7, 2026, 2:21 PM MDT</time>
 			</div>
+			<article class="chat-message chat-message--user" aria-label="User message">
+				<div class="chat-content">
+					<p>Please turn this Markdown conversation into a clean PDF export. Preserve headings, lists, code, links, citations, and any tool output.</p>
+				</div>
+			</article>
 		</section>
 
-		<section class="chat-message user" aria-label="User message">
-			<div class="user-bubble">Ordered. Free shipping, and with tax $100 all in from Timemore (direct from manufacturer, so no warranty issues as if buying from 3rd party)</div>
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>System</span>
+				<time datetime="2026-05-07T14:21:03-06:00">May 7, 2026, 2:21 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--system" aria-label="System message">
+				<div class="chat-content">
+					<p>System and context notes should be visually distinct from regular assistant prose without dominating the transcript.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Developer</span>
+				<time datetime="2026-05-07T14:21:05-06:00">May 7, 2026, 2:21 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--developer" aria-label="Developer message">
+				<div class="chat-content">
+					<p>Developer instructions may contain implementation constraints, paths like <span class="path-chip">assets/typography/chats.css</span>, or export-specific requirements.</p>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Assistant</span>
+				<time datetime="2026-05-07T14:22:00-06:00">May 7, 2026, 2:22 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--assistant" aria-label="Assistant message">
+				<div class="chat-content">
+					<h1>Primary Heading</h1>
+					<p>This paragraph demonstrates normal assistant prose with a <a href="https://example.com">representative link</a>, <strong>strong emphasis</strong>, <em>italic emphasis</em>, and inline code such as <code>renderMarkdown()</code>.</p>
+
+					<h2>Lists</h2>
+					<p>Exports should preserve compact but readable list rhythm.</p>
+					<ul>
+						<li>Unordered item with short text.</li>
+						<li>Unordered item with nested details:
+							<ul>
+								<li>Nested item one.</li>
+								<li>Nested item two with <code>inline-code</code>.</li>
+							</ul>
+						</li>
+					</ul>
+					<ol>
+						<li>Ordered item one.</li>
+						<li>Ordered item two with a nested sequence:
+							<ol>
+								<li>Nested ordered step.</li>
+								<li>Another nested ordered step.</li>
+							</ol>
+						</li>
+					</ol>
+
+					<h2>Blockquote</h2>
+					<blockquote>
+						<p>A quoted passage should read as supporting material, not as a competing message bubble.</p>
+					</blockquote>
+
+					<hr>
+
+					<h2>Code Block</h2>
+					<div class="code-block">
+						<div class="code-block__header">
+							<span>JavaScript</span>
+							<button class="copy-button" type="button">Copy</button>
+						</div>
+						<pre><code>function renderMessage(markdown, role) {
+	return {
+		role,
+		html: markdownToHtml(markdown)
+	};
+}</code></pre>
+					</div>
+
+					<h2>Command Block</h2>
+					<div class="command-block">
+						<div class="code-block__header">
+							<span>Shell</span>
+							<button class="copy-button" type="button">Copy</button>
+						</div>
+						<pre><code>npm run build
+node scripts/export-chat.js transcript.md --format pdf</code></pre>
+					</div>
+
+					<h2>Terminal Output</h2>
+					<div class="terminal-output">
+						<div class="code-block__header">
+							<span>Terminal output</span>
+						</div>
+						<pre><code>&gt; standards@1.0.0 build
+&gt; vite build
+
+42 modules transformed.
+dist/index.html  12.6 kB</code></pre>
+					</div>
+
+					<h2>Diff Output</h2>
+					<div class="diff-block">
+						<div class="code-block__header">
+							<span>Diff</span>
+						</div>
+						<pre><code><span class="diff-remove">- .chat-message.assistant {</span>
+<span class="diff-add">+ .chat-message--assistant {</span>
+   width: var(--chat-width);
+ }</code></pre>
+					</div>
+
+					<h2>Markdown Table</h2>
+					<div class="table-wrap">
+						<table class="chat-table">
+							<thead>
+								<tr>
+									<th>Element</th>
+									<th>Rendering expectation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Inline code</td>
+									<td>Small neutral pill with monospace type.</td>
+								</tr>
+								<tr>
+									<td>Code block</td>
+									<td>Contained panel with optional language and copy affordance.</td>
+								</tr>
+								<tr>
+									<td>Table</td>
+									<td>Readable borders, compact spacing, and horizontal overflow support.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<h2>Callouts</h2>
+					<div class="callout">
+						<p class="callout-title">Note</p>
+						<p>Use notes for clarifications, assumptions, or low-risk context.</p>
+					</div>
+					<div class="callout callout--warning">
+						<p class="callout-title">Warning</p>
+						<p>Use warnings for constraints, risky operations, or irreversible choices.</p>
+					</div>
+					<div class="callout callout--error">
+						<p class="callout-title">Error</p>
+						<p>Use errors for failed commands, broken validations, or blocked exports.</p>
+					</div>
+					<div class="callout callout--success">
+						<p class="callout-title">Success</p>
+						<p>Use success blocks for completed checks or verified output.</p>
+					</div>
+
+					<h2>Image and Caption</h2>
+					<figure class="chat-figure">
+						<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 650 260'%3E%3Crect width='650' height='260' fill='%23f4f4f4'/%3E%3Cpath d='M70 190 L190 90 L285 160 L375 80 L580 190 Z' fill='%23d9d9d9'/%3E%3Ccircle cx='510' cy='70' r='32' fill='%23c9c9c9'/%3E%3C/svg%3E" alt="Placeholder landscape used for chat export image rendering.">
+						<figcaption class="chat-caption">Figure 1. Captions should sit close to the image and use muted, smaller text.</figcaption>
+					</figure>
+
+					<h2>Citations and Footnotes</h2>
+					<p>Inline citation markers can point to a footnote-style list when source references are exported.<sup><a href="#fn-1">1</a></sup></p>
+					<section class="footnotes" aria-label="Footnotes">
+						<ol>
+							<li id="fn-1">Example citation entry with source title, publisher, and access date.</li>
+						</ol>
+					</section>
+				</div>
+			</article>
+		</section>
+
+		<section class="chat-turn">
+			<div class="chat-meta">
+				<span>Tool</span>
+				<time datetime="2026-05-07T14:22:14-06:00">May 7, 2026, 2:22 PM MDT</time>
+			</div>
+			<article class="chat-message chat-message--tool" aria-label="Tool output">
+				<div class="chat-content">
+					<p>Tool results should be distinct from assistant prose and may include structured output.</p>
+					<div class="tool-output">
+						<div class="code-block__header">
+							<span>Tool output</span>
+						</div>
+						<pre><code>{
+  "status": "ok",
+  "files": [
+    "assets/typography/chats.css",
+    "assets/typography/chats.html"
+  ]
+}</code></pre>
+					</div>
+				</div>
+			</article>
 		</section>
 	</main>
 </body>

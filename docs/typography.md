@@ -32,6 +32,31 @@ Security audit reports use document typography, not chat typography. That includ
 
 Document typography should support formal hierarchy, evidence presentation, metadata, findings, tables, code or command excerpts, notes, captions, appendices, and PDF review.
 
+### Document Cover Pages
+
+A document cover page should establish identity, scope, and authority without trying to summarize the whole report.
+
+Cover pages should communicate quiet authority and feel like artifacts of record rather than dashboards or marketing flyers.
+
+Use a sparse layout with one primary title block and one compact metadata block where appropriate. Preserve generous empty space around the title and metadata, and do not fill the cover just because space is available.
+
+An optional subtle identity mark, system mark, or line motif may appear on the cover. The mark may bleed or nearly bleed off the left edge. Decorative elements should remain secondary to the document identity and metadata.
+
+The top of the identity mark, title block, and upper metadata block should align visually along the same horizontal axis. The top offset should be deliberate and consistent across cover-page variants, but exact top-offset measurements should not be defined until page size, font scale, and PDF rendering behavior have been tested in implementation specimens.
+
+Avoid dashboard cards, metric tiles, alert badges, dense executive-summary panels, stock-photo hero imagery, and alarmist security imagery on document covers by default.
+
+Cover page structure should follow this order:
+
+1. Top identity band: optional edge-bleed identity mark at upper left, primary title in the upper third, and compact metadata block at upper right with top edges visually aligned.
+2. Main information area: controlled-width text blocks below the identity band for recipient, client, scope, target, project, report classification, or a short report description.
+3. Footer or author area: optional author, team, contact, version, classification, or publication-status metadata kept quiet and secondary.
+4. Negative space: large open areas preserved as part of the design, not treated as unused space to fill.
+
+Security report covers should support report title, assessment type, scoped target or sanitized target placeholder, client or project, date, author, operator or team, confidentiality or publication status, and optional version.
+
+Security report covers should not lead with severity counts, open-port counts, exploit icons, red-alert panels, finding cards, dashboard widgets, or decorative cyber cliches. Those belong in an executive summary, findings section, or dashboard artifact, not the default cover page.
+
 ## Tear Sheets
 
 A tear sheet is a typography specimen for component coverage.

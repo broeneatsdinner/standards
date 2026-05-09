@@ -82,6 +82,21 @@ After reading the applicable standards, summarize the active rules for the curre
 
 Do not begin editing until the applicable standards have been read, or until you have clearly stated which referenced files were missing or not relevant.
 
+## Session state and re-entry
+
+Treat this initialization prompt as a one-time session setup step.
+
+If the standards have already been loaded in the current session, do not restate or reload the full standards cascade unless:
+
+- the user explicitly asks for a reload
+- the standards repository has changed and the user wants the updated rules applied
+- the task enters a specialized workflow whose standards have not yet been loaded
+- required referenced files were unavailable during the earlier initialization
+
+After initialization has already been completed, follow-up prompts should assume the loaded standards remain active for the rest of the session.
+
+In those follow-up prompts, refer to the loaded standards briefly rather than redefining them in full.
+
 ## Standards cascade
 
 Apply these standards in order when relevant:

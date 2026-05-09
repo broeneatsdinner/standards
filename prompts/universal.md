@@ -6,6 +6,14 @@ For new project or coding sessions, start with `prompts/project-initialization.m
 
 Use `docs/code-style.md` as the canonical source for cross-language source-code style preferences.
 
+## After initialization
+
+If the project initialization standard has already been applied in the current session, do not repeat the full standards cascade in follow-up prompts.
+
+Use the already loaded standards as the operating baseline.
+
+Follow-up prompts should be task-focused and may refer back to the loaded standards by name or path when needed.
+
 Apply the standards in this repo when helping with:
 
 - shell scripts

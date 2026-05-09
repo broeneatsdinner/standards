@@ -57,6 +57,43 @@ Security report covers should support report title, assessment type, scoped targ
 
 Security report covers should not lead with severity counts, open-port counts, exploit icons, red-alert panels, finding cards, dashboard widgets, or decorative cyber cliches. Those belong in an executive summary, findings section, or dashboard artifact, not the default cover page.
 
+### Document Interior Pages
+
+Document interior pages should feel like formal report pages or publication pages: calm, structured, readable, and suitable for PDF review.
+
+Use generous page margins for PDF output and a controlled body-text measure rather than full-width body text. Body copy should remain visually calm and readable for long-form material.
+
+A quiet running header near the top margin may be used when useful. Running headers should be small, light, and secondary to page content.
+
+Use a clear page or report title with deliberate space above and below it. Page titles should have more space around them than ordinary section headings.
+
+Major section headings should have visible space above them and may use a thin horizontal rule beneath them. Use divider rules sparingly, mainly for major section boundaries, and do not place divider lines after every heading by default.
+
+Subsection headings should be smaller than major section headings. They should sit closer to the text they introduce than to the previous section.
+
+Body paragraphs should maintain consistent vertical rhythm.
+
+Footers may use a thin rule to separate page metadata from body content. Footer metadata and page numbers should remain quiet and secondary. Page numbers, document title, version, classification, or copyright metadata should not compete with the body.
+
+For security report interior pages, findings should be visually distinct but not alarmist. Severity should be scannable without dominating the page.
+
+Evidence blocks should be clearly separated from prose without feeling like raw terminal dumps. Remediation sections should be easy to scan, and command output or technical excerpts should remain readable in PDF form.
+
+Tables should remain readable and should not force the page into a dashboard aesthetic. Avoid heavy boxes, alert panels, excessive dividers, and decorative cyber styling inside prose-heavy report pages by default.
+
+Interior typography should be validated with tear sheets that include:
+
+- long body paragraphs
+- major sections
+- subsections
+- divider rules
+- tables
+- code blocks
+- command output
+- notes or callouts
+- captions
+- footers and page metadata
+
 ## Tear Sheets
 
 A tear sheet is a typography specimen for component coverage.

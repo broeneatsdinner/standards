@@ -145,11 +145,12 @@ What can be safely published after review?
 
 ## `nodes/` is not `_`
 
-`nodes/` and `_` solve different problems.
+`nodes/` and a possible future `_` support namespace solve different problems.
 
 `nodes/` represents deployment targets or trust-boundary roles.
 
-`_/` is a local support namespace inside a node-local application, website, or script surface.
+The `_` directory abstraction is shelved for now and is not a default
+project-structure convention.
 
 Do not use `_` as a substitute for `nodes/`.
 
@@ -160,10 +161,9 @@ nodes/wg-server/webhookd/
 ├── webhook.sh
 └── web/
     ├── index.php
-    └── _/
-        ├── css/
-        ├── js/
-        └── php/
+    ├── assets/
+    ├── css/
+    └── js/
 ```
 
 Bad:
@@ -321,46 +321,17 @@ If sensitive material has entered history, removing it from the current tree may
 
 The correct response may include credential rotation, history rewriting, repository recreation, or deciding not to publish the repository.
 
-## `_` support directory usage
+## Shelved `_` support directory usage
 
-Use `_` inside node-local applications when it keeps public entrypoints clean.
+Do not require or introduce `_` directories inside node-local applications by
+default.
 
-Example:
+Keep `_` only as a possible future support namespace for operator, process,
+generated, or local-support artifacts if repeated real repository structures
+show that clear ordinary directories are not enough.
 
-```text
-nodes/wg-server/webhookd/web/
-├── index.php
-└── _/
-    ├── css/
-    ├── js/
-    ├── php/
-    └── python/
-```
-
-`_/css/` contains CSS support files.
-
-`_/js/` contains JavaScript support files.
-
-`_/php/` contains PHP support files.
-
-`_/python/` contains Python support files used by that local surface.
-
-The `_` directory should not become a junk drawer.
-
-Directory names should describe what the files are.
-
-Avoid:
-
-```text
-_/misc/
-_/stuff/
-_/old/
-_/new/
-_/helpers/
-_/utils/
-```
-
-Support files belong under `_` only when they support a clear local entrypoint or application surface.
+If this pattern is revived, directory names beneath it should describe what the
+files are and should support a clear local entrypoint or application surface.
 
 Shared cross-node code belongs in `shared/`.
 
@@ -381,7 +352,8 @@ Review:
 - whether shared material is actually shared
 - whether runtime state is ignored
 - whether private quarantine and sanitized training data are separated
-- whether `_` appears only as a local support namespace
+- whether any `_` usage is intentional, documented, and not acting as a default
+  or vague substitute for meaningful directories
 - whether publication tooling exists for OPSEC review
 - whether docs explain the trust boundaries
 

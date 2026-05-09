@@ -52,11 +52,9 @@ domain.name/
 ├── html/
 │   ├── index.html
 │   ├── index.php
-│   └── _/
-│       ├── css/
-│       ├── js/
-│       ├── php/
-│       └── assets/
+│   ├── assets/
+│   ├── css/
+│   └── js/
 ├── logs/
 ├── backups/
 └── config/
@@ -64,9 +62,8 @@ domain.name/
 
 The `html/` directory is the public web root.
 
-The `html/_/` directory is the organized internal namespace for supporting website files.
-
-The root of `html/` should stay clean and should primarily contain public entrypoints.
+The root of `html/` should stay clean and should primarily contain public
+entrypoints and clear support directories required by the website.
 
 ## Shell project layout
 
@@ -119,42 +116,21 @@ A well-structured system should not require explanation.
 
 If explanation is required, the structure is part of the problem.
 
-## Underscore support directory
+## Shelved underscore support directory
 
-The `_` directory is a project-local support namespace.
+The `_` directory abstraction is shelved for now.
 
-It holds files that support public or root-level entrypoints but should not clutter the root of the project or web directory.
+Do not require or introduce `_` directories as a default project-structure
+convention.
 
-This convention is especially useful for website projects, but may also apply to other project types.
+Keep the idea documented only as a possible future pattern: a project-local
+operator, process, generated, or local-support namespace may become useful if
+real project structures repeatedly need to separate support artifacts from the
+main domain tree.
 
-Example web layout:
-
-```text
-html/
-├── index.html
-└── _/
-    ├── css/
-    ├── js/
-    ├── php/
-    ├── python/
-    └── assets/
-```
-
-Example project layout:
-
-```text
-project-name/
-├── README.md
-├── main.sh
-└── _/
-    ├── shell/
-    ├── python/
-    ├── data/
-    ├── output/
-    └── assets/
-```
-
-The `_` directory should make support files easy to find while keeping top-level entrypoints clean.
+For now, prefer clear, meaningful directories and avoid adding this extra
+abstraction before repositories prove the need. A `_` namespace can create
+confusion or cleverness when ordinary directory names would make intent visible.
 
 Avoid vague junk-drawer directories such as:
 
@@ -170,7 +146,3 @@ helpers/
 ```
 
 Directory names should describe what the files are, not vaguely how they are used.
-
-For example, PHP partials and helpers should live under `_/php/`, not `_/includes/`.
-
-This section is a placeholder for a fuller standard.

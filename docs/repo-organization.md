@@ -43,6 +43,11 @@ prompts/    AI assistant prompts and instructions
 directory_structures/  reusable starting structures
 ```
 
+Do not require or introduce `_` directories as a default project-structure
+convention. Prefer clear, meaningful top-level directories until repeated
+project needs prove that an additional support namespace would reduce ambiguity
+instead of adding cleverness.
+
 ## Public repositories
 
 Public repositories should be especially clear.

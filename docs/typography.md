@@ -55,7 +55,7 @@ Cover page structure should follow this order:
 
 Security report covers should support report title, assessment type, scoped target or sanitized target placeholder, client or project, date, author, operator or team, confidentiality or publication status, and optional version.
 
-Security report covers should not lead with severity counts, open-port counts, exploit icons, red-alert panels, finding cards, dashboard widgets, or decorative cyber cliches. Those belong in an executive summary, findings section, or dashboard artifact, not the default cover page.
+Security report covers should not lead with severity counts, open-port counts, exploit icons, red-alert panels, finding cards, dashboard widgets, or decorative cyber clichés. Those belong in an executive summary, findings section, or dashboard artifact, not the default cover page.
 
 ### Document Interior Pages
 

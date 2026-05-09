@@ -14,6 +14,7 @@ This repository exists to:
 - keep projects visually and operationally consistent
 - define reusable shell components
 - define script, documentation, commit, prompt, and directory-structure standards
+- define operational safety rules for shell scripts, helper tools, and automation
 - define publication, audit, and OPSEC review practices
 - give AI coding tools a canonical source for applying my style
 - maintain a cohesive view of my projects and operating patterns
@@ -35,6 +36,7 @@ The goal is eliminating ambiguity.
 - cross-language code style standards
 - graphical script header standards
 - script content and comment standards
+- destructive-action safety standards for shell scripts and helper applications
 - comment and description conventions
 - reusable shell components
 - selector/menu conventions
@@ -85,6 +87,11 @@ It documents how systems should be documented, reviewed, operationalized, and sa
 This repo is not just documentation.
 
 It is a reusable operational standards authority.
+
+It defines safety guardrails for local automation: old executable scripts are
+treated as untrusted until reviewed, no-argument execution should be safe, and
+destructive actions should require explicit operator intent through dry-run /
+apply patterns or similarly clear controls.
 
 That means:
 

@@ -122,6 +122,8 @@ Tear sheets may include edge cases and variants even when the result does not re
 
 Markdown-to-PDF workflows are part of the standard.
 
+Document PDF output should default to US Letter, 8.5 inches by 11 inches, unless a project or recipient explicitly requires another page size. Typography specimens for document output should be evaluated against US Letter by default. Other page sizes may be used intentionally, but should be specified by the project or output workflow.
+
 Styles should be evaluated against the path from source Markdown or exported content to HTML and then to PDF. Screen rendering is useful for inspection, but PDF output is a first-class target when the material is archival, reviewable, client-facing, or publication-oriented.
 
 Typography should keep source structure visible. It should not hide weak hierarchy, ambiguous metadata, broken tables, unreadable code, or missing captions behind visual polish.

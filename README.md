@@ -39,6 +39,7 @@ The goal is eliminating ambiguity.
 - selector/menu conventions
 - loader and terminal text-effect conventions
 - color definitions and palette pairings
+- typography and PDF-oriented output standards
 - commit message standards
 - filesystem and project-structure standards
 - multi-node secure systems repository standards
@@ -107,6 +108,7 @@ For concrete examples of the operating architecture, see:
 - [docs/code-style.md](docs/code-style.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
+- [docs/typography.md](docs/typography.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
 - [prompts/repository-opsec-02-audit.md](prompts/repository-opsec-02-audit.md)
 

@@ -12,7 +12,7 @@ audit
 remediation
 ```
 
-This model applies across publication OPSEC workflows, filename auditing workflows, normalization workflows, and other repository-maintenance procedures that involve human review and AI-assisted execution.
+This model applies across repository OPSEC workflows, filename auditing workflows, normalization workflows, and other repository-maintenance procedures that involve human review and AI-assisted execution.
 
 The model is not ceremony.
 
@@ -241,7 +241,7 @@ The shared principle is that inspection does not imply write authority.
 
 Publication workflows require extra control because repository contents may expose private, personal, operational, or security-sensitive information.
 
-Publication OPSEC review should therefore preserve a clean distinction between:
+Repository OPSEC review should therefore preserve a clean distinction between:
 
 - understanding what the repository is
 - auditing what it exposes
@@ -277,7 +277,7 @@ It also makes prompt behavior easier to reason about, reuse, and review across r
 
 This architecture currently governs:
 
-- publication OPSEC workflows
+- repository OPSEC workflows
 - filename auditing workflows
 - extension and filename normalization workflows
 

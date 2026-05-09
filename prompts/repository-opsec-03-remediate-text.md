@@ -1,6 +1,6 @@
-# Publication OPSEC Text Remediation Prompt
+# Repository OPSEC Text Remediation Prompt
 
-Use this prompt only after a publication OPSEC audit has produced findings and a human has explicitly approved text remediation.
+Use this prompt only after a repository OPSEC audit has produced findings and a human has explicitly approved text remediation.
 
 The goal is to make approved, scoped documentation and text changes that reduce publication risk.
 
@@ -11,11 +11,11 @@ Do not commit anything.
 Copy and paste this into Codex after audit findings have been reviewed and text remediation has been explicitly approved:
 
 ```text
-Please use prompts/publication-opsec-03-remediate-text.md as your operating prompt and apply it to this repository.
+Please use prompts/repository-opsec-03-remediate-text.md as your operating prompt and apply it to this repository.
 
 This is an approved text/documentation remediation workflow.
 
-Use the prior audit findings from prompts/publication-opsec-02-audit.md as the remediation basis.
+Use the prior audit findings from prompts/repository-opsec-02-audit.md as the remediation basis.
 
 Approved scope:
 
@@ -36,7 +36,7 @@ After remediation, show me:
 
 ## Task
 
-Apply approved text and documentation remediation for publication OPSEC findings.
+Apply approved text and documentation remediation for repository OPSEC findings.
 
 Use only the audit findings and the explicit human-approved scope.
 

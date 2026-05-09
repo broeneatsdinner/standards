@@ -127,7 +127,7 @@ Treat the remaining files under `prompts/` as specialized workflow prompts. Insp
 
 Examples:
 
-- Load `publication-opsec-*` prompts when preparing, auditing, remediating, or publishing public repositories, public screenshots, logs, configs, media, or portfolio artifacts.
+- Load `repository-opsec-*` prompts when preparing, auditing, remediating, or publishing public repositories, public screenshots, logs, configs, media, or portfolio artifacts.
 - Load `filename-*` prompts when auditing, normalizing, or remediating filenames.
 - Load `script-*` prompts when initiating, auditing, or remediating script standards workflows.
 
@@ -135,7 +135,7 @@ When a specialized workflow has numbered phases, respect the phase boundaries.
 
 Do not jump from initiation to audit, remediation, deletion, renaming, redaction, or publication unless the user explicitly approves that scope.
 
-If a task may involve public exposure, OPSEC, sanitization, screenshots, logs, configs, infrastructure details, secrets, private identifiers, or publication readiness, pause and load the relevant publication OPSEC prompt before giving implementation instructions or making edits.
+If a task may involve public exposure, OPSEC, sanitization, screenshots, logs, configs, infrastructure details, secrets, private identifiers, or publication readiness, pause and load the relevant repository OPSEC prompt before giving implementation instructions or making edits.
 
 Principle:
 

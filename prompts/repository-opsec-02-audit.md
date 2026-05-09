@@ -1,4 +1,4 @@
-# Publication OPSEC Audit Prompt
+# Repository OPSEC Audit Prompt
 
 Use this prompt when auditing a repository before making it public.
 
@@ -10,10 +10,10 @@ Do not commit, delete, rewrite, redact, publish, rename, move, or otherwise modi
 
 ## Invocation instructions
 
-Copy and paste this into Codex to run the publication OPSEC audit against the current repository:
+Copy and paste this into Codex to run the repository OPSEC audit against the current repository:
 
 ```text
-Please use prompts/publication-opsec-02-audit.md as your operating prompt and apply it to this repository.
+Please use prompts/repository-opsec-02-audit.md as your operating prompt and apply it to this repository.
 
 This is a pre-publication OPSEC/security audit workflow run.
 

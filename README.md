@@ -108,19 +108,19 @@ For concrete examples of the operating architecture, see:
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
-- [prompts/publication-opsec-02-audit.md](prompts/publication-opsec-02-audit.md)
+- [prompts/repository-opsec-02-audit.md](prompts/repository-opsec-02-audit.md)
 
-## Publication OPSEC prompt architecture
+## Repository OPSEC prompt architecture
 
-The publication OPSEC workflow is intentionally ordered instead of hidden inside one large all-purpose prompt.
+The repository OPSEC workflow is intentionally ordered instead of hidden inside one large all-purpose prompt.
 
 The prompt filenames use numeric prefixes so the sequence is visible in terminal output, editor sidebars, and GitHub file listings:
 
 ```text
-publication-opsec-01-initiate.md
-publication-opsec-02-audit.md
-publication-opsec-03-remediate-text.md
-publication-opsec-04-remediate-media.md
+repository-opsec-01-initiate.md
+repository-opsec-02-audit.md
+repository-opsec-03-remediate-text.md
+repository-opsec-04-remediate-media.md
 ```
 
 That ordering makes the workflow clean and coherent to both humans and machines.

@@ -301,7 +301,7 @@ If raw assets were ever committed, review history for exposed metadata or privat
 
 Removing a file from the current tree may not remove it from repository history.
 
-Use `prompts/publication-opsec-02-audit.md` as the audit frame when preparing public release.
+Use `prompts/repository-opsec-02-audit.md` as the audit frame when preparing public release.
 
 ## OPSEC notes
 
@@ -373,7 +373,7 @@ The final repository should show the repeatable cortado system without publishin
 This standard complements:
 
 - `docs/repo-taxonomy.md`
-- `prompts/publication-opsec-02-audit.md`
+- `prompts/repository-opsec-02-audit.md`
 - `opsec-as-systems-thinking.md`
 
-Future updates can add cross-references from the repository taxonomy and publication OPSEC audit prompt once this workflow has been used across more Field Manual repositories.
+Future updates can add cross-references from the repository taxonomy and repository OPSEC audit prompt once this workflow has been used across more Field Manual repositories.

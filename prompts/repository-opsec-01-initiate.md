@@ -1,4 +1,4 @@
-# Publication OPSEC Initiation Prompt
+# Repository OPSEC Initiation Prompt
 
 Use this prompt when starting publication review for a repository.
 
@@ -10,16 +10,16 @@ Do not commit anything.
 
 ## Invocation instructions
 
-Copy and paste this into Codex to start the publication OPSEC workflow against the current repository:
+Copy and paste this into Codex to start the repository OPSEC workflow against the current repository:
 
 ```text
-Please use prompts/publication-opsec-01-initiate.md as your operating prompt and apply it to this repository.
+Please use prompts/repository-opsec-01-initiate.md as your operating prompt and apply it to this repository.
 
-This is the initiation phase for a publication OPSEC review.
+This is the initiation phase for a repository OPSEC review.
 
 Identify the repository type and publication intent.
 
-Use docs/repo-taxonomy.md, docs/media-asset-workflow.md, opsec-as-systems-thinking.md, and prompts/publication-opsec-02-audit.md as workflow context.
+Use docs/repo-taxonomy.md, docs/media-asset-workflow.md, opsec-as-systems-thinking.md, and prompts/repository-opsec-02-audit.md as workflow context.
 
 Do not modify, delete, rename, move, redact, rewrite, publish, or commit anything.
 
@@ -31,7 +31,7 @@ After initiation, show me:
 - apparent publication intent
 - relevant exposure surfaces
 - recommended audit scope
-- whether prompts/publication-opsec-02-audit.md should be run next
+- whether prompts/repository-opsec-02-audit.md should be run next
 - whether any remediation should be deferred until after audit findings and explicit human approval
 - recommended next steps
 - confirmation that you did not modify or commit anything
@@ -39,7 +39,7 @@ After initiation, show me:
 
 ## Task
 
-Start the publication OPSEC workflow for the current repository.
+Start the repository OPSEC workflow for the current repository.
 
 Identify what kind of repository this is, what public artifact it appears to present, and what review path should be used before publication.
 
@@ -52,7 +52,7 @@ Use these files as operating context:
 - `docs/repo-taxonomy.md`
 - `docs/media-asset-workflow.md`
 - `opsec-as-systems-thinking.md`
-- `prompts/publication-opsec-02-audit.md`
+- `prompts/repository-opsec-02-audit.md`
 
 Use `docs/repo-taxonomy.md` to identify the repository type.
 
@@ -60,7 +60,7 @@ Use `docs/media-asset-workflow.md` to identify media intake, curation, metadata,
 
 Use `opsec-as-systems-thinking.md` to frame risk as a system-level exposure problem, not only a secret-scanning problem.
 
-Use `prompts/publication-opsec-02-audit.md` as the next report-only audit phase.
+Use `prompts/repository-opsec-02-audit.md` as the next report-only audit phase.
 
 ## Repository classification
 
@@ -96,7 +96,7 @@ Flag unclear publication boundaries as planning issues.
 
 ## Workflow direction
 
-Recommend running `prompts/publication-opsec-02-audit.md` for the report-only audit phase.
+Recommend running `prompts/repository-opsec-02-audit.md` for the report-only audit phase.
 
 The audit phase should inspect repository content, filenames, links, media, metadata, raw/private asset paths, and git history where possible.
 
@@ -117,8 +117,8 @@ Remediation must happen only after:
 
 Use separate scoped remediation prompts for follow-up work:
 
-- `prompts/publication-opsec-03-remediate-text.md` for approved text and documentation remediation
-- `prompts/publication-opsec-04-remediate-media.md` for approved curated-media remediation
+- `prompts/repository-opsec-03-remediate-text.md` for approved text and documentation remediation
+- `prompts/repository-opsec-04-remediate-media.md` for approved curated-media remediation
 
 ## Safety constraints
 
@@ -157,6 +157,6 @@ Produce a report with these sections:
 
 The workflow plan should be ordered and practical.
 
-State clearly whether `prompts/publication-opsec-02-audit.md` should be run next.
+State clearly whether `prompts/repository-opsec-02-audit.md` should be run next.
 
 Confirm that no files were modified and no commits were made.

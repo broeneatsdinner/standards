@@ -1,6 +1,6 @@
-# Publication OPSEC Media Remediation Prompt
+# Repository OPSEC Media Remediation Prompt
 
-Use this prompt only after a publication OPSEC audit has produced findings and a human has explicitly approved curated-media remediation.
+Use this prompt only after a repository OPSEC audit has produced findings and a human has explicitly approved curated-media remediation.
 
 The goal is to inspect and clean approved public media copies before publication.
 
@@ -11,11 +11,11 @@ Do not commit anything.
 Copy and paste this into Codex after audit findings have been reviewed and curated-media remediation has been explicitly approved:
 
 ```text
-Please use prompts/publication-opsec-04-remediate-media.md as your operating prompt and apply it to this repository.
+Please use prompts/repository-opsec-04-remediate-media.md as your operating prompt and apply it to this repository.
 
 This is an approved curated-media remediation workflow.
 
-Use docs/media-asset-workflow.md and the prior audit findings from prompts/publication-opsec-02-audit.md as the remediation basis.
+Use docs/media-asset-workflow.md and the prior audit findings from prompts/repository-opsec-02-audit.md as the remediation basis.
 
 Approved public media scope:
 
@@ -40,7 +40,7 @@ After remediation, show me:
 
 ## Task
 
-Apply approved curated-media remediation for publication OPSEC findings.
+Apply approved curated-media remediation for repository OPSEC findings.
 
 Use only the audit findings and the explicit human-approved public media scope.
 
@@ -51,7 +51,7 @@ Inspect and clean metadata where tooling is available.
 Use these files as operating context:
 
 - `docs/media-asset-workflow.md`
-- `prompts/publication-opsec-02-audit.md`
+- `prompts/repository-opsec-02-audit.md`
 
 Follow the media workflow's distinction between raw intake, private quarantine, contact sheet review, curated public copies, metadata stripping, and final publication audit.
 

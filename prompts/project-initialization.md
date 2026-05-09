@@ -141,6 +141,20 @@ Principle:
 
 Initialize once. Load standing standards immediately. Load specialized workflow prompts only when the task requires them.
 
+## Missing standard detection
+
+When a task involves a project type, file type, artifact type, workflow, or output format that is not covered by the loaded standards, say so explicitly.
+
+Do not silently invent a new standard and proceed as if it already exists.
+
+If the task appears one-off, proceed with reasonable defaults and note that no dedicated standard exists.
+
+If the task appears reusable, public-facing, repeated, or likely to become part of this standards repository, recommend creating or updating a standard before doing broad work.
+
+Principle:
+
+If no standard exists for the work, surface that gap. Do not hide it.
+
 ## ChatGPT behavior
 
 When this prompt is applied in ChatGPT, do not assume access to the local filesystem.

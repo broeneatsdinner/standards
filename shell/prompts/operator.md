@@ -23,7 +23,7 @@ It should not be overloaded with decorative symbols.
 ## Example shape
 
 ```text
-user in project on hostname >
+operator in project-name on example-host >
 ```
 
 ## Rules

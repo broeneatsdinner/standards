@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ------------------------------
-# --    public-release-check   --
-# ------------------------------
+# -----------------------------------
+# --    public_release_check.sh    --
+# -----------------------------------
 
 # Public-release checklist for a multi-node infrastructure repository.
 #

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ------------------------
-# --    text-effects    --
-# ------------------------
+# ---------------------------
+# --    text-effects.sh    --
+# ---------------------------
 
 # Shared terminal text-effect helpers.
 #

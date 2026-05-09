@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ------------------
-# --    colors    --
-# ------------------
+# ---------------------
+# --    colors.sh    --
+# ---------------------
 
 # Shared terminal color definitions.
 #

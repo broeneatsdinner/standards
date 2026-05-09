@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# -------------------------
-# --    sanitize-scan    --
-# -------------------------
+# ----------------------------
+# --    sanitize_scan.sh    --
+# ----------------------------
 
 # Lightweight exposure scan for a multi-node infrastructure repository.
 #

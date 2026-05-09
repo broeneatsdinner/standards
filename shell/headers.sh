@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# -------------------
-# --    headers    --
-# -------------------
+# ----------------------
+# --    headers.sh    --
+# ----------------------
 
 # Shared graphical header helpers.
 #

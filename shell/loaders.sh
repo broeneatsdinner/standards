@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# -------------------
-# --    loaders    --
-# -------------------
+# ----------------------
+# --    loaders.sh    --
+# ----------------------
 
 # Shared loader and spinner helpers.
 #

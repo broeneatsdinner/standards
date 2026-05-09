@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# --------------------
-# --    selector    --
-# --------------------
+# -----------------------
+# --    selector.sh    --
+# -----------------------
 
 # Shared terminal selector helpers.
 #

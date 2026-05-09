@@ -428,20 +428,14 @@ pre code {
 
 .doc-cover-mark {
 	position: relative;
-	width: 34px;
-	height: 58px;
+	width: 48px;
+	height: 82px;
 	margin-left: -0.76in;
-	border-top: 1px solid var(--doc-header-divider);
-	border-left: 1px solid var(--doc-header-divider);
-}
-
-.doc-cover-mark::after {
-	content: "";
-	position: absolute;
-	top: 13px;
-	left: 13px;
-	width: 20px;
-	border-top: 1px solid var(--doc-divider);
+	background:
+		linear-gradient(var(--doc-header-divider), var(--doc-header-divider)) 0 0 / 48px 1px no-repeat,
+		linear-gradient(var(--doc-divider), var(--doc-divider)) 14px 18px / 28px 1px no-repeat,
+		linear-gradient(var(--doc-divider), var(--doc-divider)) 0 48px / 34px 1px no-repeat,
+		linear-gradient(var(--doc-header-divider), var(--doc-header-divider)) 0 0 / 1px 82px no-repeat;
 }
 
 .doc-cover-title-block {

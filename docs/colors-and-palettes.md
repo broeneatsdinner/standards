@@ -28,7 +28,11 @@ DIM=""
 RESET=""
 ```
 
-The exact escape sequences belong in reusable library files such as:
+Hex color tokens should be the canonical source of truth for shell colors.
+
+Terminal-ready variables such as `GREEN`, `RESET`, `SUCCESS`, `WARNING`, `ERROR`, `MUTED`, and `HEADING` should remain convenient to use after sourcing the shared color library, but their escape sequences should be generated from canonical hex tokens rather than maintained as a separate manual ANSI palette.
+
+The generated escape sequences belong in reusable library files such as:
 
 ```text
 shell/colors.sh

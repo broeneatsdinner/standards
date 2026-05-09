@@ -137,3 +137,5 @@ Reusable sourced code belongs in `shell/`.
 Internal project helpers belong in `scripts/`.
 
 A shell script should make it clear whether it is intended to be run directly or sourced.
+
+For the planned public shell library architecture, component boundaries, and source-library policy, see `docs/shell-components.md`.

@@ -168,7 +168,7 @@ These audits help prevent silent mutation, review bypass, and unclear AI authori
 Example finding:
 
 ```text
-prompts/repo-cleanup.md instructs the assistant to inspect and fix issues in one step.
+An all-purpose cleanup prompt instructs the assistant to inspect and fix issues in one step.
 Recommended remediation: split the prompt into audit and remediation phases after approval.
 ```
 

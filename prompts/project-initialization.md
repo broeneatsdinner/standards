@@ -129,7 +129,7 @@ Examples:
 
 - Load `publication-opsec-*` prompts when preparing, auditing, remediating, or publishing public repositories, public screenshots, logs, configs, media, or portfolio artifacts.
 - Load `filename-*` prompts when auditing, normalizing, or remediating filenames.
-- Load `script-header-audit.md` when auditing script headers.
+- Load `script-*` prompts when initiating, auditing, or remediating script standards workflows.
 
 When a specialized workflow has numbered phases, respect the phase boundaries.
 

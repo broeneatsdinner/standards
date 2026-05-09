@@ -31,6 +31,15 @@ publication-opsec-03-remediate-text.md
 publication-opsec-04-remediate-media.md
 ```
 
+Script standards prompts use:
+
+```text
+script-01-initiate.md
+script-02-audit.md
+script-03-remediate-headers.md
+script-04-remediate-content.md
+```
+
 The number indicates workflow order.
 
 The name after the number indicates the phase.

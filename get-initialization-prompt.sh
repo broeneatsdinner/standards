@@ -68,7 +68,13 @@ need_cmd pbcopy
 
 prompt="$(extract_prompt)" || fail "Could not extract initialization prompt"
 
+printf '# -------------------------------------\n'
+printf '# --    actual prompt shown below    --\n'
+printf '# -------------------------------------\n'
+printf '\n'
 printf '%s\n' "$prompt"
 printf '%s\n' "$prompt" | pbcopy
-
-printf '\nCopied initialization prompt to clipboard.\n'
+printf '\n'
+printf '# ----------------------------------------------------------\n'
+printf '# -- Copied the above initialization prompt to clipboard. --\n'
+printf '# ----------------------------------------------------------\n'

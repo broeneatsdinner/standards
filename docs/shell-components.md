@@ -124,6 +124,29 @@ Runnable executable scripts should have `/usr/bin/env` shebangs.
 
 Public shell variables may need targeted ShellCheck `SC2034` suppressions when they are intended sourced-library API.
 
+## Sourced Component Documentation
+
+Sourced shell components are not executable scripts and should not claim to be
+run directly.
+
+They are still documented source files.
+
+Use top-of-file documentation adapted to the component type:
+
+- include a graphical header when appropriate
+- put a `# description:` line immediately after the graphical header
+- add a short introductory comment block explaining how the file is loaded or
+  sourced
+- state the component boundary when relevant, such as aliases-only,
+  functions-only, colors-only, or loaders-only
+- document platform guards before platform-specific commands or settings
+- use clear, useful, single-# section comments consistent with
+  `docs/comments-and-descriptions.md`
+
+Platform-specific sourced components should guard platform-specific commands
+before they run. The comment near the guard should explain the operating-system
+or shell assumption when it is not obvious.
+
 ## Private Source Sample Boundary
 
 Files under `private/source-samples/` may inform mechanics and design direction.

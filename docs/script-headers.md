@@ -170,6 +170,10 @@ Description paragraphs should answer relevant operational questions:
 
 Normal paragraph comments should be wrapped around 80 columns.
 
+For sourced shell components, adapt the paragraph to the file type. Do not say
+the file is meant to be run directly. Explain how it is loaded or sourced, what
+boundary it owns, and any platform assumptions or side effects that matter.
+
 ## Example: runnable Bash script
 
 ```bash
@@ -197,6 +201,9 @@ Normal paragraph comments should be wrapped around 80 columns.
 # description: Define shared terminal color values for shell scripts.
 #
 # This file is meant to be sourced by other shell scripts, not run directly.
+#
+# It owns color variables only. Terminal control, output formatting, and loader
+# behavior belong in separate sourced components.
 ```
 
 ## Rules

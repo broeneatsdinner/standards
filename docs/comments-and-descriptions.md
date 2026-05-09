@@ -110,6 +110,13 @@ Do not use large section headers for tiny files.
 
 Reusable libraries should describe what they provide and whether they should be sourced.
 
+Source-only shell components should also describe their boundary, such as
+aliases-only or functions-only, when that boundary helps prevent unrelated
+definitions from accumulating in the file.
+
+When a sourced component contains platform-specific commands or settings, add a
+clear comment near the guard that explains the platform assumption.
+
 Example:
 
 ```bash

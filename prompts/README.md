@@ -58,6 +58,50 @@ Remediation prompts make approved, scoped changes after human review.
 
 This keeps workflow control, audit, and repair separate while making the sequence readable to both humans and AI systems.
 
+## Numbered workflow prompt families
+
+Use numbered workflow prompt families when a prompt set has distinct initiation, audit, and remediation phases.
+
+Standard naming pattern:
+
+```text
+<workflow>-01-initiate.md
+<workflow>-02-audit.md
+<workflow>-03-remediate-<domain>.md
+<workflow>-04-remediate-<domain>.md
+```
+
+The workflow prefix names the domain, such as `repository-opsec`, `filename`, or `script`.
+
+Phase meanings:
+
+- `01-initiate` starts the workflow, defines scope, and establishes constraints.
+- `02-audit` inspects and reports only.
+- `03` and `04` remediation prompts apply approved scoped changes.
+- Remediation phases may include a domain suffix when the workflow has multiple remediation types, such as `text`, `media`, `headers`, or `content`.
+
+This convention keeps phase boundaries visible in filenames, keeps initiation, audit, and remediation separate, helps AI tools infer whether a prompt is allowed to mutate files, lets humans scan the directory and understand workflow order, keeps rollback and review easier because workflows are scoped, and supports lazy-loading specialized prompts only when a task enters that workflow.
+
+Good examples:
+
+```text
+repository-opsec-01-initiate.md
+repository-opsec-02-audit.md
+repository-opsec-03-remediate-text.md
+repository-opsec-04-remediate-media.md
+
+filename-01-initiate.md
+filename-02-audit.md
+filename-03-remediate.md
+
+script-01-initiate.md
+script-02-audit.md
+script-03-remediate-headers.md
+script-04-remediate-content.md
+```
+
+Do not use the numbered pattern for simple standalone helper prompts, index files like `README.md`, universal guidance files like `universal.md`, or compatibility redirect prompts.
+
 ## OPSEC prompt integration
 
 When adding or changing an OPSEC-related standard, workflow, doctrine, or submodule, review `prompts/publication-opsec-02-audit.md`.

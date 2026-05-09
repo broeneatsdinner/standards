@@ -1,6 +1,6 @@
 # Project Initialization Prompt
 
-## Standard startup prompt
+## Invocation instructions
 
 Use this prompt at the start of a new ChatGPT chat, local Codex session, or remote Codex session:
 

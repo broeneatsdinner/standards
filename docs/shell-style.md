@@ -66,19 +66,147 @@ defaults write com.apple.dock static-only -bool true # Show only running apps
 
 Destructive operations should be obvious.
 
-Prefer dry-run behavior for tools that move, rename, delete, overwrite, or reorganize files.
+Old scripts and local helper scripts should be treated as untrusted until they
+have been reviewed. Executable permission does not imply a script is safe to
+run.
 
-Use explicit flags such as `--force` for changes that modify files.
+A script that performs destructive, irreversible, filesystem-mutating,
+network-affecting, service-affecting, credential-affecting, or externally
+visible actions must not perform those actions by default without an explicit
+operator signal.
+
+No-argument execution should be safe.
+
+Acceptable no-argument behavior:
+
+- show usage or help
+- print status
+- preview intended actions
+- run in dry-run mode
+- perform only clearly read-only or visual/demo behavior
+
+No-argument execution must not delete, overwrite, rename, move, recursively
+`chmod` or `chown`, truncate, sync-delete, restart services, alter firewall or
+network state, write to remote systems, mutate APIs, or perform bulk filesystem
+changes.
+
+Harmless visual/demo scripts, read-only inspection scripts, and scripts that
+only print output may safely run with no arguments, but they should still be
+documented clearly.
+
+Prefer dry-run behavior for tools that move, rename, delete, overwrite, or
+reorganize files.
+
+Use explicit operator signals for actions that modify files, systems, services,
+networks, credentials, remotes, or external APIs.
+
+Examples:
+
+```text
+--apply
+--execute
+--delete
+--force
+--yes
+--no-dry-run
+```
+
+Do not use `--force` as the only protection for highly destructive actions when
+a safer `--dry-run` / `--apply` model is appropriate.
+
+Destructive scripts should include:
+
+- clear usage text
+- argument validation
+- unknown-argument rejection
+- dry-run support where practical
+- printed target paths before destructive action
+- quoted variables and `--` before path operands
+- refusal to operate on empty, root, home, or suspiciously broad target paths
+  unless explicitly designed and guarded
+- comments explaining dangerous sections
+- exit status 2 for usage errors
+- exit status 1 for operational failure
 
 Prefer this pattern:
 
 ```bash
 dry_run=true
+target_dir=""
 
-if [[ "${1:-}" == "--force" ]]; then
-	dry_run=false
+usage() {
+	printf '%s\n' "Usage: cleanup-cache [--dry-run] [--apply] TARGET"
+}
+
+fail() {
+	printf 'ERROR: %s\n' "$*" >&2
+	exit 1
+}
+
+usage_error() {
+	printf 'ERROR: %s\n' "$*" >&2
+	usage >&2
+	exit 2
+}
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		--dry-run)
+			dry_run=true
+			;;
+		--apply)
+			dry_run=false
+			;;
+		-*)
+			usage_error "Unknown option: $1"
+			;;
+		*)
+			[[ -z "$target_dir" ]] || usage_error "Too many targets."
+			target_dir="$1"
+			;;
+	esac
+
+	shift
+done
+
+if [[ -z "$target_dir" ]]; then
+	usage
+	exit 0
+fi
+
+[[ "$target_dir" != "/" ]] || usage_error "Refusing to operate on /."
+[[ "$target_dir" != "$HOME" ]] || usage_error "Refusing to operate on HOME."
+[[ -d "$target_dir" ]] || fail "Target directory not found: $target_dir"
+
+cache_file="$target_dir/generated.cache"
+
+printf '%s\n' "Target: $target_dir"
+printf '%s\n' "Cache file: $cache_file"
+
+# Remove generated cache files only after the operator has chosen apply mode.
+if "$dry_run"; then
+	printf '%s\n' "Dry run: would remove $cache_file."
+else
+	rm -f -- "$cache_file"
 fi
 ```
+
+Commands and patterns that require extra review or guardrails:
+
+- `rm`, especially `rm -rf`
+- `find -delete`
+- `mv` or `cp` overwrite workflows
+- `chmod -R` or `chown -R`
+- `truncate`
+- `dd`
+- `diskutil` or `mkfs`-style operations
+- `rsync --delete`
+- `scp` or `rsync` remote writes
+- `curl` or API `POST`, `PUT`, `PATCH`, or `DELETE`
+- `git clean` or `git reset --hard`
+- service restarts or stops
+- firewall or network configuration changes
+- package install or remove operations
 
 ## Output
 

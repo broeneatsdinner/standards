@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ----------------------------------------
-# --    get-initialization-prompt.sh    --
-# ----------------------------------------
+# -----------------------------------------
+# --    load-initialization-prompt.sh    --
+# -----------------------------------------
 # description: Print and copy the standard project initialization prompt.
 #
 # This script extracts the first fenced text block from

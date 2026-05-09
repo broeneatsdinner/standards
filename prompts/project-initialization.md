@@ -46,9 +46,13 @@ When operating in a remote or temporary environment, clone or inspect the public
 
 ## Standards freshness
 
-When using a local standards repository, prefer the current working copy if it is available.
+When using a local standards repository, use the current working copy as the source of truth by default.
 
-When using Git, fetch or pull before relying on standards if the user asks for the latest version or if recent standards changes are relevant.
+Fetch or pull only when the user explicitly asks for latest remote verification, the local repository appears stale or inconsistent, the local standards repository is unavailable, or the task specifically depends on remote freshness.
+
+Do not perform network fetches merely because the latest local commit is recent.
+
+Keep initialization fast and local-first while still allowing freshness checks when they actually matter.
 
 When using a public web source, prefer the latest default-branch content. If the user indicates that the standards were recently updated, re-fetch the relevant files instead of relying on cached conversation context.
 

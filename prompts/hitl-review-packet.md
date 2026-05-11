@@ -1,0 +1,207 @@
+# HITL Review Packet Prompt
+
+## Purpose
+
+This prompt defines a human-in-the-loop review packet workflow for Codex and other repository-aware AI coding tools.
+
+Use this workflow when an AI coding tool has made file changes but should not commit yet.
+
+The goal is to make review fast, complete, and copy/paste-safe:
+
+```text
+AI edits.
+AI validates.
+AI gathers status, diff, and checks.
+AI copies a review packet to the clipboard.
+Human pastes the packet into ChatGPT or another review channel.
+Human and reviewer inspect the same evidence.
+Human decides whether to commit, revise, or discard.
+```
+
+## When to use
+
+Use this workflow after tasks that modify:
+
+- source code
+- documentation
+- prompts
+- tests
+- repository structure
+- configuration
+- scripts
+- generated project files that are intended to be committed
+
+Use it especially when:
+
+- the user wants to review before commit
+- a task involves privacy, OPSEC, or publication hygiene
+- a task affects app behavior
+- a task affects build or signing configuration
+- a task creates a large diff
+- the user is coordinating review with ChatGPT
+
+## Relationship to project initialization
+
+This is a specialized workflow prompt.
+
+Do not load it during every session by default.
+
+Load it when the user asks for a review packet, clipboard handoff, human-in-the-loop review, HITL workflow, or pre-commit review bundle.
+
+## Required packet contents
+
+A review packet should include:
+
+- concise summary of what changed
+- validation commands run and whether they passed or failed
+- relevant grep, privacy, or OPSEC checks
+- git status using pager-safe output
+- diff stat using pager-safe output
+- relevant diff output using pager-safe output
+- suggested commit message
+- explicit note that no commit was made unless the user requested one
+
+Do not include:
+
+- generated build logs unless a failure needs review
+- full DerivedData output
+- ignored private files
+- secrets, tokens, private paths, private screenshots, or private health data
+- noisy unrelated diffs
+- pager output
+
+## Clipboard behavior
+
+Copy the review packet to the clipboard with pbcopy.
+
+When appropriate in the user's environment, an existing helper such as catcopy may also be used, but pbcopy is the portable macOS default.
+
+After copying the packet, tell the user:
+
+```text
+Review packet copied to clipboard.
+```
+
+## Review packet template
+
+Use this pattern and adjust the changed paths and checks to match the task:
+
+```bash
+{
+	printf '%s\n' 'Review packet'
+	printf '%s\n' '============='
+	printf '\n'
+
+	printf '%s\n' 'Summary'
+	printf '%s\n' '-------'
+	printf '%s\n' '<write concise task summary here>'
+	printf '\n'
+
+	printf '%s\n' 'Validation'
+	printf '%s\n' '----------'
+	printf '%s\n' '<list validation commands and pass/fail results here>'
+	printf '\n'
+
+	printf '%s\n' 'Checks'
+	printf '%s\n' '------'
+	printf '%s\n' '<list grep/privacy/OPSEC checks and results here>'
+	printf '\n'
+
+	printf '%s\n' 'Git status'
+	printf '%s\n' '----------'
+	git --no-pager status --short
+	printf '\n'
+
+	printf '%s\n' 'Diff stat'
+	printf '%s\n' '---------'
+	git --no-pager diff --stat
+	printf '\n'
+
+	printf '%s\n' 'Relevant diff'
+	printf '%s\n' '-------------'
+	git --no-pager diff -- README.md docs prompts shell scripts bin examples tests
+	printf '\n'
+
+	printf '%s\n' 'Suggested commit'
+	printf '%s\n' '----------------'
+	printf '%s\n' '<suggested commit message>'
+	printf '\n'
+
+	printf '%s\n' 'Commit status'
+	printf '%s\n' '-------------'
+	printf '%s\n' 'No commit was made.'
+} | pbcopy
+```
+
+## Source-code project example
+
+For source-code projects, include application source paths and project files as needed:
+
+```bash
+{
+	printf '%s\n' 'Review packet'
+	printf '%s\n' '============='
+	printf '\n'
+
+	printf '%s\n' 'Summary'
+	printf '%s\n' '-------'
+	printf '%s\n' '<write concise task summary here>'
+	printf '\n'
+
+	printf '%s\n' 'Validation'
+	printf '%s\n' '----------'
+	printf '%s\n' '<example: xcodebuild simulator build passed>'
+	printf '\n'
+
+	printf '%s\n' 'Checks'
+	printf '%s\n' '------'
+	printf '%s\n' '<example: privacy grep found no real medication names or private screenshots>'
+	printf '\n'
+
+	printf '%s\n' 'Git status'
+	printf '%s\n' '----------'
+	git --no-pager status --short
+	printf '\n'
+
+	printf '%s\n' 'Diff stat'
+	printf '%s\n' '---------'
+	git --no-pager diff --stat
+	printf '\n'
+
+	printf '%s\n' 'Relevant diff'
+	printf '%s\n' '-------------'
+	git --no-pager diff -- README.md docs prompts MedicationReminder MedicationReminder.xcodeproj
+	printf '\n'
+
+	printf '%s\n' 'Suggested commit'
+	printf '%s\n' '----------------'
+	printf '%s\n' '<suggested commit message>'
+	printf '\n'
+
+	printf '%s\n' 'Commit status'
+	printf '%s\n' '-------------'
+	printf '%s\n' 'No commit was made.'
+} | pbcopy
+```
+
+## Failure behavior
+
+If validation fails, the packet should include:
+
+- failing command
+- concise failure summary
+- relevant error excerpt
+- current pager-safe git status
+- relevant diff
+
+Do not paste the entire build log unless the user asks for it.
+
+For long build failures, include the smallest useful excerpt.
+
+## Review discipline
+
+The AI tool should not commit after preparing the packet unless the user explicitly asks it to commit.
+
+The packet is an evidence bundle for human review, not approval to proceed.
+
+The human decides the next action.

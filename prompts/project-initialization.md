@@ -130,6 +130,7 @@ Examples:
 - Load `repository-opsec-*` prompts when preparing, auditing, remediating, or publishing public repositories, public screenshots, logs, configs, media, or portfolio artifacts.
 - Load `filename-*` prompts when auditing, normalizing, or remediating filenames.
 - Load `script-*` prompts when initiating, auditing, or remediating script standards workflows.
+- Load `hitl-review-packet.md` when preparing clipboard-based human-in-the-loop review packets after file changes.
 
 When a specialized workflow has numbered phases, respect the phase boundaries.
 
@@ -206,6 +207,22 @@ Only suggest `PATH` changes when the task explicitly calls for installation or e
 Use canonical short file extensions when equivalent forms exist, such as `.jpg` instead of `.jpeg` and `.html` instead of `.htm`.
 
 Do not leave accidental trailing whitespace. Preserve intentional trailing whitespace only when a file format uses it semantically, such as Markdown hard line breaks.
+
+## ChatGPT code block safety
+
+When generating shell commands that create or modify Markdown files with heredocs, inspect the heredoc content before choosing the outer ChatGPT code fence.
+
+If the heredoc content contains Markdown code fences, the outer ChatGPT fence must be longer than the longest fence inside the generated content.
+
+For shell commands that generate Markdown files, prefer avoiding literal nested code fences in the ChatGPT response entirely. Use a script variable such as `fence = chr(96) * 3` to generate Markdown fences inside the output file rather than placing literal triple-backtick fences in the visible ChatGPT command block.
+
+This prevents ChatGPT's rendered answer from terminating the visible code block early.
+
+Never wrap heredoc-generating shell commands in a normal triple-backtick code block when the heredoc content itself contains triple-backtick Markdown fences.
+
+Principle:
+
+The outer ChatGPT fence must be longer than any fence inside the content being generated, or the visible command must avoid literal nested fences entirely.
 
 ## Markdown and copy/paste safety
 

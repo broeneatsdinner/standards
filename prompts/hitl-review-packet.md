@@ -89,6 +89,12 @@ Copy the review packet to the clipboard with pbcopy.
 
 When appropriate in the user's environment, an existing helper such as catcopy may also be used, but pbcopy is the portable macOS default.
 
+If the environment asks for command approval before running pbcopy, treat approval as a narrow clipboard-handoff approval for the HITL review packet only.
+
+When the session preference is set to always approve pbcopy for HITL review packets, do not ask the user in chat whether pbcopy should be approved. Proceed with the environment's approval flow if required.
+
+This approval does not apply to unrelated commands, shell actions, file writes, network access, destructive actions, or arbitrary clipboard use.
+
 After copying the packet, tell the user:
 
 ```text

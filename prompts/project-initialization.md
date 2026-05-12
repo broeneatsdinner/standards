@@ -92,6 +92,7 @@ Session preferences may include:
 - commit behavior: ask before commit / commit only when explicitly instructed
 - validation behavior: run relevant validation before review packet / validation only when requested
 - clipboard behavior: copy review packets with pbcopy / do not copy review packets
+- clipboard approval behavior: always approve pbcopy for HITL review packets / ask each time
 
 After successfully loading the standing standards cascade, ask:
 
@@ -101,6 +102,7 @@ If the user says yes, load `prompts/hitl-review-packet.md` immediately and set t
 
 - HITL review packets: on
 - clipboard review packet: on
+- clipboard approval behavior: always approve pbcopy for HITL review packets when the environment asks for that narrow approval
 - commit behavior: commit only when explicitly instructed
 - validation behavior: run relevant validation before review packet
 
@@ -138,6 +140,10 @@ Accepted update command examples:
 	set session preference HITL review packets: off
 	set session preference clipboard review packet: on
 	set session preference clipboard review packet: off
+	set session preference pbcopy approval for HITL packets: always approve
+	set session preference pbcopy approval for HITL packets: ask each time
+
+The pbcopy approval preference is narrow. It applies only to copying the HITL review packet to the macOS clipboard when HITL review packets and clipboard review packets are enabled. It is not permission to approve unrelated commands, shell actions, file writes, network access, destructive actions, or arbitrary clipboard use.
 
 Do not require HITL workflow for read-only tasks, explanation-only tasks, or tasks where the user explicitly asks for direct commit behavior.
 

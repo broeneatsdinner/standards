@@ -1,5 +1,16 @@
 # HITL Review Packet Prompt
 
+## Invocation instructions
+
+Use this prompt when a Codex or AI coding session should prepare clipboard-based human-in-the-loop review packets before commit decisions.
+
+Copy/paste instruction:
+
+	Apply the loaded project standards.
+	Load prompts/hitl-review-packet.md.
+	Use the HITL review packet workflow before commit decisions in this session.
+	Do not commit until I review the packet and explicitly approve the commit.
+
 ## Purpose
 
 This prompt defines a human-in-the-loop review packet workflow for Codex and other repository-aware AI coding tools.

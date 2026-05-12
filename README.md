@@ -229,12 +229,6 @@ assets/
 
 The `examples/` directory is intentionally present as a planned expansion area.
 
-## Core principle
-
-A well-structured system should not require explanation.
-
-If explanation is required, the structure is part of the problem.
-
 ## Human-in-the-loop AI review workflow
 
 This repository includes a reusable human-in-the-loop review workflow for AI-assisted development.
@@ -265,3 +259,9 @@ The project initialization prompt advertises this as an optional session workflo
 ```text
 show session preferences
 ```
+
+## Core principle
+
+A well-structured system should not require explanation.
+
+If explanation is required, the structure is part of the problem.

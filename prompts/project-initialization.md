@@ -108,7 +108,9 @@ After the user answers yes, do not require the user to restate the HITL workflow
 
 If the user says no, continue with ordinary review behavior.
 
-After each completed task, include this reminder:
+When asking the HITL session-preference question, ask the question first and wait for the user's yes/no answer before showing the session-preference reminder.
+
+After handling the user's answer, and after each later completed task, include this reminder as the final note:
 
 To see or change current session preferences, type:
 

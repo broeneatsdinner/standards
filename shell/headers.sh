@@ -3,8 +3,8 @@
 # --    headers.sh    --
 # ----------------------
 
-# Shared graphical header helpers.
-#
+# description: Provide shared graphical header helpers.
+
 # This file is meant to be sourced by other shell scripts, not run directly.
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

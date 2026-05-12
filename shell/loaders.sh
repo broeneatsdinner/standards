@@ -3,8 +3,8 @@
 # --    loaders.sh    --
 # ----------------------
 
-# Shared loader and spinner helpers.
-#
+# description: Provide shared loader and spinner helpers.
+
 # This file is meant to be sourced by other shell scripts, not run directly.
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

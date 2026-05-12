@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2034
 # ---------------------
 # --    colors.sh    --
 # ---------------------
 
-# Shared terminal color definitions and color construction helpers.
-#
+# description: Provide shared terminal color definitions and color construction helpers.
+
 # This file is meant to be sourced by other shell scripts, not run directly.
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
@@ -13,8 +12,9 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 	exit 1
 fi
 
-# Convert a six-character HEX color value to an ANSI truecolor foreground
-# escape.
+# ansi_from_hex - convert a HEX color value to an ANSI truecolor foreground escape.
+# usage:
+#   ansi_from_hex "#00aaab"
 ansi_from_hex() {
 	local hex="$1"
 	local r

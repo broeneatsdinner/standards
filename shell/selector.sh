@@ -3,8 +3,8 @@
 # --    selector.sh    --
 # -----------------------
 
-# Shared terminal selector helpers.
-#
+# description: Provide shared terminal selector helpers.
+
 # This file is meant to be sourced by other shell scripts, not run directly.
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

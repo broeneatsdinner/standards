@@ -3,8 +3,8 @@
 # --    text-effects.sh    --
 # ---------------------------
 
-# Shared terminal text-effect helpers.
-#
+# description: Provide shared terminal text-effect helpers.
+
 # This file is meant to be sourced by other shell scripts, not run directly.
 
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then

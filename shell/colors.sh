@@ -37,7 +37,7 @@ ansi_from_hex() {
 ACID_BLUE_HEX="#00aaab"
 ACID_GREEN_HEX="#55fd57"
 
-if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
+if [[ -z "${NO_COLOR:-}" && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
 	RESET=$'\033[0m'
 	BOLD=$'\033[1m'
 	DIM=$'\033[2m'

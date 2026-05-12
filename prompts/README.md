@@ -113,3 +113,35 @@ Any deviation should be intentional, not accidental.
 ## Specialized workflow prompts
 
 - `hitl-review-packet.md` — specialized human-in-the-loop review packet workflow for clipboard-based pre-commit review.
+
+## Human-in-the-loop review packets
+
+The HITL review packet workflow is available for Codex and other repository-aware AI coding sessions.
+
+Use it when an AI tool has made changes but the operator wants to review before commit.
+
+Typical session flow:
+
+```text
+Apply the project initialization standard.
+Answer yes when asked whether to use HITL review packets.
+Give Codex a scoped task.
+Codex edits, validates, and copies a review packet with pbcopy.
+Paste the review packet into ChatGPT for shared review.
+Approve revisions or commit explicitly.
+```
+
+The workflow prompt is:
+
+```text
+prompts/hitl-review-packet.md
+```
+
+Useful session command:
+
+```text
+show session preferences
+```
+
+Use this workflow for implementation tasks, privacy-sensitive changes, OPSEC-sensitive reviews, large diffs, generated project files, or any change where the human wants review before commit.
+

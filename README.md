@@ -234,3 +234,34 @@ The `examples/` directory is intentionally present as a planned expansion area.
 A well-structured system should not require explanation.
 
 If explanation is required, the structure is part of the problem.
+
+## Human-in-the-loop AI review workflow
+
+This repository includes a reusable human-in-the-loop review workflow for AI-assisted development.
+
+The workflow is designed for local Codex sessions, ChatGPT review, and operator-controlled commits:
+
+```text
+Codex loads project standards.
+Codex asks whether HITL review packets should be used for the session.
+Codex makes scoped edits.
+Codex runs validation and review commands.
+Codex copies a review packet to the clipboard.
+The operator pastes the packet into ChatGPT or another review channel.
+The operator and reviewer inspect the same evidence.
+The operator explicitly approves revision, discard, or commit.
+```
+
+This keeps AI useful for implementation while preserving human control over repository state, privacy boundaries, validation evidence, and commit decisions.
+
+The specialized prompt for this workflow is:
+
+```text
+prompts/hitl-review-packet.md
+```
+
+The project initialization prompt advertises this as an optional session workflow and supports session preference checks with:
+
+```text
+show session preferences
+```

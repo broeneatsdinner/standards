@@ -87,15 +87,24 @@ Do not include:
 
 Copy the review packet to the clipboard with pbcopy.
 
-Prefer heredoc form for macOS clipboard packets:
+Prefer writing the review packet to a stable temporary file first, then copying from that file with a short pbcopy command:
 
 ```bash
-pbcopy <<'EOF'
+packet_file="/tmp/hitl-review-packet.txt"
+
+cat > "$packet_file" <<'EOF'
 <review packet content>
 EOF
+
+pbcopy < "$packet_file"
 ```
 
-Prefer this over piping a generated command group into pbcopy, because some approval systems recognize commands by their starting command. A command that starts with `pbcopy` is easier to identify as the narrow clipboard handoff than a long generated command ending in `| pbcopy`.
+This has two advantages:
+
+- if clipboard approval fails or is interrupted, the review packet still exists on disk
+- the clipboard command remains short, stable, and clearly scoped to the HITL packet handoff
+
+Prefer this over piping a generated command group into pbcopy, because some approval systems evaluate the whole generated command rather than only the final `pbcopy` process.
 
 When appropriate in the user's environment, an existing helper such as catcopy may also be used, but pbcopy is the portable macOS default.
 

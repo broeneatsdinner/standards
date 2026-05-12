@@ -33,6 +33,10 @@ ansi_from_hex() {
 		"$((16#$b))"
 }
 
+# Palette tokens
+ACID_BLUE_HEX="#00aaab"
+ACID_GREEN_HEX="#55fd57"
+
 if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
 	RESET=$'\033[0m'
 	BOLD=$'\033[1m'
@@ -55,6 +59,9 @@ if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
 	BRIGHT_MAGENTA=$'\033[95m'
 	BRIGHT_CYAN=$'\033[96m'
 	BRIGHT_WHITE=$'\033[97m'
+
+	ACID_BLUE="$(ansi_from_hex "$ACID_BLUE_HEX")"
+	ACID_GREEN="$(ansi_from_hex "$ACID_GREEN_HEX")"
 
 	ICE="$BRIGHT_CYAN"
 	MUTED="$DIM"
@@ -83,6 +90,9 @@ else
 	BRIGHT_MAGENTA=""
 	BRIGHT_CYAN=""
 	BRIGHT_WHITE=""
+
+	ACID_BLUE=""
+	ACID_GREEN=""
 
 	ICE=""
 	MUTED=""

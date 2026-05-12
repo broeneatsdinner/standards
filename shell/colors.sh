@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # ---------------------
 # --    colors.sh    --
 # ---------------------
 
-# Shared terminal color definitions.
+# Shared terminal color definitions and color construction helpers.
 #
 # This file is meant to be sourced by other shell scripts, not run directly.
 
@@ -11,6 +12,26 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 	printf '%s\n' "This file is meant to be sourced, not run directly."
 	exit 1
 fi
+
+# Convert a six-character HEX color value to an ANSI truecolor foreground
+# escape.
+ansi_from_hex() {
+	local hex="$1"
+	local r
+	local g
+	local b
+
+	hex="${hex#"#"}"
+
+	r="$(printf '%s' "$hex" | cut -c 1-2)"
+	g="$(printf '%s' "$hex" | cut -c 3-4)"
+	b="$(printf '%s' "$hex" | cut -c 5-6)"
+
+	printf '\033[38;2;%d;%d;%dm' \
+		"$((16#$r))" \
+		"$((16#$g))" \
+		"$((16#$b))"
+}
 
 if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
 	RESET=$'\033[0m'

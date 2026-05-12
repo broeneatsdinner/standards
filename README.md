@@ -191,7 +191,7 @@ prompts/
 
 shell/
     reusable implementation components, helpers, loaders, colors, headers,
-    selectors, and text effects
+    terminal text helpers, selectors, and text effects
 
 directory_structures/
     starting structures, project skeletons, and reusable filesystem layouts

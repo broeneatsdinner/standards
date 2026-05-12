@@ -11,6 +11,7 @@ Planned public shell components:
 ```text
 shell/colors.sh
 shell/terminal.sh
+shell/terminal-text.sh
 shell/loaders.sh
 shell/output.sh
 shell/text-effects.sh
@@ -25,6 +26,7 @@ shell/headers.sh
 It should provide:
 
 - canonical hex palette tokens
+- HEX-to-ANSI foreground conversion
 - generated shell truecolor ANSI output
 - terminal-ready shell variables for scripts and prompts
 - semantic color aliases
@@ -49,6 +51,19 @@ It should provide:
 - cleanup/trap primitives
 
 Terminal cleanup should be reusable by loaders, selectors, and any shell UI that temporarily changes terminal state.
+
+### shell/terminal-text.sh
+
+`shell/terminal-text.sh` owns ANSI-aware visible-width and padding helpers for colored terminal output.
+
+It should provide:
+
+- ANSI escape stripping
+- visible string length helpers
+- visible-width-aware padding helpers
+- padded label/value output helpers
+
+These helpers should stay separate from `shell/text-effects.sh`, which owns animation rather than terminal text layout.
 
 ### shell/loaders.sh
 

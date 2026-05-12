@@ -38,6 +38,9 @@ The generated escape sequences belong in reusable library files such as:
 shell/colors.sh
 ```
 
+`shell/colors.sh` should also provide HEX-to-ANSI foreground conversion helpers
+so scripts can derive truecolor terminal escapes from canonical hex tokens.
+
 ## Naming
 
 Use semantic names when the color represents meaning.

@@ -110,6 +110,20 @@ If the user says no, continue with ordinary review behavior.
 
 When asking the HITL session-preference question, ask the question first and wait for the user's yes/no answer before showing the session-preference reminder.
 
+Required user questions should be visually distinct and placed at the end of the response. Prefix required questions with `>` so they visually match actionable Codex prompt conventions. If Markdown emphasis is supported, bold the full question. Do not tab-indent required questions.
+
+Preferred form:
+
+```text
+**> Do you want to use the HITL review packet workflow before commits in this session?**
+```
+
+Plain-text fallback:
+
+```text
+> Do you want to use the HITL review packet workflow before commits in this session?
+```
+
 After handling the user's answer, and after each later completed task, include this reminder as the final note:
 
 To see or change current session preferences, type:

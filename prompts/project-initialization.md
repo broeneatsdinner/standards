@@ -262,7 +262,7 @@ The outer ChatGPT fence must be longer than any fence inside the content being g
 
 ## Markdown and copy/paste safety
 
-When generating copy/paste Markdown that contains nested code fences, use longer outer fences such as four backticks so the rendered answer does not break.
+When generating copy/paste Markdown that contains nested code fences, use an outer fence longer than any inner fence. For ChatGPT responses, prefer five backticks or avoid literal nested fences entirely by generating Markdown fences from variables such as `chr(96) * 3`.
 
 Do not replace intentional Markdown hard-break spacing with HTML `<br>` tags unless a project explicitly uses that style.
 

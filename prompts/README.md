@@ -109,3 +109,7 @@ When adding or changing an OPSEC-related standard, workflow, doctrine, or submod
 If the new or changed document defines an exposure surface, review step, publication workflow, asset handling procedure, or safety requirement, the repository OPSEC audit prompt should incorporate or reference it.
 
 Any deviation should be intentional, not accidental.
+
+## Specialized workflow prompts
+
+- `hitl-review-packet.md` — specialized human-in-the-loop review packet workflow for clipboard-based pre-commit review.

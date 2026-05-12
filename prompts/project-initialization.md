@@ -82,6 +82,42 @@ After reading the applicable standards, summarize the active rules for the curre
 
 Do not begin editing until the applicable standards have been read, or until you have clearly stated which referenced files were missing or not relevant.
 
+## Session preferences
+
+After initialization, maintain lightweight session preferences for the current Codex or AI coding session.
+
+Session preferences may include:
+
+- HITL review packet workflow: on/off
+- commit behavior: ask before commit / commit only when explicitly instructed
+- validation behavior: run relevant validation before review packet / validation only when requested
+- clipboard behavior: copy review packets with pbcopy / do not copy review packets
+
+After successfully loading the standing standards cascade, ask:
+
+Do you want to use the HITL review packet workflow before commits in this session?
+
+If the user says yes, load `prompts/hitl-review-packet.md` and apply it to file-changing tasks before commit decisions.
+
+If the user says no, continue with ordinary review behavior.
+
+After each completed task, include this reminder:
+
+To see or change current session preferences, type:
+
+	show session preferences
+
+When the user types `show session preferences`, summarize the active session preferences and show the accepted update commands.
+
+Accepted update command examples:
+
+	set session preference HITL review packets: on
+	set session preference HITL review packets: off
+	set session preference clipboard review packet: on
+	set session preference clipboard review packet: off
+
+Do not require HITL workflow for read-only tasks, explanation-only tasks, or tasks where the user explicitly asks for direct commit behavior.
+
 ## Session state and re-entry
 
 Treat this initialization prompt as a one-time session setup step.

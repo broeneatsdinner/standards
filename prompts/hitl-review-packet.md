@@ -217,6 +217,15 @@ For source-code projects, include application source paths and project files as 
 
 At the end of the packet, include the final human-facing review note or wrap-up that the AI would normally show in chat.
 
+The AI review note should be the same final natural-language response that the AI prints to the user after preparing the packet. Do not create a separate paraphrase for the clipboard packet and a different final response for chat.
+
+A good workflow is:
+
+1. Compose the final human-facing review note.
+2. Include that exact note in the packet under `AI review note`.
+3. Copy the packet to the clipboard.
+4. Print the same final note in chat, followed by any required session-preference reminder.
+
 This note should preserve the AI's concise judgment, findings, recommendation, and next-step guidance.
 
 It should not duplicate the full diff or large logs already included elsewhere in the packet.

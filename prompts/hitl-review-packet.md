@@ -87,6 +87,16 @@ Do not include:
 
 Copy the review packet to the clipboard with pbcopy.
 
+Prefer heredoc form for macOS clipboard packets:
+
+```bash
+pbcopy <<'EOF'
+<review packet content>
+EOF
+```
+
+Prefer this over piping a generated command group into pbcopy, because some approval systems recognize commands by their starting command. A command that starts with `pbcopy` is easier to identify as the narrow clipboard handoff than a long generated command ending in `| pbcopy`.
+
 When appropriate in the user's environment, an existing helper such as catcopy may also be used, but pbcopy is the portable macOS default.
 
 If the environment asks for command approval before running pbcopy, treat approval as a narrow clipboard-handoff approval for the HITL review packet only.

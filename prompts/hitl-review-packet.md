@@ -71,6 +71,7 @@ A review packet should include:
 - relevant diff output using pager-safe output
 - suggested commit message
 - explicit note that no commit was made unless the user requested one
+- final human-facing review note or wrap-up that the AI would normally show in chat
 
 Do not include:
 
@@ -80,6 +81,7 @@ Do not include:
 - secrets, tokens, private paths, private screenshots, or private health data
 - noisy unrelated diffs
 - pager output
+- duplicate full diffs in both the structured evidence and the final review note
 
 ## Clipboard behavior
 
@@ -138,6 +140,11 @@ Use this pattern and adjust the changed paths and checks to match the task:
 	printf '%s\n' '<suggested commit message>'
 	printf '\n'
 
+	printf '%s\n' 'AI review note'
+	printf '%s\n' '--------------'
+	printf '%s\n' '<include the final human-facing review note or wrap-up here>'
+	printf '\n'
+
 	printf '%s\n' 'Commit status'
 	printf '%s\n' '-------------'
 	printf '%s\n' 'No commit was made.'
@@ -189,11 +196,35 @@ For source-code projects, include application source paths and project files as 
 	printf '%s\n' '<suggested commit message>'
 	printf '\n'
 
+	printf '%s\n' 'AI review note'
+	printf '%s\n' '--------------'
+	printf '%s\n' '<include the final human-facing review note or wrap-up here>'
+	printf '\n'
+
 	printf '%s\n' 'Commit status'
 	printf '%s\n' '-------------'
 	printf '%s\n' 'No commit was made.'
 } | pbcopy
 ```
+
+## Final review note
+
+At the end of the packet, include the final human-facing review note or wrap-up that the AI would normally show in chat.
+
+This note should preserve the AI's concise judgment, findings, recommendation, and next-step guidance.
+
+It should not duplicate the full diff or large logs already included elsewhere in the packet.
+
+For example, the note may include:
+
+- whether findings are blockers or non-blockers
+- whether remaining issues are acceptable for the stated scope
+- whether validation passed
+- whether the review packet was copied
+- whether a commit was intentionally not made
+- the current session-preference reminder when applicable
+
+The review packet should therefore contain both structured evidence and the AI's final interpretation of that evidence.
 
 ## Failure behavior
 

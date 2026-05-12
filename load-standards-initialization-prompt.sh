@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # -----------------------------------------
-# --    load-initialization-prompt.sh    --
+# --    load-standards-initialization-prompt.sh    --
 # -----------------------------------------
 # description: Print and copy the standard project initialization prompt.
 #

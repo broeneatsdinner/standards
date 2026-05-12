@@ -97,7 +97,14 @@ After successfully loading the standing standards cascade, ask:
 
 Do you want to use the HITL review packet workflow before commits in this session?
 
-If the user says yes, load `prompts/hitl-review-packet.md` and apply it to file-changing tasks before commit decisions.
+If the user says yes, load `prompts/hitl-review-packet.md` immediately and set these session preferences:
+
+- HITL review packets: on
+- clipboard review packet: on
+- commit behavior: commit only when explicitly instructed
+- validation behavior: run relevant validation before review packet
+
+After the user answers yes, do not require the user to restate the HITL workflow instructions. Apply the loaded HITL review packet workflow automatically to later file-changing tasks before commit decisions.
 
 If the user says no, continue with ordinary review behavior.
 

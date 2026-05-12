@@ -59,6 +59,48 @@ Do not load it during every session by default.
 
 Load it when the user asks for a review packet, clipboard handoff, human-in-the-loop review, HITL workflow, or pre-commit review bundle.
 
+## Required packet format
+
+Use the following packet headings exactly, in this order, unless the user explicitly asks for a different packet format:
+
+```text
+Review packet
+=============
+
+Summary
+-------
+
+Validation
+----------
+
+Checks
+------
+
+Git status
+----------
+
+Diff stat
+---------
+
+Relevant diff
+-------------
+
+Suggested commit
+----------------
+
+AI review note
+--------------
+
+Commit status
+-------------
+```
+
+Do not rename these headings to alternatives such as `HITL Review Packet`, `Task`, `Files Changed`, `Pager-Safe Status`, or `Suggested Commit Message`.
+
+Additional sections may be added only when they materially improve review, but the required headings and order should remain stable.
+
+The `AI review note` section must contain the same final natural-language response that the AI prints in chat after copying the packet. Do not substitute a shorter note, separate paraphrase, or different bullet summary in the clipboard packet.
+
 ## Required packet contents
 
 A review packet should include:

@@ -19,6 +19,8 @@ If that path is unavailable, use the public standards repository URL supplied fo
 
 https://github.com/broeneatsdinner/standards
 
+If using the public GitHub repository, do not rely on stale cached content. Fetch the referenced files from the current default branch using raw URLs with a cache-busting query string, such as `?t=<current-timestamp>`, or otherwise verify that the content reflects the latest pushed version before applying it.
+
 Read prompts/project-initialization.md first. Then read the referenced standards cascade. If standards may have changed recently, re-fetch the relevant files from the standards repository before applying them. After reading the applicable standards, summarize the active rules for the current task before making edits or giving implementation instructions.
 
 Do not modify files until the applicable standards have been read or until you have clearly stated which referenced files were unavailable or not relevant.
@@ -44,6 +46,8 @@ If that path does not exist or is not accessible, use the public standards repos
 
 When operating in a remote or temporary environment, clone or inspect the public repository before applying standards, unless the user explicitly says not to fetch it.
 
+When using the public GitHub repository, do not rely on stale cached content. Fetch referenced files from the current default branch using raw GitHub URLs with a cache-busting query string, such as `?t=<current-timestamp>`, or otherwise verify that the content reflects the latest pushed version before applying it.
+
 ## Standards freshness
 
 When using a local standards repository, use the current working copy as the source of truth by default.
@@ -55,6 +59,8 @@ Do not perform network fetches merely because the latest local commit is recent.
 Keep initialization fast and local-first while still allowing freshness checks when they actually matter.
 
 When using a public web source, prefer the latest default-branch content. If the user indicates that the standards were recently updated, re-fetch the relevant files instead of relying on cached conversation context.
+
+When using public GitHub raw files, add a cache-busting query string such as `?t=<current-timestamp>` or otherwise verify freshness against the current default branch before applying standards.
 
 Do not assume previously loaded standards are current after the user says the repository has changed.
 
@@ -71,6 +77,8 @@ Prefer:
 ```
 
 If that path is unavailable, use the public standards repository URL supplied by the user or session.
+
+If using the public GitHub repository, fetch current default-branch content and avoid stale cached file views.
 
 Then read this file from the standards repository.
 
@@ -230,6 +238,8 @@ Use the standards already present in the conversation first.
 If the standards repository is not present in the conversation, use uploaded standards files, current conversation context, or the public standards repository URL supplied by the user.
 
 When using a public repository source, read `prompts/project-initialization.md` first, then read the referenced standards cascade.
+
+When using the public GitHub repository from ChatGPT, avoid stale cached views. Fetch raw default-branch files with cache-busting query strings such as `?t=<current-timestamp>`, or otherwise verify that the file content reflects the latest pushed version before applying it.
 
 Summarize the active standards before giving project-specific code or modification instructions.
 

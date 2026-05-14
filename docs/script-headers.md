@@ -95,7 +95,63 @@ The top and bottom lines must:
 
 - start with `# `
 - continue with `-`
-- match the exact character length of the middle line
+- match the exact total character length of the middle line
+
+Do not count only the filename.
+
+Do not visually estimate.
+
+Count the full middle line, including:
+
+- `# `
+- the opening `--`
+- all padding spaces
+- the filename
+- the closing `--`
+
+The border line also starts with `# `. Therefore, the dash run is the total
+length of the middle line minus 2.
+
+Formula:
+
+```text
+dash_count = length(middle_line) - 2
+```
+
+Example:
+
+```bash
+# --    aliases    --
+```
+
+The middle line is 21 characters total.
+
+Because the border line starts with `# `, which is 2 characters, the dash run
+must be 19 dashes:
+
+```text
+2 characters for "# "
+19 characters for "-------------------"
+= 21 total characters
+```
+
+Therefore the correct header is:
+
+```bash
+# -------------------
+# --    aliases    --
+# -------------------
+```
+
+A Bash-safe way to generate the border from the middle line:
+
+```bash
+middle="# --    aliases    --"
+dash_count=$((${#middle} - 2))
+border="# $(printf '%*s' "$dash_count" '' | tr ' ' '-')"
+
+printf '%s\n%s\n%s\n' "$border" "$middle" "$border"
+```
 
 Good:
 
@@ -114,7 +170,7 @@ Also good:
 ```
 
 Do not hand-guess the number of dashes. Count the middle line first, then create
-top and bottom border lines of the same length.
+top and bottom border lines of the same total length.
 
 ## Description metadata
 
@@ -185,7 +241,7 @@ boundary it owns, and any platform assumptions or side effects that matter.
 #
 # This file is meant to be run directly with Bash, not sourced:
 #
-#	bash ~/.dotfiles/macos
+# bash ~/.dotfiles/macos
 #
 # Re-run it whenever you want to reapply these macOS settings.
 # Some changes may require quitting/reopening affected apps, logging out,
@@ -218,7 +274,12 @@ boundary it owns, and any platform assumptions or side effects that matter.
   exists.
 - Generate top and bottom graphical-header borders from the measured length of
   the middle line.
+- Make the total character length of the top and bottom border lines exactly
+  match the total character length of the middle line.
+- Calculate the dash run as `length(middle_line) - 2` because the border line
+  starts with `# `.
 - Do not hand-guess graphical-header border length.
+- Do not visually estimate graphical-header border length.
 - Put `# description:` before longer explanatory paragraphs.
 - Keep `# description:` as a single metadata line unless there is a specific
   project reason to wrap it.

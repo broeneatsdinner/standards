@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# ---------------------------------------------------
-# --    load-standards-initialization-prompt.sh    --
-# ---------------------------------------------------
-# description: Print and copy the standard project initialization prompt.
+# ---------------------------------------------------------------
+# --    load-google-sheets-rate-limit-conscious-workflow.sh    --
+# ---------------------------------------------------------------
+# description: Print and copy the Google Sheets rate-limit-conscious workflow prompt.
 #
 # This script extracts the first fenced text block from
-# prompts/project-initialization.md, prints it to stdout, and copies it to the
-# macOS clipboard when pbcopy is available.
+# prompts/google-sheets-rate-limit-conscious-workflow.md, prints it to stdout,
+# and copies it to the macOS clipboard when pbcopy is available.
 #
 # It can be run from the standards repository root or through a symlink from
 # another directory.
@@ -29,7 +29,7 @@ done
 SCRIPT_DIR="$(cd -P "$(dirname "$script_path")" && pwd)"
 readonly SCRIPT_DIR
 
-PROMPT_FILE="$SCRIPT_DIR/prompts/project-initialization.md"
+PROMPT_FILE="$SCRIPT_DIR/prompts/google-sheets-rate-limit-conscious-workflow.md"
 readonly PROMPT_FILE
 
 # Print an error message to stderr and exit non-zero.
@@ -96,7 +96,7 @@ need_cmd python3
 
 [ -f "$PROMPT_FILE" ] || fail "Prompt file not found: $PROMPT_FILE"
 
-prompt="$(extract_prompt)" || fail "Could not extract initialization prompt"
+prompt="$(extract_prompt)" || fail "Could not extract Google Sheets workflow prompt"
 
 print_banner "actual prompt shown below"
 printf '\n'
@@ -105,7 +105,7 @@ printf '\n'
 
 if command -v pbcopy >/dev/null 2>&1; then
 	printf '%s\n' "$prompt" | pbcopy
-	print_banner "Copied the above initialization prompt to clipboard."
+	print_banner "Copied the above Google Sheets workflow to clipboard."
 else
 	print_banner "pbcopy not found; prompt was printed but not copied."
 fi

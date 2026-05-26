@@ -120,6 +120,11 @@ The HITL review packet workflow is available for Codex and other repository-awar
 
 Use it when an AI tool has made changes but the operator wants to review before commit.
 
+Clipboard review packets must preserve the final operator-visible assistant
+response exactly as the operator sees it, including visible list and multiline
+block structure. The normative payload rule lives in
+`prompts/hitl-review-packet.md`.
+
 Typical session flow:
 
 ```text
@@ -144,4 +149,3 @@ show session preferences
 ```
 
 Use this workflow for implementation tasks, privacy-sensitive changes, OPSEC-sensitive reviews, large diffs, generated project files, or any change where the human wants review before commit.
-

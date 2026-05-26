@@ -116,6 +116,12 @@ If the user says yes, load `prompts/hitl-review-packet.md` immediately and set t
 
 After the user answers yes, do not require the user to restate the HITL workflow instructions. Apply the loaded HITL review packet workflow automatically to later file-changing tasks before commit decisions.
 
+When the HITL workflow is active, clipboard review packets must follow the
+final-response payload rule in `prompts/hitl-review-packet.md`: the packet's
+final-response payload is the verbatim final operator-visible assistant
+response, including visible list and multiline block structure, not an
+internal summary or rewritten note.
+
 If the user says no, continue with ordinary review behavior.
 
 When asking the HITL session-preference question, ask the question first and wait for the user's yes/no answer before showing the session-preference reminder.

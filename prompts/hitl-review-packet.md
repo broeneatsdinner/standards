@@ -88,18 +88,48 @@ Relevant diff
 Suggested commit
 ----------------
 
-AI review note
---------------
+Final operator-visible response
+-------------------------------
 
 Commit status
 -------------
 ```
 
-Do not rename these headings to alternatives such as `HITL Review Packet`, `Task`, `Files Changed`, `Pager-Safe Status`, or `Suggested Commit Message`.
+Do not rename these headings to alternatives such as `HITL Review Packet`,
+`Task`, `Files Changed`, `Pager-Safe Status`, `Suggested Commit Message`, or
+older note-style headings.
 
 Additional sections may be added only when they materially improve review, but the required headings and order should remain stable.
 
-The `AI review note` section must contain the same final natural-language response that the AI prints in chat after copying the packet. Do not substitute a shorter note, separate paraphrase, or different bullet summary in the clipboard packet.
+## Final response payload rule
+
+The `Final operator-visible response` section content is a payload, not a note
+to be rewritten.
+
+The final-response payload MUST be the exact final operator-visible assistant
+response text that the AI will print in chat after copying the packet.
+
+Use the operator-visible final response, not an internal summary, separate
+note, tool summary, or alternate representation.
+
+Do not prepend old note-style labels inside the payload.
+
+Do not paraphrase, summarize, normalize prose, collapse bulleted or numbered
+lists into paragraphs, remove or rewrite section headers, remove blank lines,
+change indentation, remove validation blocks, remove fenced or code-like
+blocks, remove footer lines, or otherwise change visible structure.
+
+If the final operator-visible response includes the required
+`Review packet copied to clipboard.` status line, a validation summary, caveats,
+next steps, bulleted lists, numbered lists, indented blocks, fenced or
+code-like blocks, or a session-preference reminder, include those lines and
+their visible structure in the payload exactly as they will appear in chat.
+
+Preserve line breaks and formatting exactly.
+
+The only acceptable transformation is stripping ANSI or other control
+sequences when necessary for safe clipboard transport. Otherwise, the text must
+remain exact.
 
 ## Required packet contents
 
@@ -113,7 +143,7 @@ A review packet should include:
 - relevant diff output using pager-safe output
 - suggested commit message
 - explicit note that no commit was made unless the user requested one
-- final human-facing review note or wrap-up that the AI would normally show in chat
+- verbatim final operator-visible assistant response that the AI prints in chat
 
 Do not include:
 
@@ -123,7 +153,8 @@ Do not include:
 - secrets, tokens, private paths, private screenshots, or private health data
 - noisy unrelated diffs
 - pager output
-- duplicate full diffs in both the structured evidence and the final review note
+- duplicate full diffs in both the structured evidence and the final
+  operator-visible response
 
 ## Clipboard behavior
 
@@ -162,11 +193,17 @@ After copying the packet, tell the user:
 Review packet copied to clipboard.
 ```
 
+If that status line is part of the final operator-visible response, it must
+also be present in the `Final operator-visible response` payload in the review
+packet.
+
 ## Review packet template
 
 Use this pattern and adjust the changed paths and checks to match the task:
 
 ```bash
+packet_file="/tmp/hitl-review-packet.txt"
+
 {
 	printf '%s\n' 'Review packet'
 	printf '%s\n' '============='
@@ -207,15 +244,19 @@ Use this pattern and adjust the changed paths and checks to match the task:
 	printf '%s\n' '<suggested commit message>'
 	printf '\n'
 
-	printf '%s\n' 'AI review note'
-	printf '%s\n' '--------------'
-	printf '%s\n' '<include the final human-facing review note or wrap-up here>'
+	printf '%s\n' 'Final operator-visible response'
+	printf '%s\n' '-------------------------------'
+	cat <<'FINAL_RESPONSE'
+<paste the exact final operator-visible response text here>
+FINAL_RESPONSE
 	printf '\n'
 
 	printf '%s\n' 'Commit status'
 	printf '%s\n' '-------------'
 	printf '%s\n' 'No commit was made.'
-} | pbcopy
+} > "$packet_file"
+
+pbcopy < "$packet_file"
 ```
 
 ## Source-code project example
@@ -223,6 +264,8 @@ Use this pattern and adjust the changed paths and checks to match the task:
 For source-code projects, include application source paths and project files as needed:
 
 ```bash
+packet_file="/tmp/hitl-review-packet.txt"
+
 {
 	printf '%s\n' 'Review packet'
 	printf '%s\n' '============='
@@ -263,35 +306,49 @@ For source-code projects, include application source paths and project files as 
 	printf '%s\n' '<suggested commit message>'
 	printf '\n'
 
-	printf '%s\n' 'AI review note'
-	printf '%s\n' '--------------'
-	printf '%s\n' '<include the final human-facing review note or wrap-up here>'
+	printf '%s\n' 'Final operator-visible response'
+	printf '%s\n' '-------------------------------'
+	cat <<'FINAL_RESPONSE'
+<paste the exact final operator-visible response text here>
+FINAL_RESPONSE
 	printf '\n'
 
 	printf '%s\n' 'Commit status'
 	printf '%s\n' '-------------'
 	printf '%s\n' 'No commit was made.'
-} | pbcopy
+} > "$packet_file"
+
+pbcopy < "$packet_file"
 ```
 
-## Final review note
+## Final operator-visible response
 
-At the end of the packet, include the final human-facing review note or wrap-up that the AI would normally show in chat.
+At the end of the packet, include the final operator-visible assistant response
+that the AI shows in chat.
 
-The AI review note should be the same final natural-language response that the AI prints to the user after preparing the packet. Do not create a separate paraphrase for the clipboard packet and a different final response for chat.
+This section is not an internal note. It is the exact final response the
+operator sees.
 
 A good workflow is:
 
-1. Compose the final human-facing review note.
-2. Include that exact note in the packet under `AI review note`.
+1. Compose the final operator-visible response.
+2. Include that exact response in the packet under `Final operator-visible response`.
 3. Copy the packet to the clipboard.
-4. Print the same final note in chat, followed by any required session-preference reminder.
+4. Print the same final response in chat.
 
-This note should preserve the AI's concise judgment, findings, recommendation, and next-step guidance.
+If a required session-preference reminder is part of what the operator sees at
+the end of the final response, include that reminder in the packet exactly as it
+will appear in chat.
 
-It should not duplicate the full diff or large logs already included elsewhere in the packet.
+The response MUST preserve the AI's concise judgment, findings,
+recommendation, next-step guidance, bulleted lists, numbered lists, blank
+lines, indentation, validation blocks, fenced or code-like blocks, footer
+lines, and visible structure.
 
-For example, the note may include:
+It should not duplicate the full diff or large logs already included elsewhere
+in the packet unless the final operator-visible response itself includes them.
+
+For example, the response may include:
 
 - whether findings are blockers or non-blockers
 - whether remaining issues are acceptable for the stated scope
@@ -300,7 +357,8 @@ For example, the note may include:
 - whether a commit was intentionally not made
 - the current session-preference reminder when applicable
 
-The review packet should therefore contain both structured evidence and the AI's final interpretation of that evidence.
+The review packet should therefore contain both structured evidence and the
+AI's final operator-visible interpretation of that evidence.
 
 ## Failure behavior
 

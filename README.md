@@ -248,6 +248,11 @@ The operator explicitly approves revision, discard, or commit.
 
 This keeps AI useful for implementation while preserving human control over repository state, privacy boundaries, validation evidence, and commit decisions.
 
+Clipboard review packets must use the verbatim final operator-visible assistant
+response for the final-response payload, including visible list and multiline
+block structure. They must not substitute an internal summary or rewritten
+note.
+
 The specialized prompt for this workflow is:
 
 ```text

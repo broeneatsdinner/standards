@@ -113,33 +113,45 @@ Any deviation should be intentional, not accidental.
 ## Specialized workflow prompts
 
 - `hitl-review-packet.md` — specialized human-in-the-loop review packet workflow for clipboard-based pre-commit review.
+- `transcript-handoff.md` — lightweight clipboard handoff workflow for the most recent operator prompt and terminal-visible assistant output.
 
-## Human-in-the-loop review packets
+## AI session handoff workflows
 
-The HITL review packet workflow is available for Codex and other repository-aware AI coding sessions.
+Two optional AI session handoff workflows are available for Codex and other
+repository-aware AI coding sessions.
 
-Use it when an AI tool has made changes but the operator wants to review before commit.
+Use the HITL review packet workflow when an AI tool has made changes but the
+operator wants structured review evidence before commit.
 
 Clipboard review packets must preserve the final operator-visible assistant
 response exactly as the operator sees it, including visible list and multiline
 block structure. The normative payload rule lives in
 `prompts/hitl-review-packet.md`.
 
+Use the transcript handoff workflow for routine iterative work when the
+operator only wants the most recent operator prompt and the terminal-visible
+assistant output copied verbatim for ChatGPT handoff.
+
+Transcript handoffs must not summarize, restructure, relabel, or add
+review-packet sections. The normative handoff rule lives in
+`prompts/transcript-handoff.md`.
+
 Typical session flow:
 
 ```text
 Apply the project initialization standard.
-Answer yes when asked whether to use HITL review packets.
+Choose HITL review packets, transcript handoff, or neither.
 Give Codex a scoped task.
-Codex edits, validates, and copies a review packet with pbcopy.
-Paste the review packet into ChatGPT for shared review.
-Approve revisions or commit explicitly.
+Codex follows the selected workflow when a review packet or transcript handoff is needed.
+Paste the clipboard artifact into ChatGPT for shared review.
+Approve revisions, request more work, or commit explicitly.
 ```
 
-The workflow prompt is:
+The workflow prompts are:
 
 ```text
 prompts/hitl-review-packet.md
+prompts/transcript-handoff.md
 ```
 
 Useful session command:
@@ -148,4 +160,10 @@ Useful session command:
 show session preferences
 ```
 
-Use this workflow for implementation tasks, privacy-sensitive changes, OPSEC-sensitive reviews, large diffs, generated project files, or any change where the human wants review before commit.
+Use HITL review packets for implementation tasks, privacy-sensitive changes,
+OPSEC-sensitive reviews, large diffs, generated project files, or any change
+where the human wants structured review before commit.
+
+Use transcript handoff for lighter routine work where the operator wants exact
+conversation context without structured validation, check, status, or diff
+sections.

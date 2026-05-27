@@ -229,20 +229,20 @@ assets/
 
 The `examples/` directory is intentionally present as a planned expansion area.
 
-## Human-in-the-loop AI review workflow
+## AI handoff workflows
 
-This repository includes a reusable human-in-the-loop review workflow for AI-assisted development.
+This repository includes reusable handoff workflows for AI-assisted development.
 
-The workflow is designed for local Codex sessions, ChatGPT review, and operator-controlled commits:
+The workflows are designed for local Codex sessions, ChatGPT review, and
+operator-controlled commits:
 
 ```text
 Codex loads project standards.
-Codex asks whether HITL review packets should be used for the session.
+Codex asks whether to use HITL review packets, transcript handoff, or neither.
 Codex makes scoped edits.
-Codex runs validation and review commands.
-Codex copies a review packet to the clipboard.
-The operator pastes the packet into ChatGPT or another review channel.
-The operator and reviewer inspect the same evidence.
+Codex follows the selected handoff workflow when a review artifact is needed.
+The operator pastes the artifact into ChatGPT or another review channel.
+The operator and reviewer inspect the same context or evidence.
 The operator explicitly approves revision, discard, or commit.
 ```
 
@@ -253,13 +253,20 @@ response for the final-response payload, including visible list and multiline
 block structure. They must not substitute an internal summary or rewritten
 note.
 
-The specialized prompt for this workflow is:
+Transcript handoffs are the lighter option for routine iterative work. They
+copy only the most recent operator prompt and terminal-visible assistant output
+verbatim, without adding review-packet sections, summaries, validation
+headings, checks, git status, or diffs.
+
+The specialized prompts for these workflows are:
 
 ```text
 prompts/hitl-review-packet.md
+prompts/transcript-handoff.md
 ```
 
-The project initialization prompt advertises this as an optional session workflow and supports session preference checks with:
+The project initialization prompt advertises these as optional session
+workflows and supports session preference checks with:
 
 ```text
 show session preferences

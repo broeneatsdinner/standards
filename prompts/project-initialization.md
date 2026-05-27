@@ -97,24 +97,35 @@ After initialization, maintain lightweight session preferences for the current C
 Session preferences may include:
 
 - HITL review packet workflow: on/off
+- transcript handoff workflow: on/off
 - commit behavior: ask before commit / commit only when explicitly instructed
 - validation behavior: run relevant validation before review packet / validation only when requested
-- clipboard behavior: copy review packets with pbcopy / do not copy review packets
-- clipboard approval behavior: always approve pbcopy for HITL review packets / ask each time
+- clipboard behavior: copy review packets or transcript handoffs with pbcopy / do not copy clipboard artifacts
+- clipboard approval behavior: always approve pbcopy for enabled session workflow artifacts / ask each time
 
-After successfully loading the standing standards cascade, ask:
+After successfully loading the standing standards cascade, ask the operator to
+choose one session handoff mode:
 
-Do you want to use the HITL review packet workflow before commits in this session?
+```text
+Choose a session handoff mode:
+1. HITL review packet workflow
+2. Transcript handoff workflow
+3. Neither
+```
 
-If the user says yes, load `prompts/hitl-review-packet.md` immediately and set these session preferences:
+If the user chooses HITL review packet workflow, load
+`prompts/hitl-review-packet.md` immediately and set these session preferences:
 
 - HITL review packets: on
+- transcript handoff: off
 - clipboard review packet: on
 - clipboard approval behavior: always approve pbcopy for HITL review packets when the environment asks for that narrow approval
 - commit behavior: commit only when explicitly instructed
 - validation behavior: run relevant validation before review packet
 
-After the user answers yes, do not require the user to restate the HITL workflow instructions. Apply the loaded HITL review packet workflow automatically to later file-changing tasks before commit decisions.
+After the user chooses HITL, do not require the user to restate the HITL
+workflow instructions. Apply the loaded HITL review packet workflow
+automatically to later file-changing tasks before commit decisions.
 
 When the HITL workflow is active, clipboard review packets must follow the
 final-response payload rule in `prompts/hitl-review-packet.md`: the packet's
@@ -122,22 +133,50 @@ final-response payload is the verbatim final operator-visible assistant
 response, including visible list and multiline block structure, not an
 internal summary or rewritten note.
 
-If the user says no, continue with ordinary review behavior.
+If the user chooses transcript handoff workflow, load
+`prompts/transcript-handoff.md` immediately and set these session preferences:
 
-When asking the HITL session-preference question, ask the question first and wait for the user's yes/no answer before showing the session-preference reminder.
+- HITL review packets: off
+- transcript handoff: on
+- clipboard transcript handoff: on
+- clipboard approval behavior: always approve pbcopy for transcript handoffs when the environment asks for that narrow approval
+- commit behavior: commit only when explicitly instructed
+- validation behavior: validation only when requested or appropriate for the task
+
+After the user chooses transcript handoff, do not require the user to restate
+the transcript handoff workflow instructions. Apply the loaded transcript
+handoff workflow automatically when the user asks for a handoff.
+
+When the transcript handoff workflow is active, clipboard transcript handoffs
+MUST follow `prompts/transcript-handoff.md`: the handoff MUST contain the most
+recent operator prompt verbatim and the terminal-visible assistant output
+produced after that prompt verbatim. It MUST preserve visible structure
+exactly and MUST NOT summarize, restructure, relabel, or add review-packet
+sections.
+
+If the user chooses neither, continue with ordinary review behavior:
+
+- HITL review packets: off
+- transcript handoff: off
+- clipboard workflow artifacts: off
+- commit behavior: ask before commit unless the user has given a stricter rule
+- validation behavior: validation only when requested or appropriate for the task
+
+When asking the session handoff mode question, ask the question first and wait
+for the user's choice before showing the session-preference reminder.
 
 Required user questions should be visually distinct and placed at the end of the response. Prefix required questions with `>` so they visually match actionable Codex prompt conventions. If Markdown emphasis is supported, bold the full question. Do not tab-indent required questions.
 
 Preferred form:
 
 ```text
-**> Do you want to use the HITL review packet workflow before commits in this session?**
+**> Choose a session handoff mode: HITL review packet workflow, transcript handoff workflow, or neither.**
 ```
 
 Plain-text fallback:
 
 ```text
-> Do you want to use the HITL review packet workflow before commits in this session?
+> Choose a session handoff mode: HITL review packet workflow, transcript handoff workflow, or neither.
 ```
 
 After handling the user's answer, and after each later completed task, include this reminder as the final note:
@@ -152,14 +191,29 @@ Accepted update command examples:
 
 	set session preference HITL review packets: on
 	set session preference HITL review packets: off
+	set session preference transcript handoff: on
+	set session preference transcript handoff: off
 	set session preference clipboard review packet: on
 	set session preference clipboard review packet: off
+	set session preference clipboard transcript handoff: on
+	set session preference clipboard transcript handoff: off
 	set session preference pbcopy approval for HITL packets: always approve
 	set session preference pbcopy approval for HITL packets: ask each time
+	set session preference pbcopy approval for transcript handoffs: always approve
+	set session preference pbcopy approval for transcript handoffs: ask each time
 
-The pbcopy approval preference is narrow. It applies only to copying the HITL review packet to the macOS clipboard when HITL review packets and clipboard review packets are enabled. It is not permission to approve unrelated commands, shell actions, file writes, network access, destructive actions, or arbitrary clipboard use.
+The pbcopy approval preference is narrow. It applies only to copying the
+enabled workflow artifact to the macOS clipboard: HITL review packets when
+HITL review packets and clipboard review packets are enabled, or transcript
+handoffs when transcript handoff and clipboard transcript handoff are enabled.
+It is not permission to approve unrelated commands, shell actions, file
+writes, network access, destructive actions, or arbitrary clipboard use.
 
 Do not require HITL workflow for read-only tasks, explanation-only tasks, or tasks where the user explicitly asks for direct commit behavior.
+
+Do not require transcript handoff workflow for read-only tasks,
+explanation-only tasks, or tasks where the user explicitly asks for direct
+commit behavior.
 
 ## Session state and re-entry
 
@@ -210,6 +264,7 @@ Examples:
 - Load `filename-*` prompts when auditing, normalizing, or remediating filenames.
 - Load `script-*` prompts when initiating, auditing, or remediating script standards workflows.
 - Load `hitl-review-packet.md` when preparing clipboard-based human-in-the-loop review packets after file changes.
+- Load `transcript-handoff.md` when preparing lightweight transcript handoffs for routine iterative review.
 
 When a specialized workflow has numbered phases, respect the phase boundaries.
 

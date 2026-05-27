@@ -5,7 +5,7 @@ This directory contains AI-assistant prompts and instructions for applying this 
 Shell prompt standards are not kept here. They live under:
 
 ```text
-shell/prompts/
+shell/prompt-system/
 ```
 
 This keeps AI prompts separate from PS1/shell prompt standards.

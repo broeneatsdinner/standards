@@ -83,15 +83,20 @@ Examples:
 
 A tool should not require arrow-key interaction if it is intended to be used in scripts or automation.
 
-## Reusable selector library
+## Reusable selector libraries
 
-Shared selector behavior should live in:
+Shared selector behavior should live in clearly named helper files:
 
 ```text
-shell/selector.sh
+shell/selector-interactive.sh
+shell/selector-numbered.sh
 ```
 
-Project-specific scripts should source the shared selector library instead of reimplementing menu behavior repeatedly.
+Use `shell/selector-interactive.sh` for richer arrow-key and keyboard-navigation
+menus. Use `shell/selector-numbered.sh` for simpler numbered-choice prompts.
+
+Project-specific scripts should source the appropriate shared selector library
+instead of reimplementing menu behavior repeatedly.
 
 ## Return values
 

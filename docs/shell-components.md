@@ -15,7 +15,8 @@ shell/terminal-text.sh
 shell/loaders.sh
 shell/output.sh
 shell/text-effects.sh
-shell/selector.sh
+shell/selector-interactive.sh
+shell/selector-numbered.sh
 shell/headers.sh
 ```
 
@@ -104,18 +105,37 @@ It should provide:
 
 Easing animation is intentionally part of the desired shell UI voice, but it must be optional or safely disableable. Any dependency-heavy animation should degrade cleanly when required commands or terminal capabilities are unavailable.
 
-### shell/selector.sh
+### shell/selector-interactive.sh
 
-`shell/selector.sh` owns interactive selector behavior.
+`shell/selector-interactive.sh` owns richer interactive selector behavior.
 
 It should provide:
 
 - keyboard-driven selection
+- arrow-key navigation
+- Enter confirmation
+- q, Q, and Escape cancellation
 - predictable stdout and status behavior
 - explicit cancel handling
 - interrupt handling
 
-Selectors should return the selected value on stdout, return success when a selection is made, return non-zero on cancel, and return interrupt status when interrupted.
+Interactive selectors should return a predictable selected index or value,
+return success when a selection is made, return non-zero on cancel, and return
+interrupt status when interrupted.
+
+### shell/selector-numbered.sh
+
+`shell/selector-numbered.sh` owns simpler numbered-choice selector behavior.
+
+It should provide:
+
+- numbered option display
+- typed numeric selection
+- selected value output on stdout
+- non-zero status for invalid or cancelled input
+
+Use this helper when arrow-key navigation would be unnecessary or when a
+plain numbered prompt is easier to script, test, or explain.
 
 ### shell/headers.sh
 
@@ -179,5 +199,5 @@ Recommended implementation order:
 3. Add shell output helpers.
 4. Harden loader lifecycle.
 5. Add or refine text effects with optional easing.
-6. Replace selector behavior.
+6. Refine selector behavior.
 7. Revisit formatting and table helpers later.

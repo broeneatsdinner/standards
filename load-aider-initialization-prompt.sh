@@ -42,17 +42,19 @@ print_banner() {
 
 [ -x "$BASE_LOADER" ] || fail "Base loader not executable: $BASE_LOADER"
 
-base_prompt="$("$BASE_LOADER" | awk '
-	/^Apply the project initialization standard for this session\./ {
-		capture = 1
-	}
-	/^# -+$/ && capture {
-		exit
-	}
-	capture {
-		print
-	}
-')" || fail "Could not load base initialization prompt"
+base_prompt='Apply the project initialization standard for this Aider session.
+
+First, use the local standards repository at:
+
+~/Documents/Git/standards
+
+Do not fetch, scrape, open, or add the public GitHub standards repository URL unless I explicitly instruct you to use the public repository.
+
+If you cannot directly read ~/Documents/Git/standards, ask me to add the required local standards files to the chat with /add.
+
+Read prompts/project-initialization.md first. Then read the referenced standards cascade from the local standards repository or from files I add to the chat. After reading the applicable standards, summarize the active rules for the current task before making edits or giving implementation instructions.
+
+Do not modify files until the applicable standards have been read or until you have clearly stated which referenced files were unavailable or not relevant.'
 
 [ -n "$base_prompt" ] || fail "Base initialization prompt was empty"
 
@@ -60,10 +62,15 @@ aider_rules='
 
 Aider operating rules for this session:
 
+Use local standards files only. Do not fetch, scrape, open, or add the public GitHub standards repository URL unless I explicitly instruct you to use the public repository.
+
+If you cannot directly read ~/Documents/Git/standards, ask me to add the required local standards files to the chat with /add. Do not fall back to GitHub automatically.
+
 During initialization, standards loading, planning, review, repository inspection, audit, or any request that says “do not edit”:
 - Do not modify files.
 - Do not apply patches.
 - Do not commit.
+- Do not create missing standards files in the current repository.
 - Do not run automatic lint-fix attempts.
 - Do not treat suggestions, cleanup options, or review findings as permission to edit.
 - Summarize findings and wait for explicit implementation approval.

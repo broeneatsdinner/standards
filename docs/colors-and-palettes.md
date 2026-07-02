@@ -1,159 +1,115 @@
 # Colors and Palettes
 
-This document defines color and palette standards for terminal scripts, visual shell components, loaders, menus, and text effects.
+This document defines the shared shell color palette for terminal scripts, visual shell components, loaders, menus, prompts, and text effects.
 
 ## Philosophy
 
-Terminal colors should be intentional.
+Terminal color should make output easier to parse. It should communicate state, hierarchy, and identity without becoming decoration.
 
-They should support readability, state, hierarchy, and identity.
+The shared palette is explicit truecolor. Public colors are generated from documented RGB hex tokens, not from terminal-theme-dependent ANSI color slots. A script that uses `GREEN`, `CYAN`, `WHITE`, or `BLACK` is using a project-defined truecolor value, not whatever a terminal theme assigns to an ANSI slot.
 
-Color should not be random decoration.
+Color should never be the only signal for critical state. Pair color with clear text such as `ERROR: Missing config file`.
 
-## Terms
+## Public contract
 
-A color palette is the selected set of colors used by a project or visual system.
-
-Design tokens are named values that represent reusable design decisions.
-
-In shell scripts, named color variables function like design tokens.
-
-Example:
-
-```bash
-ICE=""
-GREEN=""
-RED=""
-DIM=""
-RESET=""
-```
-
-Hex color tokens should be the canonical source of truth for shell colors.
-
-Terminal-ready variables such as `GREEN`, `RESET`, `SUCCESS`, `WARNING`, `ERROR`, `MUTED`, and `HEADING` should remain convenient to use after sourcing the shared color library, but their escape sequences should be generated from canonical hex tokens rather than maintained as a separate manual ANSI palette.
-
-The generated escape sequences belong in reusable library files such as:
+The canonical shell color contract lives in:
 
 ```text
 shell/colors.sh
 ```
 
-`shell/colors.sh` should also provide HEX-to-ANSI foreground conversion helpers
-so scripts can derive truecolor terminal escapes from canonical hex tokens.
+The naming pattern is:
 
-## Naming
+```text
+TOKEN_HEX      canonical full-strength RGB color
+TOKEN_DIM_HEX  dimmed RGB color
+TOKEN          rendered ANSI foreground escape
+TOKEN_DIM      rendered ANSI foreground escape for the dimmed color
+```
 
-Use semantic names when the color represents meaning.
+`RESET` resets terminal formatting.
 
-Examples:
+`BOLD` and `TEXT_DIM` are terminal text effects, not palette colors. `TEXT_DIM` is separate from calculated color dimming.
+
+`shell/colors.sh` owns `NO_COLOR` and `FORCE_COLOR` behavior. When color is disabled, rendered variables such as `SUCCESS`, `SUCCESS_DIM`, `CYAN`, and `CYAN_DIM` are empty strings. Hex tokens remain available as data.
+
+## Base Palette
+
+Base colors define the project identity.
 
 ```bash
-COLOR_SUCCESS
-COLOR_WARNING
-COLOR_ERROR
-COLOR_MUTED
-COLOR_RESET
+ACID_BLUE_HEX="#00aaab"
+ACID_GREEN_HEX="#55fd57"
+AMBER_HEX="#ffaa00"
+ICE_HEX="#66ffff"
 ```
 
-Use aesthetic names when the color is part of a visual identity.
+Each base token has a calculated dim token such as `ACID_BLUE_DIM_HEX` and rendered variables such as `ACID_BLUE` and `ACID_BLUE_DIM`.
 
-Examples:
+## Semantic Palette
+
+Semantic colors describe meaning. They alias base or classic colors instead of duplicating raw hex values.
 
 ```bash
-ICE
-FROST
-CYAN
-NEORB_BLUE
-DIM
+SUCCESS_HEX="$ACID_GREEN_HEX"
+WARNING_HEX="$AMBER_HEX"
+ERROR_HEX="$RED_HEX"
+GIT_BRANCH_HEX="$AMBER_HEX"
+DIRTY_MARK_HEX="$RED_HEX"
 ```
 
-Both are valid.
+`ERROR` and `DIRTY_MARK` intentionally use `RED_HEX`. That red is the standards red, `#ff5555`, not pure `#ff0000`.
 
-Semantic names describe purpose.
+## Classic Palette
 
-Aesthetic names describe palette identity.
-
-## Pairings
-
-Color pairings should be documented when they represent a recurring visual system.
-
-Examples:
-
-```text
-ICE + DIM       calm technical output
-GREEN + DIM     success with subdued context
-RED + DIM       error with subdued context
-CYAN + WHITE    bright operator emphasis
-```
-
-## Reset behavior
-
-Every colored output sequence should return to reset.
-
-Preferred:
+Classic colors restore familiar public names while keeping the implementation explicit truecolor.
 
 ```bash
-printf '%b%s%b\n' "$GREEN" "Done." "$RESET"
+BLACK_HEX="#000000"
+RED_HEX="#ff5555"
+GREEN_HEX="#00ff00"
+YELLOW_HEX="#ffff00"
+BLUE_HEX="#0000ff"
+MAGENTA_HEX="#ff00ff"
+CYAN_HEX="#00ffff"
+WHITE_HEX="#ffffff"
 ```
 
-Avoid leaving the terminal in a modified state.
+The rendered variables `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, and `WHITE` are generated from these `*_HEX` tokens with truecolor foreground escapes. Do not reintroduce terminal ANSI slot escapes such as red slot 31 or cyan slot 36 as the public palette.
 
-## Accessibility
+## Dimmed Colors
 
-Do not rely on color alone for critical state.
+Most `*_DIM_HEX` values are generated with `dim_hex`, which blends the source color toward black. This gives scripts and previews a repeatable rule for dimmed color variants.
 
-Pair color with clear text.
+`BLACK_DIM_HEX="#181715"` is intentionally hand-tuned rather than calculated with `dim_hex`, so dimmed black remains visible as a warm charcoal in terminal previews.
 
-Preferred:
+That exception is documented because it is part of the palette contract, not an accident.
 
-```text
-ERROR: Missing config file
-```
+## Preview
 
-Avoid:
+Use `bin/showpalette` to inspect the palette.
 
-```text
-Missing config file
-```
+It prints the sections in contract order:
 
-where color is the only error signal.
+1. BASE PALETTE
+2. SEMANTIC PALETTE
+3. CLASSIC PALETTE
 
-## Intensity
+For each token, the preview shows the full hex value, full sample, full swatch, dim hex value, dim sample, and dim swatch.
 
-Use bright colors sparingly.
+The sample phrase `lorem ipsum, [baby]` and swatch glyphs `▇▇▇▇` are intentional preview content. They provide a stable visual check for text color, punctuation, brackets, spacing, and swatch rendering.
 
-Use dim colors for context, metadata, separators, secondary labels, and less important details.
+## Usage
 
-## Reusable color library
-
-Shared colors should live in:
-
-```text
-shell/colors.sh
-```
-
-Project-specific scripts should source the shared library instead of redefining the same colors repeatedly.
-
-Example:
+Source the shared library instead of redefining colors in scripts:
 
 ```bash
 # shellcheck source=../shell/colors.sh
 source "$script_dir/../shell/colors.sh"
+
+printf '%b%s%b\n' "$SUCCESS" "Done." "$RESET"
+printf '%b%s%b %s\n' "$TEXT_DIM" "branch:" "$RESET" "$GIT_BRANCH"
+printf '%b%s%b\n' "$CYAN_DIM" "secondary detail" "$RESET"
 ```
 
-## Visual consistency
-
-Use the same colors for the same meanings across projects.
-
-Examples:
-
-- success should look like success everywhere
-- errors should look like errors everywhere
-- muted metadata should look visually secondary everywhere
-- menu selection should be visually consistent across selectors
-
-## Rule of thumb
-
-Color should make output easier to parse.
-
-If color makes output harder to read, remove it.
+Always reset colored output. Avoid leaving the terminal in a modified state.

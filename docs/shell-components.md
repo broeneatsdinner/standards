@@ -27,7 +27,9 @@ shell/headers.sh
 It should provide:
 
 - canonical hex palette tokens
+- calculated dim hex palette tokens
 - HEX-to-ANSI foreground conversion
+- HEX-to-ANSI background conversion for previews
 - generated shell truecolor ANSI output
 - terminal-ready shell variables for scripts and prompts
 - semantic color aliases
@@ -36,7 +38,9 @@ It should provide:
 
 Hex color tokens are the canonical color source of truth. Shell ANSI and truecolor output should be generated from those tokens.
 
-After sourcing `shell/colors.sh`, scripts and prompts should be able to use convenient terminal-ready variables such as `GREEN`, `RESET`, `SUCCESS`, `WARNING`, `ERROR`, `MUTED`, and `HEADING`. Those variables are part of the public shell API, but their escape sequences should be generated from canonical hex tokens rather than hand-maintained as a separate ANSI palette.
+After sourcing `shell/colors.sh`, scripts and prompts should be able to use convenient terminal-ready variables such as `SUCCESS`, `WARNING`, `ERROR`, `TEXT_DIM`, `RESET`, `ACID_BLUE`, `GIT_BRANCH`, `RED`, and `CYAN`. Full-strength colors use names such as `SUCCESS`; calculated dimmed colors use names such as `SUCCESS_DIM`.
+
+Classic variables such as `GREEN`, `CYAN`, `WHITE`, and `BLACK` are part of the public shell API again, but they are explicit truecolor values generated from `*_HEX` tokens. They are not terminal ANSI slot colors.
 
 Do not maintain separate manual ANSI and `tput` color palettes. Use `tput` mainly for terminal control behavior, not the canonical color palette.
 

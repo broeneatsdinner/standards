@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# -----------------------
+# --    showpalette    --
+# -----------------------
+# description: Preview the shared shell color palette in the terminal.
+#
+# This helper is meant to be run directly. It sources shell/colors.sh and prints
+# the shared palette tokens with their hex values, colored sample text, and a
+# truecolor background swatch when color output is enabled.
+
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_dir="$(cd -- "$script_dir/.." && pwd)"
+
+# shellcheck disable=SC1091
+source "$repo_dir/shell/colors.sh"
+
+color_enabled=false
+if [[ ( -z "${NO_COLOR:-}" || -n "${FORCE_COLOR:-}" ) && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
+	color_enabled=true
+fi
+
+# Print one palette token row.
+print_palette_row() {
+	local token_name="$1"
+	local hex_value="$2"
+	local color_value="${!token_name:-}"
+	local swatch=""
+
+	if "$color_enabled"; then
+		swatch="$(ansi_bg_from_hex "$hex_value")  $RESET"
+	fi
+
+	printf '%-14s %-9s %b%-24s%b %b\n' \
+		"$token_name" \
+		"$hex_value" \
+		"$color_value" \
+		"sample text" \
+		"$RESET" \
+		"$swatch"
+}
+
+printf '%-14s %-9s %-24s %s\n' "TOKEN" "HEX" "SAMPLE" "SWATCH"
+printf '%-14s %-9s %-24s %s\n' "-----" "---" "------" "------"
+
+print_palette_row "ACID_BLUE" "$ACID_BLUE_HEX"
+print_palette_row "ACID_GREEN" "$ACID_GREEN_HEX"
+print_palette_row "WARNING" "$WARNING_HEX"
+print_palette_row "GIT_BRANCH" "$GIT_BRANCH_HEX"
+print_palette_row "DIRTY_MARK" "$DIRTY_MARK_HEX"

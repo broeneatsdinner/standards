@@ -33,11 +33,37 @@ ansi_from_hex() {
 		"$((16#$b))"
 }
 
+# ansi_bg_from_hex - convert a HEX color value to an ANSI truecolor background escape.
+# usage:
+#   ansi_bg_from_hex "#00aaab"
+ansi_bg_from_hex() {
+	local hex="$1"
+	local r
+	local g
+	local b
+
+	hex="${hex#"#"}"
+
+	r="$(printf '%s' "$hex" | cut -c 1-2)"
+	g="$(printf '%s' "$hex" | cut -c 3-4)"
+	b="$(printf '%s' "$hex" | cut -c 5-6)"
+
+	printf '\033[48;2;%d;%d;%dm' \
+		"$((16#$r))" \
+		"$((16#$g))" \
+		"$((16#$b))"
+}
+
 # Palette tokens
 ACID_BLUE_HEX="#00aaab"
 ACID_GREEN_HEX="#55fd57"
+WARNING_HEX="#ffaa00"
+GIT_BRANCH_HEX="#00aaab"
+DIRTY_MARK_HEX="#ffaa00"
 
-if [[ -z "${NO_COLOR:-}" && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
+# Public color variables are consumed by scripts after sourcing this file.
+# shellcheck disable=SC2034
+if [[ ( -z "${NO_COLOR:-}" || -n "${FORCE_COLOR:-}" ) && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
 	RESET=$'\033[0m'
 	BOLD=$'\033[1m'
 	DIM=$'\033[2m'
@@ -62,11 +88,13 @@ if [[ -z "${NO_COLOR:-}" && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
 
 	ACID_BLUE="$(ansi_from_hex "$ACID_BLUE_HEX")"
 	ACID_GREEN="$(ansi_from_hex "$ACID_GREEN_HEX")"
+	WARNING="$(ansi_from_hex "$WARNING_HEX")"
+	GIT_BRANCH="$(ansi_from_hex "$GIT_BRANCH_HEX")"
+	DIRTY_MARK="$(ansi_from_hex "$DIRTY_MARK_HEX")"
 
 	ICE="$BRIGHT_CYAN"
 	MUTED="$DIM"
 	SUCCESS="$GREEN"
-	WARNING="$YELLOW"
 	ERROR="$RED"
 else
 	RESET=""
@@ -93,10 +121,12 @@ else
 
 	ACID_BLUE=""
 	ACID_GREEN=""
+	WARNING=""
+	GIT_BRANCH=""
+	DIRTY_MARK=""
 
 	ICE=""
 	MUTED=""
 	SUCCESS=""
-	WARNING=""
 	ERROR=""
 fi

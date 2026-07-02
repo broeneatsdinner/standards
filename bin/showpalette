@@ -5,8 +5,8 @@
 # description: Preview the shared shell color palette in the terminal.
 #
 # This helper is meant to be run directly. It sources shell/colors.sh and prints
-# the shared palette tokens with their hex values, colored sample text, and a
-# truecolor background swatch when color output is enabled.
+# the shared palette tokens with their hex values, colored preview text, and a
+# truecolor swatch when color output is enabled.
 
 set -euo pipefail
 
@@ -15,39 +15,89 @@ repo_dir="$(cd -- "$script_dir/.." && pwd)"
 
 # shellcheck disable=SC1091
 source "$repo_dir/shell/colors.sh"
+print_color_cell() {
+	local color_value="$1"
+	local text="$2"
+	local width="$3"
+	local padding=$((width - ${#text}))
 
-color_enabled=false
-if [[ ( -z "${NO_COLOR:-}" || -n "${FORCE_COLOR:-}" ) && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
-	color_enabled=true
-fi
+	if (( padding < 0 )); then
+		padding=0
+	fi
+
+	printf '%b%s%b%*s' "$color_value" "$text" "$RESET" "$padding" ""
+}
+
+print_swatch_cell() {
+	local color_value="$1"
+	local width="$2"
+	local swatch="▇▇▇▇"
+	local padding=$((width - ${#swatch}))
+
+	if (( padding < 0 )); then
+		padding=0
+	fi
+
+	printf '%b%s%b%*s' "$color_value" "$swatch" "$RESET" "$padding" ""
+}
 
 # Print one palette token row.
 print_palette_row() {
 	local token_name="$1"
 	local hex_value="$2"
+	local dim_hex_value="$3"
+	local dim_token_name="${token_name}_DIM"
 	local color_value="${!token_name:-}"
-	local swatch=""
+	local dim_color_value="${!dim_token_name:-}"
+	local sample="lorem ipsum, [baby]"
 
-	if "$color_enabled"; then
-		swatch="$(ansi_from_hex "$hex_value")▇▇▇▇$RESET"
-	fi
+	printf '%-14s %-9s ' "$token_name" "$hex_value"
+	print_color_cell "$color_value" "$sample" 21
+	printf ' '
+	print_swatch_cell "$color_value" 7
+	printf ' %-9s ' "$dim_hex_value"
+	print_color_cell "$dim_color_value" "$sample" 21
+	printf ' '
+	print_swatch_cell "$dim_color_value" 7
+	printf '\n'
+}
 
-	printf '%-14s %-9s %b%-24s%b %b\n' \
-		"$token_name" \
-		"$hex_value" \
-		"$color_value" \
-		"lorem ipsum, [baby]" \
-		"$RESET" \
-		"$swatch"
+print_palette_section() {
+	local section_name="$1"
+
+	printf '%s\n' "$section_name"
+	printf '%-14s %-9s %-21s %-7s %-9s %-21s %-7s\n' \
+		"TOKEN" "HEX" "SAMPLE" "SWATCH" "DIM_HEX" "DIM_SAMPLE" "DIM_SW"
+	printf '%-14s %-9s %-21s %-7s %-9s %-21s %-7s\n' \
+		"-----" "---" "------" "------" "-------" "----------" "------"
 }
 
 printf '\n'
-printf '%-14s %-9s %-24s %s\n' "TOKEN" "HEX" "SAMPLE" "SWATCH"
-printf '%-14s %-9s %-24s %s\n' "-----" "---" "------" "------"
+print_palette_section "BASE PALETTE"
 
-print_palette_row "ACID_BLUE" "$ACID_BLUE_HEX"
-print_palette_row "ACID_GREEN" "$ACID_GREEN_HEX"
-print_palette_row "WARNING" "$WARNING_HEX"
-print_palette_row "GIT_BRANCH" "$GIT_BRANCH_HEX"
-print_palette_row "DIRTY_MARK" "$DIRTY_MARK_HEX"
+print_palette_row "ACID_BLUE" "$ACID_BLUE_HEX" "$ACID_BLUE_DIM_HEX"
+print_palette_row "ACID_GREEN" "$ACID_GREEN_HEX" "$ACID_GREEN_DIM_HEX"
+print_palette_row "AMBER" "$AMBER_HEX" "$AMBER_DIM_HEX"
+print_palette_row "ICE" "$ICE_HEX" "$ICE_DIM_HEX"
+
+printf '\n'
+print_palette_section "SEMANTIC PALETTE"
+
+print_palette_row "SUCCESS" "$SUCCESS_HEX" "$SUCCESS_DIM_HEX"
+print_palette_row "WARNING" "$WARNING_HEX" "$WARNING_DIM_HEX"
+print_palette_row "ERROR" "$ERROR_HEX" "$ERROR_DIM_HEX"
+print_palette_row "GIT_BRANCH" "$GIT_BRANCH_HEX" "$GIT_BRANCH_DIM_HEX"
+print_palette_row "DIRTY_MARK" "$DIRTY_MARK_HEX" "$DIRTY_MARK_DIM_HEX"
+
+printf '\n'
+print_palette_section "CLASSIC PALETTE"
+
+print_palette_row "BLACK" "$BLACK_HEX" "$BLACK_DIM_HEX"
+print_palette_row "RED" "$RED_HEX" "$RED_DIM_HEX"
+print_palette_row "GREEN" "$GREEN_HEX" "$GREEN_DIM_HEX"
+print_palette_row "YELLOW" "$YELLOW_HEX" "$YELLOW_DIM_HEX"
+print_palette_row "BLUE" "$BLUE_HEX" "$BLUE_DIM_HEX"
+print_palette_row "MAGENTA" "$MAGENTA_HEX" "$MAGENTA_DIM_HEX"
+print_palette_row "CYAN" "$CYAN_HEX" "$CYAN_DIM_HEX"
+print_palette_row "WHITE" "$WHITE_HEX" "$WHITE_DIM_HEX"
 printf '\n'

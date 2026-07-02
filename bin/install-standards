@@ -1,0 +1,318 @@
+#!/usr/bin/env bash
+# -----------------------------
+# --    install-standards    --
+# -----------------------------
+# description: Install and sync selected standards files into consumer repositories.
+
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+standards_repo="$(cd -- "$script_dir/.." && pwd)"
+manifest_name=".standards-sync"
+
+usage() {
+	cat <<'USAGE'
+Usage:
+  install-standards <repo>
+  install-standards install <repo>
+  install-standards sync [repo]
+  install-standards status [repo]
+
+Commands:
+  install <repo>   Install repo-local sync-standards shim and starter manifest.
+  sync [repo]      Sync files declared in <repo>/.standards-sync.
+  status [repo]    Show source repo, target repo, and manifest entries.
+
+Environment:
+  STANDARDS_REPO   Optional override for the canonical standards repo path.
+
+Manifest format:
+  source/path -> destination/path
+
+Example:
+  shell/colors.sh -> vendor/standards/shell/colors.sh
+USAGE
+}
+
+die() {
+	printf 'install-standards: %s\n' "$*" >&2
+	exit 1
+}
+
+absolute_path() {
+	local path="$1"
+
+	cd -- "$path"
+	pwd
+}
+
+repo_root_from_path() {
+	local path="$1"
+
+	[[ -d "$path" ]] || die "target directory not found: $path"
+
+	cd -- "$path"
+
+	if git rev-parse --show-toplevel >/dev/null 2>&1; then
+		git rev-parse --show-toplevel
+	else
+		pwd
+	fi
+}
+
+resolve_target_repo() {
+	local target="${1:-.}"
+
+	repo_root_from_path "$target"
+}
+
+resolve_standards_repo() {
+	local source_repo
+
+	if [[ -n "${STANDARDS_REPO:-}" ]]; then
+		source_repo="$(absolute_path "$STANDARDS_REPO")"
+	else
+		source_repo="$standards_repo"
+	fi
+
+	[[ -f "$source_repo/shell/colors.sh" ]] || die "standards repo does not look valid: $source_repo"
+	[[ -f "$source_repo/bin/install-standards" ]] || die "install-standards not found in standards repo: $source_repo"
+
+	printf '%s\n' "$source_repo"
+}
+
+manifest_path_for_repo() {
+	local target_repo="$1"
+
+	printf '%s/%s\n' "$target_repo" "$manifest_name"
+}
+
+write_default_manifest() {
+	local target_repo="$1"
+	local manifest_path
+
+	manifest_path="$(manifest_path_for_repo "$target_repo")"
+
+	if [[ -f "$manifest_path" ]]; then
+		printf 'Manifest already exists: %s\n' "$manifest_path"
+		return
+	fi
+
+	cat > "$manifest_path" <<'MANIFEST'
+# Files synced from the standards repo into this repository.
+# Format:
+# source/path -> destination/path
+
+shell/colors.sh -> vendor/standards/shell/colors.sh
+bin/install-standards -> vendor/standards/bin/install-standards
+MANIFEST
+
+	printf 'Created manifest: %s\n' "$manifest_path"
+}
+
+install_shim() {
+	local target_repo="$1"
+	local shim_path="$target_repo/bin/sync-standards"
+
+	mkdir -p "$target_repo/bin"
+
+	cat > "$shim_path" <<'SHIM'
+#!/usr/bin/env bash
+# ---------------------------
+# --    sync-standards    --
+# ---------------------------
+# description: Refresh this repository's vendored standards files.
+
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_dir="$(cd -- "$script_dir/.." && pwd)"
+
+candidate_tools=(
+	"$repo_dir/vendor/standards/bin/install-standards"
+	"$repo_dir/standards/bin/install-standards"
+)
+
+if [[ -n "${STANDARDS_REPO:-}" ]]; then
+	candidate_tools+=("$STANDARDS_REPO/bin/install-standards")
+fi
+
+for tool in "${candidate_tools[@]}"; do
+	if [[ -x "$tool" ]]; then
+		exec "$tool" sync "$repo_dir"
+	fi
+done
+
+if command -v install-standards >/dev/null 2>&1; then
+	exec install-standards sync "$repo_dir"
+fi
+
+cat >&2 <<'ERROR'
+sync-standards: standards installer not found.
+
+Expected one of:
+  ./vendor/standards/bin/install-standards
+  ./standards/bin/install-standards
+  install-standards on PATH
+  STANDARDS_REPO=/path/to/standards
+
+Clone, vendor, or expose the standards repo, then run this command again.
+ERROR
+
+exit 1
+SHIM
+
+	chmod +x "$shim_path"
+	printf 'Installed shim: %s\n' "$shim_path"
+}
+
+trim_space() {
+	local value="$1"
+
+	value="${value#"${value%%[![:space:]]*}"}"
+	value="${value%"${value##*[![:space:]]}"}"
+
+	printf '%s\n' "$value"
+}
+
+parse_manifest_line() {
+	local line="$1"
+	local source_path
+	local destination_path
+
+	line="${line%%#*}"
+
+	if [[ -z "${line//[[:space:]]/}" ]]; then
+		return 1
+	fi
+
+	if [[ "$line" != *"->"* ]]; then
+		die "invalid manifest line: $line"
+	fi
+
+	source_path="${line%%->*}"
+	destination_path="${line#*->}"
+
+	source_path="$(trim_space "$source_path")"
+	destination_path="$(trim_space "$destination_path")"
+
+	if [[ -z "$source_path" || -z "$destination_path" ]]; then
+		die "invalid manifest line: $line"
+	fi
+
+	printf '%s\t%s\n' "$source_path" "$destination_path"
+}
+
+sync_manifest() {
+	local target_repo="$1"
+	local source_repo="$2"
+	local manifest_path
+	local line
+	local parsed
+	local source_path
+	local destination_path
+	local source_file
+	local destination_file
+	local copied_count=0
+
+	manifest_path="$(manifest_path_for_repo "$target_repo")"
+
+	[[ -f "$manifest_path" ]] || die "manifest not found: $manifest_path"
+
+	while IFS= read -r line || [[ -n "$line" ]]; do
+		if ! parsed="$(parse_manifest_line "$line")"; then
+			continue
+		fi
+
+		source_path="${parsed%%	*}"
+		destination_path="${parsed#*	}"
+
+		source_file="$source_repo/$source_path"
+		destination_file="$target_repo/$destination_path"
+
+		[[ -f "$source_file" ]] || die "source file not found: $source_file"
+
+		mkdir -p "$(dirname -- "$destination_file")"
+		cp "$source_file" "$destination_file"
+
+		if [[ -x "$source_file" ]]; then
+			chmod +x "$destination_file"
+		fi
+
+		printf 'Synced: %s -> %s\n' "$source_path" "$destination_path"
+		copied_count=$((copied_count + 1))
+	done < "$manifest_path"
+
+	printf '\nSynced %d file(s).\n' "$copied_count"
+	printf 'Review with:\n'
+	printf '  git --no-pager diff -- %s vendor/standards\n' "$manifest_name"
+}
+
+show_status() {
+	local target_repo="$1"
+	local source_repo="$2"
+	local manifest_path
+
+	manifest_path="$(manifest_path_for_repo "$target_repo")"
+
+	printf 'Standards repo: %s\n' "$source_repo"
+	printf 'Target repo:    %s\n' "$target_repo"
+	printf 'Manifest:       %s\n' "$manifest_path"
+
+	if [[ -f "$manifest_path" ]]; then
+		printf '\nManifest entries:\n'
+		cat "$manifest_path"
+	else
+		printf '\nManifest not found.\n'
+	fi
+}
+
+command="${1:-}"
+
+case "$command" in
+	install)
+		[[ $# -eq 2 ]] || die "install requires <repo>"
+
+		target_repo="$(resolve_target_repo "$2")"
+		source_repo="$(resolve_standards_repo)"
+
+		install_shim "$target_repo"
+		write_default_manifest "$target_repo"
+		sync_manifest "$target_repo" "$source_repo"
+		;;
+
+	sync)
+		shift || true
+
+		target_repo="$(resolve_target_repo "${1:-.}")"
+		source_repo="$(resolve_standards_repo)"
+
+		sync_manifest "$target_repo" "$source_repo"
+		;;
+
+	status)
+		shift || true
+
+		target_repo="$(resolve_target_repo "${1:-.}")"
+		source_repo="$(resolve_standards_repo)"
+
+		show_status "$target_repo" "$source_repo"
+		;;
+
+	-h|--help|help|"")
+		usage
+		;;
+
+	*)
+		if [[ $# -eq 1 && -d "$1" ]]; then
+			target_repo="$(resolve_target_repo "$1")"
+			source_repo="$(resolve_standards_repo)"
+
+			install_shim "$target_repo"
+			write_default_manifest "$target_repo"
+			sync_manifest "$target_repo" "$source_repo"
+		else
+			die "unknown command or target repo: $command"
+		fi
+		;;
+esac

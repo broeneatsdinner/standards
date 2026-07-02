@@ -58,8 +58,8 @@ ansi_bg_from_hex() {
 ACID_BLUE_HEX="#00aaab"
 ACID_GREEN_HEX="#55fd57"
 WARNING_HEX="#ffaa00"
-GIT_BRANCH_HEX="#00aaab"
-DIRTY_MARK_HEX="#ffaa00"
+GIT_BRANCH_HEX="#f2b740"
+DIRTY_MARK_HEX="#ff5555"
 
 # Public color variables are consumed by scripts after sourcing this file.
 # shellcheck disable=SC2034

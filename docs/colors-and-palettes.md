@@ -81,7 +81,7 @@ The rendered variables `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CY
 
 Most `*_DIM_HEX` values are generated with `dim_hex`, which blends the source color toward black. This gives scripts and previews a repeatable rule for dimmed color variants.
 
-`BLACK_DIM_HEX="#181715"` is intentionally hand-tuned rather than calculated with `dim_hex`. A literal dimmed black would still be black, which is mathematically correct but not useful in a terminal window. The warm charcoal value keeps dimmed black visible while preserving the overall palette structure.
+`BLACK_DIM_HEX="#181715"` is intentionally hand-tuned rather than calculated with `dim_hex`. A literal dimmed black would still be black, which is mathematically correct but not useful on-screen in a terminal.. The warm charcoal value keeps dimmed black visible while preserving the overall palette structure.
 
 This is a small example of flexibility inside the standard: the rule handles the common case, and the documented exception handles the place where the visual result needs a human decision. Learn the rules so you can test them.
 

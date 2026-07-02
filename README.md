@@ -115,6 +115,7 @@ For concrete examples of the operating architecture, see:
 - [docs/repo-taxonomy.md](docs/repo-taxonomy.md)
 - [docs/code-style.md](docs/code-style.md)
 - [docs/shell-components.md](docs/shell-components.md)
+- [docs/standards-sync.md](docs/standards-sync.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
 - [docs/typography.md](docs/typography.md)
@@ -172,6 +173,7 @@ That prompt locates the standards repository, reads the relevant standards casca
 ```text
 standards/
 ├── README.md
+├── bin/
 ├── docs/
 ├── prompts/
 ├── shell/
@@ -185,6 +187,10 @@ standards/
 ```text
 docs/
     written standards, rationale, conventions, and human-readable authority
+
+bin/
+    executable standards tools, including install and sync helpers for
+    consumer repositories
 
 prompts/
     AI-facing prompt material that tells assistants how to apply the standards
@@ -213,6 +219,9 @@ The `docs/` directory is the canonical authority for written standards. The `pro
 ```text
 docs/
     core written standards
+
+bin/
+    standards installation and sync tooling
 
 prompts/
     AI prompt standards and publication-audit workflows

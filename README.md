@@ -115,6 +115,7 @@ For concrete examples of the operating architecture, see:
 - [docs/repo-taxonomy.md](docs/repo-taxonomy.md)
 - [docs/code-style.md](docs/code-style.md)
 - [docs/shell-components.md](docs/shell-components.md)
+- [docs/colors-and-palettes.md](docs/colors-and-palettes.md)
 - [docs/standards-sync.md](docs/standards-sync.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)

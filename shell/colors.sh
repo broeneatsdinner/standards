@@ -128,7 +128,7 @@ AMBER_DIM_HEX="$(dim_hex "$AMBER_HEX")"
 ICE_DIM_HEX="$(dim_hex "$ICE_HEX")"
 
 # Derived classic dim palette hex tokens.
-BLACK_DIM_HEX="$(dim_hex "$BLACK_HEX")"
+BLACK_DIM_HEX="#181715"
 RED_DIM_HEX="$(dim_hex "$RED_HEX")"
 GREEN_DIM_HEX="$(dim_hex "$GREEN_HEX")"
 YELLOW_DIM_HEX="$(dim_hex "$YELLOW_HEX")"

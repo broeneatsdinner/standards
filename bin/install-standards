@@ -104,7 +104,6 @@ write_default_manifest() {
 # source/path -> destination/path
 
 shell/colors.sh -> vendor/standards/shell/colors.sh
-bin/install-standards -> vendor/standards/bin/install-standards
 MANIFEST
 
 	printf 'Created manifest: %s\n' "$manifest_path"
@@ -128,10 +127,7 @@ set -euo pipefail
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_dir="$(cd -- "$script_dir/.." && pwd)"
 
-candidate_tools=(
-	"$repo_dir/vendor/standards/bin/install-standards"
-	"$repo_dir/standards/bin/install-standards"
-)
+candidate_tools=()
 
 if [[ -n "${STANDARDS_REPO:-}" ]]; then
 	candidate_tools+=("$STANDARDS_REPO/bin/install-standards")
@@ -150,13 +146,11 @@ fi
 cat >&2 <<'ERROR'
 sync-standards: standards installer not found.
 
-Expected one of:
-  ./vendor/standards/bin/install-standards
-  ./standards/bin/install-standards
-  install-standards on PATH
+Expected either:
   STANDARDS_REPO=/path/to/standards
+  install-standards on PATH
 
-Clone, vendor, or expose the standards repo, then run this command again.
+Expose the standards repo through STANDARDS_REPO or PATH, then run this command again.
 ERROR
 
 exit 1

@@ -109,7 +109,6 @@ Example:
 # source/path -> destination/path
 
 shell/colors.sh -> vendor/standards/shell/colors.sh
-bin/install-standards -> vendor/standards/bin/install-standards
 ```
 
 Blank lines are ignored. Text after `#` is treated as a comment.
@@ -206,8 +205,6 @@ invisibly.
 │   └── sync-standards
 └── vendor/
     └── standards/
-        ├── bin/
-        │   └── install-standards
         └── shell/
             └── colors.sh
 ```
@@ -220,16 +217,14 @@ The exact files under `vendor/standards/` depend on `.standards-sync`.
 
 If `bin/sync-standards` cannot find the installer, it looks for:
 
-- `./vendor/standards/bin/install-standards`
-- `./standards/bin/install-standards`
 - `$STANDARDS_REPO/bin/install-standards`
 - `install-standards` on `PATH`
 
 If none exists, define `STANDARDS_REPO` in private shell configuration or make
-the vendored installer available by syncing from the standards repo:
+`install-standards` available on `PATH`, then run:
 
 ```bash
-$ bin/install-standards <target-repo>
+$ bin/sync-standards
 ```
 
 Do not fix this by committing a private absolute path into the consumer repo.
@@ -240,7 +235,7 @@ If files copy into `vendor/standards/` but do not appear in Git status, check
 the consumer repo's ignore rules:
 
 ```bash
-$ git check-ignore -v vendor/standards/bin/install-standards
+$ git check-ignore -v vendor/standards/shell/colors.sh
 ```
 
 If a broad ignore rule excludes `vendor/`, add a narrow exception for the

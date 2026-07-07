@@ -7,6 +7,9 @@
 
 # This file is meant to be sourced by other shell scripts, not run directly.
 
+# shellcheck shell=bash
+# shellcheck disable=SC2034
+
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
 	printf '%s\n' "This file is meant to be sourced, not run directly."
 	exit 1
@@ -23,9 +26,9 @@ ansi_from_hex() {
 
 	hex="${hex#"#"}"
 
-	r="$(printf '%s' "$hex" | cut -c 1-2)"
-	g="$(printf '%s' "$hex" | cut -c 3-4)"
-	b="$(printf '%s' "$hex" | cut -c 5-6)"
+	r="${hex:0:2}"
+	g="${hex:2:2}"
+	b="${hex:4:2}"
 
 	printf '\033[38;2;%d;%d;%dm' \
 		"$((16#$r))" \
@@ -44,9 +47,9 @@ ansi_bg_from_hex() {
 
 	hex="${hex#"#"}"
 
-	r="$(printf '%s' "$hex" | cut -c 1-2)"
-	g="$(printf '%s' "$hex" | cut -c 3-4)"
-	b="$(printf '%s' "$hex" | cut -c 5-6)"
+	r="${hex:0:2}"
+	g="${hex:2:2}"
+	b="${hex:4:2}"
 
 	printf '\033[48;2;%d;%d;%dm' \
 		"$((16#$r))" \
@@ -121,6 +124,35 @@ ERROR_HEX="$RED_HEX"
 GIT_BRANCH_HEX="$AMBER_HEX"
 DIRTY_MARK_HEX="$RED_HEX"
 
+# Wash palette hex tokens.
+# Index 0 is the moving wash center.
+# Later indexes are farther from the center.
+# The final index is the stable/resting token color and should match TOKEN_HEX.
+# Default TOKEN_WASH palettes use a light/glint pass over the token color.
+ACID_WASH=(
+	"#dffeff"  # distance 0 / glint
+	"#9ef8fb"  # distance 1 / bright shoulder
+	"#4fd6da"  # distance 2 / active glow
+	"#00747c"  # distance 3 / muted shoulder
+	"#00aaab"  # distance 4+ / brand-resting color
+)
+
+ACID_BLUE_WASH=(
+	"#dffeff"  # distance 0 / glint
+	"#9ef8fb"  # distance 1 / bright shoulder
+	"#4fd6da"  # distance 2 / active glow
+	"#00747c"  # distance 3 / muted shoulder
+	"#00aaab"  # distance 4+ / brand-resting color
+)
+
+ACID_GREEN_WASH=(
+	"#ecffec"  # distance 0 / glint
+	"#b8ffba"  # distance 1 / bright shoulder
+	"#82fe84"  # distance 2 / active glow
+	"#2fa637"  # distance 3 / muted shoulder
+	"#55fd57"  # distance 4+ / brand-resting color
+)
+
 # Derived base dim palette hex tokens.
 ACID_BLUE_DIM_HEX="$(dim_hex "$ACID_BLUE_HEX")"
 ACID_GREEN_DIM_HEX="$(dim_hex "$ACID_GREEN_HEX")"
@@ -145,8 +177,7 @@ GIT_BRANCH_DIM_HEX="$(dim_hex "$GIT_BRANCH_HEX")"
 DIRTY_MARK_DIM_HEX="$(dim_hex "$DIRTY_MARK_HEX")"
 
 # Rendered public variables are consumed by scripts after sourcing this file.
-# shellcheck disable=SC2034
-if [[ ( -z "${NO_COLOR:-}" || -n "${FORCE_COLOR:-}" ) && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
+if [[ -z "${NO_COLOR:-}" && ( -t 1 || -n "${FORCE_COLOR:-}" ) ]]; then
 	RESET=$'\033[0m'
 	BOLD=$'\033[1m'
 	TEXT_DIM=$'\033[2m'

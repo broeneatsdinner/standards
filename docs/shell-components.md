@@ -10,6 +10,7 @@ Planned public shell components:
 
 ```text
 shell/colors.sh
+shell/color-wash.sh
 shell/terminal.sh
 shell/terminal-text.sh
 shell/loaders.sh
@@ -33,7 +34,9 @@ It should provide:
 - generated shell truecolor ANSI output
 - terminal-ready shell variables for scripts and prompts
 - semantic color aliases
-- `NO_COLOR` fallback
+- wash palette arrays
+- `NO_COLOR` opt-out
+- `FORCE_COLOR` override for controlled non-TTY color output
 - non-TTY fallback
 
 Hex color tokens are the canonical color source of truth. Shell ANSI and truecolor output should be generated from those tokens.
@@ -43,6 +46,14 @@ After sourcing `shell/colors.sh`, scripts and prompts should be able to use conv
 Classic variables such as `GREEN`, `CYAN`, `WHITE`, and `BLACK` are part of the public shell API again, but they are explicit truecolor values generated from `*_HEX` tokens. They are not terminal ANSI slot colors.
 
 Do not maintain separate manual ANSI and `tput` color palettes. Use `tput` mainly for terminal control behavior, not the canonical color palette.
+
+### shell/color-wash.sh
+
+`shell/color-wash.sh` owns the shared terminal color-wash primitive.
+
+It depends on `shell/colors.sh` for palette data, including wash palette arrays and solid color tokens. It should stay reusable shell UI infrastructure, not application-specific animation code.
+
+It honors the same `NO_COLOR` / `FORCE_COLOR` policy as `shell/colors.sh`: plain output when color is disabled or stdout is not a TTY, with `FORCE_COLOR` reserved for controlled non-TTY rendering.
 
 ### shell/terminal.sh
 

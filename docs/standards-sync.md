@@ -109,6 +109,7 @@ Example:
 # source/path -> destination/path
 
 shell/colors.sh -> vendor/standards/shell/colors.sh
+shell/color-wash.sh -> vendor/standards/shell/color-wash.sh
 ```
 
 Blank lines are ignored. Text after `#` is treated as a comment.
@@ -137,9 +138,10 @@ For example, that setting can live in a private shell config such as:
 ```
 
 The repo-local `bin/sync-standards` shim can use `STANDARDS_REPO` when the
-vendored installer is missing or when a local standards checkout should be used
-as the source. The variable belongs to the operator environment, not to the
-consumer repo.
+installer should resolve through a local standards checkout instead of `PATH`.
+The installer itself is intentionally not vendored into consumer repos by
+default. The variable belongs to the operator environment, not to the consumer
+repo.
 
 ## First-Time Install Workflow
 
@@ -206,7 +208,8 @@ invisibly.
 └── vendor/
     └── standards/
         └── shell/
-            └── colors.sh
+            ├── colors.sh
+            └── color-wash.sh
 ```
 
 The exact files under `vendor/standards/` depend on `.standards-sync`.

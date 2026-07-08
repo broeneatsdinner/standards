@@ -31,7 +31,9 @@ TOKEN_DIM      rendered ANSI foreground escape for the dimmed color
 
 `BOLD` and `TEXT_DIM` are terminal text effects, not palette colors. `TEXT_DIM` is separate from calculated color dimming.
 
-`shell/colors.sh` owns `NO_COLOR` and `FORCE_COLOR` behavior. When color is disabled, rendered variables such as `SUCCESS`, `SUCCESS_DIM`, `CYAN`, and `CYAN_DIM` are empty strings. Hex tokens remain available as data.
+`shell/colors.sh` is the canonical source for base palette tokens, semantic palette tokens, classic palette tokens, dim variants, and wash palette arrays.
+
+When color is disabled, rendered variables such as `SUCCESS`, `SUCCESS_DIM`, `CYAN`, and `CYAN_DIM` are empty strings. Hex tokens and wash palette arrays remain available as data.
 
 ## Base Palette
 
@@ -85,6 +87,57 @@ Most `*_DIM_HEX` values are generated with `dim_hex`, which blends the source co
 
 This is a small example of flexibility inside the standard: the rule handles the common case, and the documented exception handles the place where the visual result needs a human decision. Learn the rules so you can test them.
 
+## Wash Palettes
+
+Wash palette arrays define ordered HEX stops for terminal color-wash effects. They live in `shell/colors.sh` with the rest of the palette data.
+
+```bash
+ACID_BLUE_WASH=(
+	"#dffeff"
+	"#9ef8fb"
+	"#4fd6da"
+	"#00747c"
+	"#00aaab"
+)
+```
+
+The first stop is the moving wash center. Later stops are farther from the center. The final stop is the stable resting color and should match the token's full-strength HEX value.
+
+## Color Wash
+
+`shell/color-wash.sh` provides the reusable terminal wash primitive. It is meant for shared shell UI behavior, not for application-specific animation logic.
+
+Source it when a script needs to render one frame or compose its own terminal behavior:
+
+```bash
+# shellcheck source=../vendor/standards/shell/color-wash.sh
+source "$script_dir/../vendor/standards/shell/color-wash.sh"
+
+color_wash ACID_BLUE "Working..." 0
+color_wash_solid ACID_GREEN "Ready"
+```
+
+Public functions:
+
+```text
+color_wash TOKEN TEXT [frame_index]
+color_wash_solid TOKEN TEXT
+```
+
+`color_wash` resolves color input in this order when available:
+
+1. A token-specific wash array such as `ACID_BLUE_WASH`.
+2. A family fallback such as `ACID_WASH`.
+3. A solid token such as `ACID_BLUE`.
+4. An explicit HEX color when supported by the current implementation.
+
+For direct preview use:
+
+```bash
+$ shell/color-wash.sh "Working..." ACID_BLUE
+$ shell/color-wash.sh --solid "Ready" ACID_GREEN
+```
+
 ## Preview
 
 Use `bin/showpalette` to inspect the palette.
@@ -94,18 +147,31 @@ It prints the sections in contract order:
 1. BASE PALETTE
 2. SEMANTIC PALETTE
 3. CLASSIC PALETTE
+4. WASH PALETTES
 
 For each token, the preview shows the full hex value, full sample, full swatch, dim hex value, dim sample, and dim swatch.
 
+For wash palettes, the preview shows the token name, stop values, sample text, and swatches.
+
 The sample phrase `lorem ipsum, [baby]` and swatch glyphs `▇▇▇▇` are intentional preview content. They provide a stable visual check for text color, punctuation, brackets, spacing, and swatch rendering.
+
+## Environment Policy
+
+Color is emitted only when stdout is a TTY, unless `FORCE_COLOR=1` is set.
+
+Redirected output is plain by default.
+
+`NO_COLOR=1` disables ANSI output. `NO_COLOR` wins over `FORCE_COLOR`.
+
+Use `FORCE_COLOR=1` for controlled rendering and capture cases, such as tests, previews, or rendering colored output through command substitution before writing back to a terminal.
 
 ## Usage
 
 Source the shared library instead of redefining colors in scripts:
 
 ```bash
-# shellcheck source=../shell/colors.sh
-source "$script_dir/../shell/colors.sh"
+# shellcheck source=../vendor/standards/shell/colors.sh
+source "$script_dir/../vendor/standards/shell/colors.sh"
 
 printf '%b%s%b\n' "$SUCCESS" "Done." "$RESET"
 printf '%b%s%b %s\n' "$TEXT_DIM" "branch:" "$RESET" "$GIT_BRANCH"

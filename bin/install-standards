@@ -31,6 +31,7 @@ Manifest format:
 
 Example:
   shell/colors.sh -> vendor/standards/shell/colors.sh
+  shell/color-wash.sh -> vendor/standards/shell/color-wash.sh
 USAGE
 }
 
@@ -104,6 +105,7 @@ write_default_manifest() {
 # source/path -> destination/path
 
 shell/colors.sh -> vendor/standards/shell/colors.sh
+shell/color-wash.sh -> vendor/standards/shell/color-wash.sh
 MANIFEST
 
 	printf 'Created manifest: %s\n' "$manifest_path"

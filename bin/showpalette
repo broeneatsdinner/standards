@@ -72,6 +72,96 @@ print_palette_section() {
 		"-----" "---" "------" "------" "-------" "----------" "------"
 }
 
+print_wash_sample() {
+	local sample_text="$1"
+	shift
+
+	local -a stops=("$@")
+	local stop_count="${#stops[@]}"
+	local text_length="${#sample_text}"
+	local i
+	local ch
+	local hex
+
+	if (( stop_count == 0 )); then
+		printf '%s' "$sample_text"
+		return
+	fi
+
+	for (( i = 0; i < text_length; i++ )); do
+		ch="${sample_text:i:1}"
+		hex="${stops[i % stop_count]}"
+
+		if [[ -n "$RESET" ]]; then
+			printf '%b%s%b' "$(ansi_from_hex "$hex")" "$ch" "$RESET"
+		else
+			printf '%s' "$ch"
+		fi
+	done
+}
+
+print_wash_gradient_bar() {
+	local -a stops=("$@")
+	local segment="▇▇▇▇"
+	local stop
+
+	for stop in "${stops[@]}"; do
+		if [[ -n "$RESET" ]]; then
+			printf '%b%s%b' "$(ansi_from_hex "$stop")" "$segment" "$RESET"
+		else
+			printf '%s' "$segment"
+		fi
+	done
+}
+
+print_wash_row() {
+	local token_name="$1"
+	shift
+
+	local -a stops=("$@")
+	local sample="wash preview"
+	local stop_index
+
+	print_wash_summary_row "$token_name" "$sample" "${stops[@]}"
+
+	for (( stop_index = 0; stop_index < ${#stops[@]}; stop_index++ )); do
+		print_wash_stop_row "${stops[$stop_index]}"
+	done
+}
+
+print_wash_summary_row() {
+	local token_name="$1"
+	local sample="$2"
+	shift 2
+
+	local -a stops=("$@")
+
+	printf '%-16s %-10s ' "$token_name" ""
+	print_wash_sample "$sample" "${stops[@]}"
+	printf '%*s ' "$((15 - ${#sample}))" ""
+	print_wash_gradient_bar "${stops[@]}"
+	printf '\n'
+}
+
+print_wash_stop_row() {
+	local stop_hex="$1"
+	local color_value=""
+
+	if [[ -n "$RESET" ]]; then
+		color_value="$(ansi_from_hex "$stop_hex")"
+	fi
+
+	printf '%-16s %-10s %-15s ' "" "$stop_hex" ""
+	print_swatch_cell "$color_value" 7
+	printf '\n'
+}
+
+print_wash_section() {
+	printf '%s\n' "WASH PALETTES"
+	printf '%-16s %-10s %-15s %-7s\n' "TOKEN" "STOPS" "SAMPLE" "SWATCH"
+	printf '%-16s %-10s %-15s %-7s\n' "-----" "-----" "------" "------"
+}
+
 printf '\n'
 print_palette_section "BASE PALETTE"
 
@@ -100,4 +190,11 @@ print_palette_row "BLUE" "$BLUE_HEX" "$BLUE_DIM_HEX"
 print_palette_row "MAGENTA" "$MAGENTA_HEX" "$MAGENTA_DIM_HEX"
 print_palette_row "CYAN" "$CYAN_HEX" "$CYAN_DIM_HEX"
 print_palette_row "WHITE" "$WHITE_HEX" "$WHITE_DIM_HEX"
+
+printf '\n'
+print_wash_section
+
+print_wash_row "ACID_WASH" "${ACID_WASH[@]}"
+print_wash_row "ACID_BLUE_WASH" "${ACID_BLUE_WASH[@]}"
+print_wash_row "ACID_GREEN_WASH" "${ACID_GREEN_WASH[@]}"
 printf '\n'

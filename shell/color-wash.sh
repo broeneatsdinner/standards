@@ -333,27 +333,43 @@ _color_wash_render_demo_frame() {
 }
 
 _color_wash_usage() {
-	printf '%s\n' "usage:"
+	printf '%s\n' "Usage:"
 	printf '%s\n' "  color-wash.sh [--solid] TEXT TOKEN [speed=MS] [cycles=N] [frames=N] [pause=MS]"
-	printf '%s\n' "examples:"
-	printf '%s\n' "  color-wash.sh \"Working...\" ACID_BLUE speed=80 cycles=3 pause=400"
-	printf '%s\n' "  color-wash.sh --solid \"22\" ACID_BLUE"
+	printf '%s\n' ""
+	printf '%s\n' "Defaults:"
+	printf '%s\n' "  TEXT=Working"
+	printf '%s\n' "  TOKEN=ACID_BLUE"
+	printf '%s\n' "  speed=45"
+	printf '%s\n' "  cycles=2"
+	printf '%s\n' "  frames=22"
+	printf '%s\n' "  pause=220"
+	printf '%s\n' ""
+	printf '%s\n' "Examples:"
+	printf '%s\n' "  ./color-wash.sh"
+	printf '%s\n' "  ./color-wash.sh \"Loading inventory\" ACID_BLUE"
+	printf '%s\n' "  ./color-wash.sh --solid \"Ready\" ACID_GREEN"
+	printf '%s\n' "  ./color-wash.sh \"Checking hosts\" ACID_GREEN speed=70 cycles=3"
 }
 
 _color_wash_main() {
 	local solid=0
-	local text="${1:-Working...}"
+	local text="${1:-Working}"
 	local token="${2:-ACID_BLUE}"
-	local speed=80
-	local cycles=1
+	local speed=45
+	local cycles=2
 	local frames=""
-	local pause=0
+	local pause=220
 	local frame_count="${#COLOR_WASH_CENTERS[@]}"
 	local total_frames
 	local cycle
 	local frame
 	local frame_output
 	local arg
+
+	if (( $# == 0 )); then
+		_color_wash_usage
+		printf '\n'
+	fi
 
 	case "${1:-}" in
 		-h|--help)

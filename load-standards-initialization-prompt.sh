@@ -2,16 +2,31 @@
 # ---------------------------------------------------
 # --    load-standards-initialization-prompt.sh    --
 # ---------------------------------------------------
-# description: Print and copy the standard project initialization prompt.
+# description: Print the standard project initialization prompt.
 #
 # This script extracts the first fenced text block from
-# prompts/project-initialization.md, prints it to stdout, and copies it to the
-# macOS clipboard when pbcopy is available.
+# prompts/project-initialization.md and prints it to stdout. Clipboard copying
+# is opt-in with --copy for standalone or disconnected sessions.
 #
 # It can be run from the standards repository root or through a symlink from
 # another directory.
 
 set -u
+
+copy_prompt=false
+
+case "${1-}" in
+	'') ;;
+	--copy) copy_prompt=true ;;
+	-h|--help)
+		printf '%s\n' 'Usage: load-standards-initialization-prompt.sh [--copy]'
+		exit 0
+		;;
+	*)
+		printf 'ERROR: Unknown option: %s\n' "$1" >&2
+		exit 2
+		;;
+esac
 
 # Resolve this script's real path, including symlinks, so relative repository
 # paths work regardless of the current working directory.
@@ -103,9 +118,11 @@ printf '\n'
 printf '%s\n' "$prompt"
 printf '\n'
 
-if command -v pbcopy >/dev/null 2>&1; then
+if [[ "$copy_prompt" == true ]] && command -v pbcopy >/dev/null 2>&1; then
 	printf '%s\n' "$prompt" | pbcopy
 	print_banner "Copied the above initialization prompt to clipboard."
-else
+elif [[ "$copy_prompt" == true ]]; then
 	print_banner "pbcopy not found; prompt was printed but not copied."
+else
+	print_banner "Prompt shown above; clipboard copy is disabled by default."
 fi

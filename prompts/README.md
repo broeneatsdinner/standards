@@ -115,10 +115,18 @@ Any deviation should be intentional, not accidental.
 - `hitl-review-packet.md` — specialized human-in-the-loop review packet workflow for clipboard-based pre-commit review.
 - `transcript-handoff.md` — lightweight clipboard handoff workflow for the most recent operator prompt and terminal-visible assistant output.
 
-## AI session handoff workflows
+## Visible terminal and handoff workflows
 
-Two optional AI session handoff workflows are available for Codex and other
-repository-aware AI coding sessions.
+For local ChatGPT-assisted repository work, use
+`docs/visible-terminal-workflow.md` as the default. It replaces routine
+clipboard transfer between ChatGPT and Codex or Claude with one named,
+operator-visible tmux shell.
+
+## Clipboard handoff workflows
+
+Two optional clipboard handoff workflows remain available for Codex and other
+repository-aware AI coding sessions when a portable artifact is explicitly
+needed or a visible terminal session is unavailable.
 
 Use the HITL review packet workflow when an AI tool has made changes but the
 operator wants structured review evidence before commit.

@@ -2,7 +2,13 @@
 
 ## Invocation instructions
 
-Use this prompt at the start of a new ChatGPT chat, local Codex session, or remote Codex session:
+For local repository work, prefer `docs/visible-terminal-workflow.md`: run
+`chatgpt` from the target repository root, tell ChatGPT the resulting session
+name, and ask it to load the standards there. Do not paste this prompt into
+Codex or Claude when that visible session is available.
+
+Use this prompt as a fallback for a new ChatGPT chat, Codex session, or another
+environment without a visible terminal bridge:
 
 ```text
 Apply the project initialization standard for this session.
@@ -92,6 +98,17 @@ Do not begin editing until the applicable standards have been read, or until you
 
 ## Session preferences
 
+## Default local execution workflow
+
+When a named visible terminal session is available, load
+`docs/visible-terminal-workflow.md` and use it as the default execution
+surface. Do not automatically ask the operator to choose a clipboard handoff
+mode. Clipboard HITL packets and transcript handoffs remain opt-in specialized
+workflows; commits, pushes, deletion, publication, and other consequential
+commands still require explicit operator direction.
+
+## Clipboard fallback preferences
+
 After initialization, maintain lightweight session preferences for the current Codex or AI coding session.
 
 Session preferences may include:
@@ -103,8 +120,8 @@ Session preferences may include:
 - clipboard behavior: copy review packets or transcript handoffs with pbcopy / do not copy clipboard artifacts
 - clipboard approval behavior: always approve pbcopy for enabled session workflow artifacts / ask each time
 
-After successfully loading the standing standards cascade, ask the operator to
-choose one session handoff mode:
+When no visible terminal session is available, ask the operator to choose one
+session handoff mode after loading the standing standards cascade:
 
 ```text
 Choose a session handoff mode:
@@ -292,7 +309,10 @@ If no standard exists for the work, surface that gap. Do not hide it.
 
 ## ChatGPT behavior
 
-When this prompt is applied in ChatGPT, do not assume access to the local filesystem.
+When this prompt is applied in ChatGPT, first determine whether a named visible
+terminal session has been supplied. When it has, use it to inspect the local
+standards repository and follow `docs/visible-terminal-workflow.md`. Otherwise,
+do not assume access to the local filesystem.
 
 Use the standards already present in the conversation first.
 

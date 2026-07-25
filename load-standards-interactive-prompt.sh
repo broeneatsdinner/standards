@@ -119,4 +119,4 @@ elif [[ "$copy_prompt" == true ]]; then
 fi
 
 printf '%s\n' "Starting tmux session: $session_name"
-exec /bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatgpt' zsh "$repository_root"
+exec env CHATGPT_SKIP_SESSION_CLIPBOARD=true /bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatgpt' zsh "$repository_root"

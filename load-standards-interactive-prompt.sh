@@ -109,14 +109,10 @@ command -v python3 >/dev/null 2>&1 || fail 'Required command not found: python3'
 [[ -f "$PROMPT_FILE" ]] || fail "Prompt file not found: $PROMPT_FILE"
 
 prompt="$(extract_prompt)" || fail 'Could not extract interactive prompt'
-printf '%s\n' "$prompt"
+printf '%s\n' "Starting tmux session: $session_name"
 
-if [[ "$copy_prompt" == true ]] && command -v pbcopy >/dev/null 2>&1; then
-	printf '%s' "$prompt" | pbcopy
-	printf '%s\n' 'Copied the interactive terminal session prompt to clipboard.'
-elif [[ "$copy_prompt" == true ]]; then
-	printf '%s\n' 'pbcopy not found; prompt was printed but not copied.'
+if [[ "$copy_prompt" == false ]]; then
+	export CHATGPT_SKIP_BOOTSTRAP_CLIPBOARD=true
 fi
 
-printf '%s\n' "Starting tmux session: $session_name"
-exec env CHATGPT_SKIP_SESSION_CLIPBOARD=true /bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatgpt' zsh "$repository_root"
+exec env CHATGPT_BOOTSTRAP_PROMPT="$prompt" /bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatgpt' zsh "$repository_root"

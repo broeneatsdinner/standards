@@ -7,10 +7,14 @@ It creates the visible session and copies a prompt with the exact session and
 repository values filled in.
 
 ```text
-Apply the interactive terminal session standard for this conversation.
+This is a visible-terminal ChatGPT collaboration session.
 
+Standards repository: {{STANDARDS_REPOSITORY}}
 Use visible tmux session: {{TMUX_SESSION}}
 Repository root when created: {{REPOSITORY_ROOT}}
+
+ChatGPT handles planning and decisions in this conversation. The named tmux pane
+is the visible execution surface for terminal commands I explicitly request.
 
 Use that named tmux pane as the visible execution surface for all terminal
 commands I explicitly ask you to run. Do not use an isolated or hidden command

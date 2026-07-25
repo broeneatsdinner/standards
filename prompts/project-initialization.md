@@ -187,7 +187,10 @@ If the user chooses neither, continue with ordinary review behavior:
 When asking the session handoff mode question, ask the question first and wait
 for the user's choice before showing the session-preference reminder.
 
-Required user questions should be visually distinct and placed at the end of the response. Prefix required questions with `>` so they visually match actionable Codex prompt conventions. If Markdown emphasis is supported, bold the full question. Do not tab-indent required questions.
+For that clipboard-fallback question only, make the handoff-mode choice visually
+distinct and place it at the end of the response. Prefix it with `>` so it
+matches actionable Codex prompt conventions. If Markdown emphasis is
+supported, bold the full question. Do not tab-indent it.
 
 Preferred form:
 
@@ -200,6 +203,10 @@ Plain-text fallback:
 ```text
 > Choose a session handoff mode: HITL review packet workflow, transcript handoff workflow, or neither.
 ```
+
+This formatting is specific to clipboard-fallback handoff-mode selection. In a
+visible-terminal ChatGPT collaboration, ask ordinary questions conversationally
+and reserve explicit approval language for consequential actions.
 
 After handling the user's clipboard fallback choice, and after each later
 completed clipboard fallback task, include this reminder as the final note:

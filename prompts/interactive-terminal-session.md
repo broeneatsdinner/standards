@@ -20,10 +20,14 @@ First, read the active terminal state, including `pwd` and `git status`, before
 doing repository work. The current working directory, not the tmux session
 name, identifies the active repository.
 
-Load the applicable standards from the local standards repository and summarize
-the active rules before making edits. Run Codex or Claude only inside the named
-visible shell when I ask. When either agent exits, continue using the same shell
-for later commands.
+Use a lean standards initialization pass before making edits. Read
+`prompts/project-initialization.md` for routing and `prompts/universal.md` as
+the standing baseline, then load only the standards directly relevant to the
+current task. Do not recursively read the entire standards repository or its
+full standards cascade at session startup. State which standards you loaded and
+which you deferred. Run Codex or Claude only inside the named visible shell when
+I ask. When either agent exits, continue using the same shell for later
+commands.
 
 Keep me human-in-the-loop: read-only inspection can proceed when I request it,
 but file changes, commits, pushes, deletion, publication, network actions, and

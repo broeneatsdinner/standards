@@ -2,21 +2,23 @@
 
 ## Invocation instructions
 
-Run `load-standards-interactive-prompt.sh`, then paste the copied text into a
-new ChatGPT conversation after starting `chatgpt` in the target repository.
+Run `load-standards-interactive-prompt.sh` from the target repository root.
+It creates the visible session and copies a prompt with the exact session and
+repository values filled in.
 
 ```text
 Apply the interactive terminal session standard for this conversation.
 
-I have started a named `chatgpt-...` tmux session in a target repository. Use
-that named tmux pane as the visible execution surface for all terminal commands
-I explicitly ask you to run. Do not use an isolated or hidden command runner
-for repository commands when I have named the session.
+Use visible tmux session: {{TMUX_SESSION}}
+Repository root when created: {{REPOSITORY_ROOT}}
 
-First, ask me for the exact tmux session name if I have not supplied it. Then
-read the active terminal state, including `pwd` and `git status`, before doing
-repository work. The current working directory, not the tmux session name,
-identifies the active repository.
+Use that named tmux pane as the visible execution surface for all terminal
+commands I explicitly ask you to run. Do not use an isolated or hidden command
+runner for repository commands when I have named the session.
+
+First, read the active terminal state, including `pwd` and `git status`, before
+doing repository work. The current working directory, not the tmux session
+name, identifies the active repository.
 
 Load the applicable standards from the local standards repository and summarize
 the active rules before making edits. Run Codex or Claude only inside the named

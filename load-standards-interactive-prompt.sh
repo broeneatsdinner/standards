@@ -5,8 +5,9 @@
 # description: Print and copy the interactive terminal session prompt.
 #
 # This script extracts the first fenced text block from
-# prompts/interactive-terminal-session.md, prints it to stdout, and copies it
-# to the macOS clipboard by default. Use --no-copy to print without copying.
+# prompts/interactive-terminal-session.md, fills in the current repository and
+# next tmux session name, prints it to stdout, and copies it by default. It then
+# launches that visible session. Use --no-copy to print without copying.
 
 set -u
 
@@ -20,7 +21,7 @@ case "${1-}" in
 		;;
 	-h|--help)
 		printf '%s\n' 'Usage: load-standards-interactive-prompt.sh [--no-copy]'
-		printf '%s\n' 'Print and copy the interactive terminal session prompt.'
+		printf '%s\n' 'Print the hydrated prompt, copy it by default, and start its tmux session.'
 		exit 0
 		;;
 	*)
@@ -46,6 +47,28 @@ readonly SCRIPT_DIR
 PROMPT_FILE="$SCRIPT_DIR/prompts/interactive-terminal-session.md"
 readonly PROMPT_FILE
 
+if ! repository_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+	printf '%s\n' 'ERROR: Run this command from a Git repository root.' >&2
+	exit 1
+fi
+
+repository_root="$(cd "$repository_root" && pwd -P)" || exit 1
+current_directory="$(pwd -P)" || exit 1
+
+if [[ "$current_directory" != "$repository_root" ]]; then
+	printf '%s\n' 'ERROR: Run this command from the Git repository root.' >&2
+	printf '%s\n' "Repository root: $repository_root" >&2
+	exit 1
+fi
+
+session_name="$(/bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatgpt --session-name' zsh "$repository_root")" || {
+	printf '%s\n' 'ERROR: Could not determine the next chatgpt tmux session name.' >&2
+	exit 1
+}
+
+export INTERACTIVE_TMUX_SESSION="$session_name"
+export INTERACTIVE_REPOSITORY_ROOT="$repository_root"
+
 fail() {
 	printf 'ERROR: %s\n' "$*" >&2
 	exit 1
@@ -54,6 +77,7 @@ fail() {
 extract_prompt() {
 	python3 - "$PROMPT_FILE" <<'PY'
 from pathlib import Path
+import os
 import sys
 
 text = Path(sys.argv[1]).read_text()
@@ -71,6 +95,8 @@ if end == -1:
     sys.exit("no closing ```text fence found")
 
 prompt = text[start:end].strip()
+prompt = prompt.replace("{{TMUX_SESSION}}", os.environ["INTERACTIVE_TMUX_SESSION"])
+prompt = prompt.replace("{{REPOSITORY_ROOT}}", os.environ["INTERACTIVE_REPOSITORY_ROOT"])
 
 if not prompt:
     sys.exit("extracted prompt is empty")
@@ -91,3 +117,6 @@ if [[ "$copy_prompt" == true ]] && command -v pbcopy >/dev/null 2>&1; then
 elif [[ "$copy_prompt" == true ]]; then
 	printf '%s\n' 'pbcopy not found; prompt was printed but not copied.'
 fi
+
+printf '%s\n' "Starting tmux session: $session_name"
+exec /bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatgpt' zsh "$repository_root"

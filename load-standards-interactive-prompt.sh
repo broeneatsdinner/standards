@@ -68,6 +68,7 @@ session_name="$(/bin/zsh -fc 'source "$HOME/.dotfiles/functions"; cd "$1"; chatg
 
 export INTERACTIVE_TMUX_SESSION="$session_name"
 export INTERACTIVE_REPOSITORY_ROOT="$repository_root"
+export INTERACTIVE_STANDARDS_REPOSITORY="$SCRIPT_DIR"
 
 fail() {
 	printf 'ERROR: %s\n' "$*" >&2
@@ -97,6 +98,7 @@ if end == -1:
 prompt = text[start:end].strip()
 prompt = prompt.replace("{{TMUX_SESSION}}", os.environ["INTERACTIVE_TMUX_SESSION"])
 prompt = prompt.replace("{{REPOSITORY_ROOT}}", os.environ["INTERACTIVE_REPOSITORY_ROOT"])
+prompt = prompt.replace("{{STANDARDS_REPOSITORY}}", os.environ["INTERACTIVE_STANDARDS_REPOSITORY"])
 
 if not prompt:
     sys.exit("extracted prompt is empty")

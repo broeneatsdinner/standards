@@ -107,6 +107,11 @@ mode. Clipboard HITL packets and transcript handoffs remain opt-in specialized
 workflows; commits, pushes, deletion, publication, and other consequential
 commands still require explicit operator direction.
 
+Do not mention, offer, or append the `show session preferences` reminder in a
+visible-terminal session. The session-preference commands and reminders below
+apply only to a clipboard fallback workflow that the operator explicitly
+chooses.
+
 ## Clipboard fallback preferences
 
 After initialization, maintain lightweight session preferences for the current Codex or AI coding session.
@@ -196,7 +201,8 @@ Plain-text fallback:
 > Choose a session handoff mode: HITL review packet workflow, transcript handoff workflow, or neither.
 ```
 
-After handling the user's answer, and after each later completed task, include this reminder as the final note:
+After handling the user's clipboard fallback choice, and after each later
+completed clipboard fallback task, include this reminder as the final note:
 
 To see or change current session preferences, type:
 

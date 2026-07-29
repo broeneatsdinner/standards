@@ -24,6 +24,21 @@ When a repository publishes GitHub Pages, the README remains the GitHub-native e
 
 Write information once. Link or summarize it elsewhere.
 
+## Adopting Pages in an established repository
+
+When an existing README already carries substantial project narrative or
+technical detail, create an adjacent snapshot named `README.pre-pages.md`
+before restructuring it.
+
+Promote the enduring narrative and detailed material into `docs/index.md` and
+other appropriate canonical documentation pages. Then rewrite `README.md` as a
+concise GitHub-native front door: what the repository is, its boundary, where
+to begin, and where detailed documentation lives.
+
+The snapshot is a migration record, not a second maintained manual. Do not
+continue updating it after the migration. The new README and `docs/` pages are
+the active documentation system.
+
 ## Keep it useful
 
 - Lead with concrete language rather than generic claims.

@@ -13,6 +13,7 @@ An agent instruction file should state that:
 - Pages presentation files support documentation; they do not create a second content source.
 - Navigation is maintained in one place.
 - Existing documentation must be inspected before the kit is installed or reorganized.
+- When reshaping an established README for Pages, create `README.pre-pages.md` first, promote enduring material into `docs/`, and do not maintain the snapshot as a parallel manual.
 - Audits and discovery do not grant edit, deployment, or publication authority.
 - Changes to documentation structure, navigation, or public publication are reviewed deliberately.
 - The applicable writing mode is selected before drafting prose or procedures.

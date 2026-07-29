@@ -50,9 +50,9 @@ The README should link to the documentation home. Pages pages may link to the re
 
 ## Markdown and tables
 
-Use ordinary Markdown for headings, prose, lists, links, code, and routine comparison tables. The stylesheet should make these elements readable without requiring page-specific design work.
+Use ordinary Markdown for headings, prose, lists, links, code, and tables. The shared stylesheet should make these elements readable without requiring page-specific design work.
 
-Use the reference-table treatment only for catalog, taxonomy, inventory, or field-guide material that benefits from generous rows and subtle horizontal rules. It is a semantic HTML table with `class="reference-table"`; do not use it to restyle every Markdown table.
+All Markdown tables use one shared treatment: generous rows, subtle horizontal rules, a stronger header divider, and no bottom rule after the final data row. Do not introduce a second table class or an HTML-only table system unless a future documented need cannot be served by ordinary Markdown.
 
 ## Writing
 

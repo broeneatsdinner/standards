@@ -50,6 +50,7 @@ The goal is eliminating ambiguity.
 - AI prompt guidance for applying these standards
 - repository audit and refactor guidance
 - repository taxonomy
+- README and GitHub Pages documentation standards
 - media asset publication workflow
 - OPSEC methodology
 - publication audit prompts
@@ -120,6 +121,10 @@ For concrete examples of the operating architecture, see:
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
 - [docs/typography.md](docs/typography.md)
+- [docs/readme-guidelines.md](docs/readme-guidelines.md)
+- [docs/github-pages-guidelines.md](docs/github-pages-guidelines.md)
+- [docs/documentation-writing-style.md](docs/documentation-writing-style.md)
+- [pages/README.md](pages/README.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
 - [prompts/repository-opsec-02-audit.md](prompts/repository-opsec-02-audit.md)
 
@@ -182,6 +187,7 @@ standards/
 ├── prompts/
 ├── shell/
 ├── directory_structures/
+├── pages/
 ├── examples/
 └── assets/
 ```
@@ -205,6 +211,9 @@ shell/
 
 directory_structures/
     starting structures, project skeletons, and reusable filesystem layouts
+
+pages/
+    reusable GitHub Pages documentation-site standards and implementation kit
 
 examples/
     working examples that demonstrate the standards in practice

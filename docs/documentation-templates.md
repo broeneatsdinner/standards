@@ -4,6 +4,8 @@
 
 The Pages kit at `pages/github-pages-docs-site/` is a reusable starting point for a repository documentation site. It supplies presentation, navigation, and example content; it does not replace a project's actual documentation.
 
+Use `prompts/add-github-pages.md` for the complete adoption workflow, including the established-README migration path.
+
 ## Adoption workflow
 
 1. Inspect the consumer repository and its existing README and `docs/` files.

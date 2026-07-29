@@ -24,6 +24,9 @@ When a repository publishes GitHub Pages, the README remains the GitHub-native e
 
 Write information once. Link or summarize it elsewhere.
 
+The complete relationship between `README.md`, `docs/`, and `AGENTS.md` is
+defined by the [repository documentation system](github-pages-guidelines.md#repository-documentation-system).
+
 ### Front-door voice and manual link
 
 Do not turn a repository README into a generic directory index just because

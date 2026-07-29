@@ -6,6 +6,35 @@ GitHub Pages is the public presentation layer for repository documentation. It i
 
 Canonical documentation lives in the consumer repository's `docs/` directory. Pages renders that same material in a calm, navigable documentation shell.
 
+## Repository documentation system
+
+Use this structure as the default documentation system for repositories that
+adopt Pages:
+
+```text
+Repository
+│
+├── README.md
+│   └── introduction / purpose / quick orientation
+│
+├── docs/
+│   └── GitHub Pages site
+│       ├── deeper explanation
+│       ├── visuals
+│       ├── architecture
+│       ├── timeline
+│       └── supporting material
+│
+└── AGENTS.md
+    └── project operating instructions
+```
+
+`README.md` is the GitHub-native front door. `docs/` is the canonical long-form
+manual and the source rendered by Pages. `AGENTS.md` records the operating
+instructions that keep the system understandable to both human and AI
+contributors. These roles complement one another; none is a duplicate of the
+others.
+
 ## Standard model
 
 ```text

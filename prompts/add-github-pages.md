@@ -17,6 +17,8 @@ GitHub Pages
     -> rendering of approved docs/ material
 ```
 
+Apply the canonical [repository documentation system](../docs/github-pages-guidelines.md#repository-documentation-system): `README.md` is the front door, `docs/` is the canonical manual and Pages source, and `AGENTS.md` records project operating instructions.
+
 Use `pages/github-pages-docs-site/` as the presentation kit. Adapt it to the
 consumer repository; never copy it blindly over intentional documentation.
 

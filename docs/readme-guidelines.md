@@ -24,6 +24,19 @@ When a repository publishes GitHub Pages, the README remains the GitHub-native e
 
 Write information once. Link or summarize it elsewhere.
 
+### Front-door voice and manual link
+
+Do not turn a repository README into a generic directory index just because
+Pages carries the detailed manual. Preserve enough project-specific voice,
+stakes, and point of view for a first-time reader to understand why this
+repository is worth opening.
+
+Place a prominent link to the documentation manual in the opening screenful,
+after the initial project framing and before a repository map or lower-priority
+detail. Before a Pages site has a stable published URL, link to `docs/index.md`;
+after publication, link to the Pages site and retain a link to the canonical
+`docs/` source where useful.
+
 ## Adopting Pages in an established repository
 
 When an existing README already carries substantial project narrative or

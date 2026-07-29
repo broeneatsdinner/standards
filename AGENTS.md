@@ -15,3 +15,5 @@ This repository defines reusable engineering standards. Treat `docs/` as the can
 When a task concerns project documentation sites, read `docs/readme-guidelines.md`, `docs/github-pages-guidelines.md`, `docs/wiki-policy.md`, `docs/documentation-templates.md`, `docs/documentation-writing-style.md`, and `docs/ai-agent-instructions.md`.
 
 The reusable implementation kit lives at `pages/github-pages-docs-site/`. It is copied into a consumer repository and adapted to that repository's real documentation. Do not treat this standards repository as a Pages deployment target merely because it contains the kit.
+
+When the operator asks to add, generate, or apply Pages in a repository, follow `prompts/add-github-pages.md` after the required repository inspection. It defines the README snapshot, narrative migration, local validation, and local-commit workflow.

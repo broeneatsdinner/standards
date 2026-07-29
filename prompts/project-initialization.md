@@ -273,7 +273,7 @@ Apply these standards in order when relevant:
 7. Repository organization: `docs/repo-organization.md`
 8. Repository taxonomy: `docs/repo-taxonomy.md`
 9. Directory structures: `directory_structures/`
-10. README and Pages guidance when repository documentation or GitHub Pages is in scope: `docs/readme-guidelines.md`, `docs/github-pages-guidelines.md`, `docs/wiki-policy.md`, `docs/documentation-templates.md`, `docs/documentation-writing-style.md`, and `docs/ai-agent-instructions.md`
+10. README and Pages guidance when repository documentation or GitHub Pages is in scope: `docs/readme-guidelines.md`, `docs/github-pages-guidelines.md`, `docs/wiki-policy.md`, `docs/documentation-templates.md`, `docs/documentation-writing-style.md`, and `docs/ai-agent-instructions.md`. When adding or generating Pages, also load `prompts/add-github-pages.md`.
 11. AI-facing universal guidance: `prompts/universal.md`
 12. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
 

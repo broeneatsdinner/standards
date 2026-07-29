@@ -8,11 +8,13 @@ The Pages kit at `pages/github-pages-docs-site/` is a reusable starting point fo
 
 1. Inspect the consumer repository and its existing README and `docs/` files.
 2. Read the applicable README, Pages, wiki, and AI-instruction standards.
-3. Copy the kit into the consumer repository without overwriting intentional documentation.
-4. Adapt navigation and starter pages to the project's real structure.
-5. Review the result as a normal diff.
-6. Validate local rendering and links when appropriate.
-7. Deploy only after the operator explicitly approves publication.
+3. When an established README needs reshaping, snapshot it as `README.pre-pages.md` before changing it.
+4. Promote the enduring narrative into `docs/index.md` and other canonical Pages content; rewrite the active README as the GitHub-native front door.
+5. Copy the kit into the consumer repository without overwriting intentional documentation.
+6. Adapt navigation and starter pages to the project's real structure.
+7. Review the result as a normal diff.
+8. Validate local rendering and links when appropriate.
+9. Deploy only after the operator explicitly approves publication.
 
 ## Customization boundary
 

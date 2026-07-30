@@ -32,6 +32,23 @@ The bird collection provides a lightweight visual vocabulary for assigning perso
 | 🟢 Green/yellow bird | `bird17` | Living systems, connected devices, exploratory technology | <img src="bird17-scale-2x.jpg" width="80"> |
 | 🔵 Blue/green bird | `bird21` | Tools, utilities, libraries, developer-focused projects | <img src="bird21-scale-2x.jpg" width="80"> |
 
+## LinkedIn Featured Derivatives
+
+The `*-linkedin-1200x627.png` files are landscape derivatives prepared for
+LinkedIn Featured-link thumbnails at its 1.91:1 preview ratio. They extend the
+studio backgrounds without cropping the birds.
+
+Current Featured assignments:
+
+| LinkedIn link | Thumbnail |
+| --- | --- |
+| Security Engineering Portfolio | `black-headed-lovebird-linkedin-1200x627.png` |
+| Operator Pipeline | `bird21-linkedin-1200x627.png` |
+| SEPftSETA | `bird6-linkedin-1200x627.png` |
+| Standards | `bird3-linkedin-1200x627.png` |
+
+The remaining bird derivatives are available for future projects.
+
 ## Design Philosophy
 
 Visual assets should support recognition and consistency without overwhelming the content.

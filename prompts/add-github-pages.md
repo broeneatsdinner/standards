@@ -161,6 +161,11 @@ For an approved public repository:
    source link to canonical `docs/` material only when it serves a distinct
    reader need. Push that handoff commit only with explicit approval.
 
+When the operator has separately approved an animated README CTA, use
+`prompts/generate-readme-button.md` to generate it from the canonical motion
+source. Place it immediately above the ordinary manual link; do not remove the
+plain Markdown fallback.
+
 For private repositories or local-only manuals, stop before step 3 unless the
 operator explicitly requests publication. Preserve `docs/index.md` links in the
 README for GitHub-native source browsing and do not activate Pages.

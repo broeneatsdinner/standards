@@ -1,0 +1,383 @@
+#!/usr/bin/env python3
+"""Generate a repository-specific dark animated README manual button."""
+
+from __future__ import annotations
+
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import hashlib
+import json
+import math
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+from PIL import Image, ImageChops, ImageDraw, ImageFont
+
+
+FRAME_COUNT = 391
+FRAME_HEIGHT = 142
+FONT_SIZE = 40
+RADIUS = 8
+THEME = "dark"
+SIDE_PADDING = 48
+TEXT_ARROW_GAP = 24
+ARROW_WIDTH = 31
+ARROW_STROKE = 4.5
+RENDER_SCALE = 4
+TIMING_PATTERN_MS = (33, 33, 34)
+CANVAS_COLOR = "#0d1117"
+SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+class GenerationError(RuntimeError):
+    """Describe an invalid input or failed output validation."""
+
+
+def parse_arguments() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate a dark animated README manual button from 391 source frames."
+    )
+    parser.add_argument("--label", required=True, help="Exact visible label text, without the arrow.")
+    parser.add_argument("--slug", required=True, help="Kebab-case asset name.")
+    parser.add_argument("--theme", default=THEME, choices=(THEME,), help="Button theme.")
+    parser.add_argument("--radius", type=int, default=RADIUS, help="Rounded-corner radius in source pixels.")
+    parser.add_argument("--font", type=Path, required=True, help="Path to SansSerif-SemiBold.otf.")
+    parser.add_argument("--source-frames", type=Path, required=True, help="Directory containing frame-001.png through frame-391.png.")
+    parser.add_argument("--output-dir", type=Path, required=True, help="Directory that will receive <slug>-8px/.")
+    return parser.parse_args()
+
+
+def require_command(name: str) -> None:
+    if shutil.which(name) is None:
+        raise GenerationError(f"required command not found: {name}")
+
+
+def frame_duration_ms(index: int) -> int:
+    return TIMING_PATTERN_MS[index % len(TIMING_PATTERN_MS)]
+
+
+def expected_durations_ms() -> list[int]:
+    return [frame_duration_ms(index) for index in range(FRAME_COUNT)]
+
+
+def expected_total_duration_ms() -> int:
+    return sum(expected_durations_ms())
+
+
+def source_frame_paths(source_directory: Path) -> list[Path]:
+    expected = [source_directory / f"frame-{index:03d}.png" for index in range(1, FRAME_COUNT + 1)]
+    actual = sorted(source_directory.glob("frame-*.png"))
+
+    if actual != expected:
+        raise GenerationError(
+            "source frames must be exactly frame-001.png through frame-391.png in one directory"
+        )
+
+    for frame in expected:
+        with Image.open(frame) as image:
+            if image.size != (600, FRAME_HEIGHT):
+                raise GenerationError(f"unexpected source frame size for {frame.name}: {image.size}")
+
+    return expected
+
+
+def sha256_for_files(paths: list[Path]) -> str:
+    digest = hashlib.sha256()
+
+    for path in paths:
+        digest.update(path.name.encode("utf-8"))
+        digest.update(b"\0")
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+
+    return digest.hexdigest()
+
+
+def measure_label(font_path: Path, label: str) -> int:
+    font = ImageFont.truetype(font_path, FONT_SIZE)
+    left, _, right, _ = font.getbbox(label)
+    return right - left
+
+
+def native_width_for_label(label_width: int) -> int:
+    required_width = label_width + (SIDE_PADDING * 2) + TEXT_ARROW_GAP + ARROW_WIDTH
+    return math.ceil(required_width / 100) * 100
+
+
+def rounded_mask(width: int) -> Image.Image:
+    scaled_width = width * RENDER_SCALE
+    scaled_height = FRAME_HEIGHT * RENDER_SCALE
+    mask = Image.new("L", (scaled_width, scaled_height), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.rounded_rectangle(
+        (0, 0, scaled_width - 1, scaled_height - 1),
+        radius=RADIUS * RENDER_SCALE,
+        fill=255,
+    )
+    return mask.resize((width, FRAME_HEIGHT), Image.Resampling.LANCZOS)
+
+
+def text_overlay(width: int, font_path: Path, label: str) -> Image.Image:
+    scaled_width = width * RENDER_SCALE
+    scaled_height = FRAME_HEIGHT * RENDER_SCALE
+    overlay = Image.new("RGBA", (scaled_width, scaled_height), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+    font = ImageFont.truetype(font_path, FONT_SIZE * RENDER_SCALE)
+    left, top, right, bottom = font.getbbox(label)
+    label_width = right - left
+    label_height = bottom - top
+    arrow_width = ARROW_WIDTH * RENDER_SCALE
+    gap = TEXT_ARROW_GAP * RENDER_SCALE
+    group_width = label_width + gap + arrow_width
+    group_left = (scaled_width - group_width) / 2
+    text_x = group_left - left
+    text_y = ((scaled_height - label_height) / 2) - top
+
+    draw.text((text_x, text_y), label, font=font, fill="white")
+
+    arrow_left = group_left + label_width + gap
+    arrow_right = arrow_left + arrow_width
+    arrow_center_y = scaled_height / 2
+    arrow_head = 10 * RENDER_SCALE
+    stroke = round(ARROW_STROKE * RENDER_SCALE)
+
+    draw.line(((arrow_left, arrow_center_y), (arrow_right, arrow_center_y)), fill="white", width=stroke)
+    draw.line(((arrow_right, arrow_center_y), (arrow_right - arrow_head, arrow_center_y - arrow_head)), fill="white", width=stroke)
+    draw.line(((arrow_right, arrow_center_y), (arrow_right - arrow_head, arrow_center_y + arrow_head)), fill="white", width=stroke)
+
+    return overlay.resize((width, FRAME_HEIGHT), Image.Resampling.LANCZOS)
+
+
+def render_frames(source_frames: list[Path], output_frames: Path, width: int, font_path: Path, label: str) -> None:
+    output_frames.mkdir(parents=True, exist_ok=False)
+    mask = rounded_mask(width)
+    overlay = text_overlay(width, font_path, label)
+
+    for index, source_path in enumerate(source_frames, start=1):
+        with Image.open(source_path) as source:
+            frame = source.convert("RGBA").resize((width, FRAME_HEIGHT), Image.Resampling.LANCZOS)
+
+        frame.putalpha(ImageChops.multiply(frame.getchannel("A"), mask))
+        frame.alpha_composite(overlay)
+        # These PNGs are deterministic encoder intermediates. A moderate
+        # compression level keeps generation practical without changing pixels.
+        frame.save(output_frames / f"frame-{index:03d}.png", compress_level=6)
+
+
+def run_command(command: list[str]) -> None:
+    result = subprocess.run(command, text=True, capture_output=True)
+    if result.returncode != 0:
+        details = result.stderr.strip() or result.stdout.strip() or "no command output"
+        raise GenerationError(f"command failed: {' '.join(command[:2])}\n{details}")
+
+
+def encode_webp(frames: list[Path], durations: list[int], output: Path, lossless: bool) -> None:
+    """Encode each canvas independently, then mux it without delta frames."""
+    with tempfile.TemporaryDirectory(prefix="readme-button-webp-") as temporary:
+        temporary_path = Path(temporary)
+        encoded_frames = [temporary_path / f"frame-{index:03d}.webp" for index in range(1, FRAME_COUNT + 1)]
+
+        def encode_frame(source: Path, target: Path) -> None:
+            command = ["cwebp"]
+            if lossless:
+                command.extend(["-lossless", "-m", "6"])
+            else:
+                command.extend(["-q", "100", "-m", "4"])
+            command.extend([str(source), "-o", str(target)])
+            run_command(command)
+
+        workers = min(8, os.cpu_count() or 4)
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            list(executor.map(encode_frame, frames, encoded_frames))
+
+        # webpmux preserves the independently encoded full canvases: every
+        # animation frame is a keyframe, not a delta against its predecessor.
+        command = ["webpmux"]
+        for frame, duration in zip(encoded_frames, durations, strict=True):
+            command.extend(["-frame", str(frame), f"+{duration}+0+0+1"])
+        command.extend(["-loop", "0", "-o", str(output)])
+        run_command(command)
+
+
+def encode_preview(frames_directory: Path, width: int, output: Path) -> None:
+    run_command(
+        [
+            "ffmpeg",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            f"color=c={CANVAS_COLOR}:s={width}x{FRAME_HEIGHT}:r=30",
+            "-framerate",
+            "30",
+            "-start_number",
+            "1",
+            "-i",
+            str(frames_directory / "frame-%03d.png"),
+            "-filter_complex",
+            "[0:v][1:v]overlay=shortest=1,format=yuv420p",
+            "-frames:v",
+            str(FRAME_COUNT),
+            "-c:v",
+            "libx264",
+            "-preset",
+            "slow",
+            "-crf",
+            "18",
+            "-movflags",
+            "+faststart",
+            str(output),
+        ]
+    )
+
+
+def webp_report(path: Path, width: int, require_full_frames: bool) -> None:
+    result = subprocess.run(["webpinfo", "-summary", str(path)], text=True, capture_output=True)
+    if result.returncode != 0:
+        raise GenerationError(f"webpinfo failed for {path.name}: {result.stderr.strip()}")
+
+    report = result.stdout
+    frame_match = re.search(r"Number of frames:\s+(\d+)", report)
+    if frame_match is None or int(frame_match.group(1)) != FRAME_COUNT:
+        raise GenerationError(f"{path.name} does not contain {FRAME_COUNT} WebP frames")
+
+    durations = [int(value) for value in re.findall(r"^\s+Duration:\s+(\d+)$", report, re.MULTILINE)]
+    if durations != expected_durations_ms() or sum(durations) != expected_total_duration_ms():
+        raise GenerationError(f"{path.name} does not preserve the required timing pattern and duration")
+
+    if require_full_frames:
+        frame_blocks = re.split(r"(?=Chunk ANMF )", report)[1:]
+        if len(frame_blocks) != FRAME_COUNT:
+            raise GenerationError(f"{path.name} does not expose {FRAME_COUNT} animation frame blocks")
+
+        for frame_number, block in enumerate(frame_blocks, start=1):
+            offset_x = re.search(r"Offset_X:\s+(\d+)", block)
+            offset_y = re.search(r"Offset_Y:\s+(\d+)", block)
+            frame_width = re.search(r"Width:\s+(\d+)", block)
+            frame_height = re.search(r"Height:\s+(\d+)", block)
+            if None in (offset_x, offset_y, frame_width, frame_height):
+                raise GenerationError(f"{path.name} has incomplete metadata for frame {frame_number}")
+            if (
+                int(offset_x.group(1)) != 0
+                or int(offset_y.group(1)) != 0
+                or int(frame_width.group(1)) != width
+                or int(frame_height.group(1)) != FRAME_HEIGHT
+            ):
+                raise GenerationError(f"{path.name} frame {frame_number} is not a full-canvas keyframe")
+
+
+def inspect_frame_inventory(frames_directory: Path) -> list[Path]:
+    frames = [frames_directory / f"frame-{index:03d}.png" for index in range(1, FRAME_COUNT + 1)]
+    if sorted(frames_directory.glob("frame-*.png")) != frames:
+        raise GenerationError(f"generated frame directory does not contain exactly {FRAME_COUNT} PNG frames")
+    return frames
+
+
+def validate_preview(path: Path) -> None:
+    result = subprocess.run(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-select_streams",
+            "v:0",
+            "-show_entries",
+            "stream=codec_name,r_frame_rate,nb_frames",
+            "-of",
+            "default=noprint_wrappers=1",
+            str(path),
+        ],
+        text=True,
+        capture_output=True,
+    )
+    if result.returncode != 0 or "codec_name=h264" not in result.stdout or "r_frame_rate=30/1" not in result.stdout:
+        raise GenerationError(f"{path.name} is not a 30fps H.264 preview")
+
+
+def write_metadata(output: Path, label: str, slug: str, label_width: int, native_width: int, source_hash: str, font_hash: str) -> None:
+    metadata = {
+        "arrow": {"gap_px": TEXT_ARROW_GAP, "stroke_px": ARROW_STROKE, "type": "white-vector-right-arrow", "width_px": ARROW_WIDTH},
+        "font": {"filename": "SansSerif-SemiBold.otf", "sha256": font_hash, "size_px": FONT_SIZE, "style": "non-italic"},
+        "frame_count": FRAME_COUNT,
+        "label": label,
+        "label_width_px": label_width,
+        "native_size_px": [native_width, FRAME_HEIGHT],
+        "radius_px": RADIUS,
+        "readme_display_size_px": [native_width // 2, FRAME_HEIGHT // 2],
+        "slug": slug,
+        "source_frame_set_sha256": source_hash,
+        "theme": THEME,
+        "timing": {"duration_ms": expected_total_duration_ms(), "frame_pattern_ms": list(TIMING_PATTERN_MS), "fps_average": 30},
+    }
+    output.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def main() -> int:
+    arguments = parse_arguments()
+
+    if not arguments.label.strip():
+        raise GenerationError("label must not be empty")
+    if not SLUG_PATTERN.fullmatch(arguments.slug):
+        raise GenerationError("slug must be kebab-case")
+    if arguments.radius != RADIUS:
+        raise GenerationError(f"only the canonical {RADIUS}px radius is supported")
+    if not arguments.font.is_file():
+        raise GenerationError(f"font not found: {arguments.font}")
+
+    for command in ("cwebp", "webpmux", "ffmpeg", "ffprobe", "webpinfo"):
+        require_command(command)
+
+    source_frames = source_frame_paths(arguments.source_frames)
+    label_width = measure_label(arguments.font, arguments.label)
+    native_width = native_width_for_label(label_width)
+    package = arguments.output_dir / f"{arguments.slug}-{RADIUS}px"
+    if package.exists():
+        raise GenerationError(f"refusing to overwrite existing package: {package}")
+
+    package.mkdir(parents=True)
+    output_frames = package / "frames"
+    render_frames(source_frames, output_frames, native_width, arguments.font, arguments.label)
+    frames = inspect_frame_inventory(output_frames)
+    durations = expected_durations_ms()
+    high_quality = package / f"{arguments.slug}-{THEME}-{RADIUS}px-high-quality.webp"
+    lossless = package / f"{arguments.slug}-{THEME}-{RADIUS}px-lossless.webp"
+    preview = package / f"{arguments.slug}-{THEME}.mp4"
+
+    encode_webp(frames, durations, high_quality, lossless=False)
+    encode_webp(frames, durations, lossless, lossless=True)
+    encode_preview(output_frames, native_width, preview)
+    webp_report(high_quality, native_width, require_full_frames=True)
+    webp_report(lossless, native_width, require_full_frames=False)
+    validate_preview(preview)
+    write_metadata(
+        package / "metadata.json",
+        arguments.label,
+        arguments.slug,
+        label_width,
+        native_width,
+        sha256_for_files(source_frames),
+        sha256_for_files([arguments.font]),
+    )
+
+    display_width = native_width // 2
+    print(f"Generated package: {package}")
+    print(f"Measured label width: {label_width}px")
+    print(f"Native asset size: {native_width}x{FRAME_HEIGHT}")
+    print(f"Intended README display size: {display_width}x{FRAME_HEIGHT // 2}")
+    print(f"Duration: {expected_total_duration_ms()}ms across {FRAME_COUNT} frames")
+    print("Review both WebPs in motion before copying the selected production asset to a consumer repository.")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except GenerationError as error:
+        print(f"generate-readme-button: {error}", file=sys.stderr)
+        raise SystemExit(1)

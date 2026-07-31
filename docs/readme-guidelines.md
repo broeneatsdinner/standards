@@ -41,6 +41,11 @@ after a verified deployment, link to the Pages site and retain a link to the
 canonical `docs/` source where useful. Do not point readers to a predicted
 Pages URL before the deployment has succeeded.
 
+When a repository uses an animated visual CTA above that link, follow
+[Animated README Buttons](animated-readme-buttons.md). The visual CTA must link
+to the same manual destination and the ordinary Markdown text link must remain
+directly beneath it as a durable fallback.
+
 ## Adopting Pages in an established repository
 
 When an existing README already carries substantial project narrative or

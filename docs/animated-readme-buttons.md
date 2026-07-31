@@ -38,6 +38,9 @@ The generator resizes the canonical motion field horizontally to the native
 asset width, applies the 8px alpha mask, and composites the static label and
 arrow over every frame. It does not redraw the animation by hand.
 
+See [Animated Dark Button Color Language](colors-and-palettes.md#animated-dark-button-color-language)
+for the canonical dark-surface and moving-color relationship.
+
 ## Generate a package
 
 Run from the standards repository root:

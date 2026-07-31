@@ -138,6 +138,21 @@ $ shell/color-wash.sh "Working..." ACID_BLUE
 $ shell/color-wash.sh --solid "Ready" ACID_GREEN
 ```
 
+## Animated Dark Button Color Language
+
+The dark button’s color language is built from five main families—not a simple linear gradient:
+
+| Role | Approximate sampled color | Character |
+| --- | --- | --- |
+| Dark surrounding surface | `#0D1117` | GitHub-adjacent charcoal/navy |
+| Luminous yellow | `#EDCD3C` | The brightest current; carries the glow |
+| Amber / orange | `#E7AA3E` | Warm transitional light |
+| Coral | `#DF706E` | Warm bridge between amber and pink |
+| Magenta | `#D03FAC` / `#D85997` | The most vivid moving color mass |
+| Mauve / lavender | `#B06594` | Soft shadow and blended depth |
+
+The important thing is that the animation is not “yellow on the left, pink in the middle.” Those colors are diffuse fields that swell, overlap, and blend into peach, muted rose, lilac, and gold.
+
 ## Preview
 
 Use `bin/showpalette` to inspect the palette.

@@ -153,6 +153,21 @@ The dark button’s color language is built from five main families—not a simp
 
 The important thing is that the animation is not “yellow on the left, pink in the middle.” Those colors are diffuse fields that swell, overlap, and blend into peach, muted rose, lilac, and gold.
 
+## Animated Green Button Color Language
+
+Yes. This is a much narrower, more tonal palette than the pink–yellow button: it creates movement mainly through changing luminance inside the green family.
+
+| Role | Approximate sampled color | Character |
+| --- | --- | --- |
+| Deep moss shadow | `#374E02` | Nearly black green; depth and edge weight |
+| Forest green | `#3D8406` | Dense living green |
+| Leaf green | `#629603` | Main body color |
+| Chartreuse | `#97B102` | Active transition color |
+| Lime yellow | `#A3C602` / `#B1CF62` | Bright moving bloom |
+| Pale celadon | `#CBE098` | Softest highlight, where the light pool opens |
+
+Its motion is different, too: broad green and yellow-green light pools drift through a darker moss field. It feels botanical, luminous, and much less candy-like than the dark version.
+
 ## Preview
 
 Use `bin/showpalette` to inspect the palette.

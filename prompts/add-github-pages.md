@@ -125,9 +125,42 @@ make it shorter.
 6. Commit each coherent change set locally after validation. Do not push unless
    separately instructed.
 
-## Publication later
+## Public deployment and README handoff
 
-Before any publication decision, run the applicable OPSEC and publication
-review. Confirm the approved public documentation set, sanitize it deliberately,
-then add the Actions-based Pages deployment workflow only with explicit
-authorization.
+Deployment is a separate, explicit approval. Before any publication decision,
+run the applicable OPSEC and publication review. Confirm the approved public
+documentation set, sanitize it deliberately, and obtain explicit authorization
+to activate Pages and push public changes.
+
+For an approved public repository:
+
+1. Derive the GitHub owner and repository name from the configured `origin`
+   remote. For a standard GitHub project site, the expected manual URL is
+   `https://<owner>.github.io/<repository>/`.
+2. Configure the consumer `docs/_config.yml` with:
+   - `url: "https://<owner>.github.io"`
+   - `baseurl: "/<repository>"`
+   - `repository_url: "https://github.com/<owner>/<repository>"`
+   The base URL is required for shared CSS, navigation, and links to work at a
+   project-site path instead of only at local preview root.
+3. Copy the kit workflow to
+   `.github/workflows/deploy-pages.yml`. Do not vendor Jekyll or generated
+   static output into the repository; the workflow builds `docs/` with the
+   maintained GitHub Pages actions.
+4. Enable the repository's Pages source as **GitHub Actions**. This is a
+   repository setting and may be done in GitHub Settings or through the
+   authenticated GitHub Pages API when the operator has authorized that
+   external configuration change.
+5. Commit the Pages configuration and deployment workflow as a coherent local
+   checkpoint, then push only with explicit approval.
+6. Wait for the build and deploy jobs to succeed. Verify the rendered home and
+   the linked manual routes at the expected Pages URL before changing visitor
+   links in the README.
+7. In a separate README handoff commit, replace the front-door manual link and
+   any reader-facing chapter links with verified absolute Pages URLs. Keep a
+   source link to canonical `docs/` material only when it serves a distinct
+   reader need. Push that handoff commit only with explicit approval.
+
+For private repositories or local-only manuals, stop before step 3 unless the
+operator explicitly requests publication. Preserve `docs/index.md` links in the
+README for GitHub-native source browsing and do not activate Pages.

@@ -48,6 +48,41 @@ GitHub Pages
 
 The Pages source, site configuration, layout, navigation data, and stylesheet are versioned with the project. Documentation changes remain ordinary diffs and should be reviewed with the project they describe.
 
+## Public deployment
+
+For an approved public repository, GitHub Pages is deployed through the
+Actions-based workflow in the reusable kit. The workflow builds `docs/`, uploads
+the rendered artifact, and deploys it to the `github-pages` environment. Do not
+vendor Jekyll, a Ruby dependency tree, or generated site output into the
+consumer repository.
+
+Derive the owner and repository name from the configured GitHub `origin` remote.
+For a standard project site, configure `docs/_config.yml` with the account URL
+and project path:
+
+```yaml
+url: "https://<owner>.github.io"
+baseurl: "/<repository>"
+repository_url: "https://github.com/<owner>/<repository>"
+```
+
+`baseurl` is required for a project site. It makes `relative_url` references
+resolve to paths such as `/operator-pipeline/assets/css/site.css` rather than to
+the account-site root.
+
+Enable the repository's Pages source as **GitHub Actions** only after the
+operator has separately approved public deployment. GitHub Settings is the
+normal activation surface; an authenticated Pages API call may perform the same
+configuration when explicitly authorized.
+
+After the deployment workflow succeeds, verify the rendered home and the
+reader-facing routes. Only then replace the README's early manual link and
+reader-facing chapter links with the verified Pages URLs. Until then, README
+links should point to `docs/index.md` and related canonical Markdown files.
+
+For private repositories and local-only manuals, do not add the deployment
+workflow or activate Pages without explicit publication authorization.
+
 ## Kit integrity and project configuration
 
 Copy the presentation support as one coherent kit: `_layouts/`, `_includes/`,

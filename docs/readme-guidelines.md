@@ -37,8 +37,9 @@ repository is worth opening.
 Place a prominent link to the documentation manual in the opening screenful,
 after the initial project framing and before a repository map or lower-priority
 detail. Before a Pages site has a stable published URL, link to `docs/index.md`;
-after publication, link to the Pages site and retain a link to the canonical
-`docs/` source where useful.
+after a verified deployment, link to the Pages site and retain a link to the
+canonical `docs/` source where useful. Do not point readers to a predicted
+Pages URL before the deployment has succeeded.
 
 ## Adopting Pages in an established repository
 

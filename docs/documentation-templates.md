@@ -16,7 +16,17 @@ Use `prompts/add-github-pages.md` for the complete adoption workflow, including 
 6. Adapt navigation and starter pages to the project's real structure.
 7. Review the result as a normal diff.
 8. Validate local rendering and links when appropriate.
-9. Deploy only after the operator explicitly approves publication.
+9. For an approved public deployment, configure the Jekyll project URL and
+   base path from the GitHub remote, copy the kit's Actions workflow, and enable
+   Pages in GitHub Actions mode.
+10. Push the deployment checkpoint only with explicit approval, wait for the
+    site to deploy, and verify the rendered routes.
+11. In a separate README handoff checkpoint, replace reader-facing source-file
+    links with verified Pages URLs. Do not predict a URL and leave the README
+    pointing at a temporary 404.
+
+For a private or local-only manual, stop at local validation unless the
+operator separately approves publication.
 
 ## Customization boundary
 

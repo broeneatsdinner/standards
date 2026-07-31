@@ -144,12 +144,12 @@ The dark button’s color language is built from five main families—not a simp
 
 | Role | Approximate sampled color | Character |
 | --- | --- | --- |
-| Dark surrounding surface | `#0D1117` | GitHub-adjacent charcoal/navy |
-| Luminous yellow | `#EDCD3C` | The brightest current; carries the glow |
-| Amber / orange | `#E7AA3E` | Warm transitional light |
-| Coral | `#DF706E` | Warm bridge between amber and pink |
-| Magenta | `#D03FAC` / `#D85997` | The most vivid moving color mass |
-| Mauve / lavender | `#B06594` | Soft shadow and blended depth |
+| Dark surrounding surface | <span class="color-sample"><code>#0D1117</code><span class="color-swatch" style="--swatch: #0D1117" aria-hidden="true"></span></span> | GitHub-adjacent charcoal/navy |
+| Luminous yellow | <span class="color-sample"><code>#EDCD3C</code><span class="color-swatch" style="--swatch: #EDCD3C" aria-hidden="true"></span></span> | The brightest current; carries the glow |
+| Amber / orange | <span class="color-sample"><code>#E7AA3E</code><span class="color-swatch" style="--swatch: #E7AA3E" aria-hidden="true"></span></span> | Warm transitional light |
+| Coral | <span class="color-sample"><code>#DF706E</code><span class="color-swatch" style="--swatch: #DF706E" aria-hidden="true"></span></span> | Warm bridge between amber and pink |
+| Magenta | <span class="color-sample"><code>#D03FAC</code><span class="color-swatch" style="--swatch: #D03FAC" aria-hidden="true"></span></span> / <span class="color-sample"><code>#D85997</code><span class="color-swatch" style="--swatch: #D85997" aria-hidden="true"></span></span> | The most vivid moving color mass |
+| Mauve / lavender | <span class="color-sample"><code>#B06594</code><span class="color-swatch" style="--swatch: #B06594" aria-hidden="true"></span></span> | Soft shadow and blended depth |
 
 The important thing is that the animation is not “yellow on the left, pink in the middle.” Those colors are diffuse fields that swell, overlap, and blend into peach, muted rose, lilac, and gold.
 
@@ -159,12 +159,12 @@ Yes. This is a much narrower, more tonal palette than the pink–yellow button: 
 
 | Role | Approximate sampled color | Character |
 | --- | --- | --- |
-| Deep moss shadow | `#374E02` | Nearly black green; depth and edge weight |
-| Forest green | `#3D8406` | Dense living green |
-| Leaf green | `#629603` | Main body color |
-| Chartreuse | `#97B102` | Active transition color |
-| Lime yellow | `#A3C602` / `#B1CF62` | Bright moving bloom |
-| Pale celadon | `#CBE098` | Softest highlight, where the light pool opens |
+| Deep moss shadow | <span class="color-sample"><code>#374E02</code><span class="color-swatch" style="--swatch: #374E02" aria-hidden="true"></span></span> | Nearly black green; depth and edge weight |
+| Forest green | <span class="color-sample"><code>#3D8406</code><span class="color-swatch" style="--swatch: #3D8406" aria-hidden="true"></span></span> | Dense living green |
+| Leaf green | <span class="color-sample"><code>#629603</code><span class="color-swatch" style="--swatch: #629603" aria-hidden="true"></span></span> | Main body color |
+| Chartreuse | <span class="color-sample"><code>#97B102</code><span class="color-swatch" style="--swatch: #97B102" aria-hidden="true"></span></span> | Active transition color |
+| Lime yellow | <span class="color-sample"><code>#A3C602</code><span class="color-swatch" style="--swatch: #A3C602" aria-hidden="true"></span></span> / <span class="color-sample"><code>#B1CF62</code><span class="color-swatch" style="--swatch: #B1CF62" aria-hidden="true"></span></span> | Bright moving bloom |
+| Pale celadon | <span class="color-sample"><code>#CBE098</code><span class="color-swatch" style="--swatch: #CBE098" aria-hidden="true"></span></span> | Softest highlight, where the light pool opens |
 
 Its motion is different, too: broad green and yellow-green light pools drift through a darker moss field. It feels botanical, luminous, and much less candy-like than the dark version.
 

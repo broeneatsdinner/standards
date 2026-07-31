@@ -46,6 +46,12 @@ When a repository uses an animated visual CTA above that link, follow
 to the same manual destination and the ordinary Markdown text link must remain
 directly beneath it as a durable fallback.
 
+Treat the visual CTA and its fallback as one deliberate reading block. After
+the opening project framing, place a standalone `<br><br>` before the visual
+CTA. Place another standalone `<br><br>` immediately after the ordinary
+Markdown fallback link and before the next README section. This gives the
+invitation its own calm space without separating the button from its fallback.
+
 ## Adopting Pages in an established repository
 
 When an existing README already carries substantial project narrative or

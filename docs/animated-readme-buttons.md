@@ -121,9 +121,16 @@ Keep the regular Markdown link directly beneath the CTA. It remains the
 durable fallback, the accessible navigation path, and the readable option when
 images are disabled.
 
+In a README, make the CTA and fallback link a visually distinct block: use a
+standalone `<br><br>` after the opening project framing and before the CTA, then
+another standalone `<br><br>` after the fallback link and before the next
+section. Do not put either break sequence inside the anchor or image markup.
+
 Use controlled-width HTML when embedding the 2x asset in a README:
 
 ```html
+<br><br>
+
 <a href="./docs/">
   <img
     src="./assets/buttons/<slug>-dark-8px-high-quality.webp"
@@ -131,6 +138,10 @@ Use controlled-width HTML when embedding the 2x asset in a README:
     width="<intended-display-width>"
   >
 </a>
+
+**[Read the project manual →](./docs/)**
+
+<br><br>
 ```
 
 For a deployed Pages manual, replace `./docs/` with the verified Pages URL.

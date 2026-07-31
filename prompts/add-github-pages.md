@@ -164,7 +164,9 @@ For an approved public repository:
 When the operator has separately approved an animated README CTA, use
 `prompts/generate-readme-button.md` to generate it from the canonical motion
 source. Place it immediately above the ordinary manual link; do not remove the
-plain Markdown fallback.
+plain Markdown fallback. Treat both links as one CTA block: place standalone
+`<br><br>` sequences before the visual CTA and after the fallback link, between
+the opening project framing and the next README section.
 
 For private repositories or local-only manuals, stop before step 3 unless the
 operator explicitly requests publication. Preserve `docs/index.md` links in the

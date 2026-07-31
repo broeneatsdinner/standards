@@ -59,5 +59,10 @@ Link both to the same destination: `docs/index.md` before deployment, or the
 verified rendered Pages URL after deployment. The text link remains directly
 beneath the button as the durable fallback.
 
+Treat both links as one CTA block. Use a standalone `<br><br>` after the
+opening repository framing and before the visual CTA, then another standalone
+`<br><br>` after the fallback link and before the next README section. Do not
+insert those breaks inside the anchor or image markup.
+
 Use an `<img>` width equal to the `metadata.json` intended display width so the
 README renders the 2x asset at its intended size.

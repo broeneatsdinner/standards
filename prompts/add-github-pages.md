@@ -79,6 +79,10 @@ without needless migration.
 2. Add the Jekyll-compatible support files from the kit inside `docs/`:
    `_config.yml`, `_layouts/`, `_includes/`, `_data/navigation.yml`, shared CSS,
    and the generated on-page TOC script.
+   Preserve the shared presentation files as a coherent kit. Configure title,
+   description, `repository_url`, optional `site_context`, and navigation in
+   their intended files instead of casually reformatting or forking support
+   code.
 3. Add only the front matter required to render existing Markdown pages. Keep
    their substantive prose intact.
 4. Create or adapt `docs/index.md` as the Pages home. It should be an authored
@@ -108,11 +112,16 @@ make it shorter.
 
 1. Run `git diff --check`.
 2. Validate navigation data and JavaScript syntax.
-3. Build locally with Jekyll into a temporary output directory.
+3. Build locally with Jekyll into a fresh temporary output directory. Treat
+   YAML exceptions and warnings as validation failures even when Jekyll exits
+   successfully. Quote front-matter scalars that contain a colon or other
+   YAML-significant punctuation.
 4. Start a local-only preview on `127.0.0.1` when the operator wants to review
    the rendering.
-5. Review the generated Pages home, an ordinary page, and a dense reference or
-   field-manual page.
+5. Review the generated Pages home, an ordinary page, a dense reference or
+   field-manual page, and every newly added page. Confirm visible titles,
+   expected summaries, body content, navigation, and on-page tables of
+   contents.
 6. Commit each coherent change set locally after validation. Do not push unless
    separately instructed.
 

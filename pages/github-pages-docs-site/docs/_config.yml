@@ -1,5 +1,7 @@
 title: Project Documentation
 description: A documentation-first project manual.
+repository_url: ""
+site_context: ""
 markdown: kramdown
 permalink: pretty
 defaults:

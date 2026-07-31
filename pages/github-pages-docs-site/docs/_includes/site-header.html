@@ -1,4 +1,9 @@
 <header class="site-header">
   <a class="site-name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-  <a class="repository-link" href="{{ site.github.repository_url | default: '#' }}">Repository</a>
+  {% assign repository_url = site.repository_url | default: site.github.repository_url %}
+  {% if site.site_context != "" %}
+    <span class="site-context">{{ site.site_context }}</span>
+  {% elsif repository_url %}
+    <a class="repository-link" href="{{ repository_url }}">Repository</a>
+  {% endif %}
 </header>

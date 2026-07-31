@@ -48,6 +48,25 @@ GitHub Pages
 
 The Pages source, site configuration, layout, navigation data, and stylesheet are versioned with the project. Documentation changes remain ordinary diffs and should be reviewed with the project they describe.
 
+## Kit integrity and project configuration
+
+Copy the presentation support as one coherent kit: `_layouts/`, `_includes/`,
+shared CSS, and the on-page table-of-contents script. Do not casually reformat,
+minify, or fork those files while applying Pages to a project; incidental
+consumer differences make later visual and accessibility fixes needlessly hard
+to share.
+
+Configure the project through `_config.yml`, navigation data, and authored
+Markdown. Project configuration may set the site title, description,
+`repository_url`, and an optional `site_context` label such as “Private working
+documentation.” The header should render `site_context` when supplied;
+otherwise it should render the configured repository link.
+
+When a project needs a substantive improvement to the shared presentation,
+first decide whether it belongs in the standards kit. Upstream a generally
+useful improvement before or alongside consumer adoption; keep only genuinely
+project-specific presentation changes in the consumer repository.
+
 ## Layouts
 
 The standard layout has:
@@ -90,6 +109,19 @@ Apply `docs/documentation-writing-style.md` when authoring orientation pages, fi
 ## Platform convention
 
 The reusable kit uses Jekyll-compatible GitHub Pages conventions. Its `_layouts/`, `_includes/`, and `_data/` directories are platform-required directories inside the Pages source only. They are not a general repository organization convention and do not override the standards against introducing underscore support directories elsewhere.
+
+## Front matter and build validity
+
+Jekyll front matter is YAML. Quote a title, summary, or other scalar that
+contains a colon or YAML-significant punctuation. A build that prints a YAML
+exception, warning, or malformed-page symptom is not a passing build merely
+because Jekyll exits successfully.
+
+Build into a fresh temporary directory and inspect the rendered home, an
+ordinary page, and each newly added page. Confirm that each page has its title,
+summary when expected, body content, navigation, and generated table of
+contents. Treat a blank title, missing metadata, or omitted page as a
+validation failure.
 
 ## Publication boundary
 

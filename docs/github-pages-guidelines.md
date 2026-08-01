@@ -135,6 +135,8 @@ The README should link to the documentation home. Pages pages may link to the re
 
 Use ordinary Markdown for headings, prose, lists, links, code, and tables. The shared stylesheet should make these elements readable without requiring page-specific design work.
 
+Set fenced code blocks (`pre`) to `line-height: 1.1`. This keeps terminal output compact and lets box-drawing characters form continuous tree lines without overlapping.
+
 All Markdown tables use one shared treatment: generous rows, subtle horizontal rules, a stronger header divider, and no bottom rule after the final data row. Do not introduce a second table class or an HTML-only table system unless a future documented need cannot be served by ordinary Markdown.
 
 ## Writing

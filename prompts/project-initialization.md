@@ -3,9 +3,11 @@
 ## Invocation instructions
 
 For local repository work, prefer `docs/visible-terminal-workflow.md`: run
-`chatgpt` from the target repository root, tell ChatGPT the resulting session
-name, and ask it to load the standards there. Do not paste this prompt into
-Codex or Claude when that visible session is available.
+`chatgpt` from the target repository root, tell the assistant (ChatGPT,
+Claude Code, or another repo-aware coding agent — see that file's two
+supported variants) the resulting session name, and ask it to load the
+standards there. Do not paste this prompt into Codex or Claude when that
+visible session is available.
 
 Use this prompt as a fallback for a new ChatGPT chat, Codex session, or another
 environment without a visible terminal bridge:

@@ -22,7 +22,7 @@ From the target repository root, run:
 chatgpt
 ```
 
-Tell the assistant the resulting `chatgpt-<repository-name>-<sequence-number>`
+Tell the assistant the resulting `shared-llm-<repository-name>-<sequence-number>`
 session name. The assistant may use that pane only when the operator
 explicitly names it and asks the assistant to use it.
 

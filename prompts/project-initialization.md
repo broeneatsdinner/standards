@@ -276,8 +276,9 @@ Apply these standards in order when relevant:
 8. Repository taxonomy: `docs/repo-taxonomy.md`
 9. Directory structures: `directory_structures/`
 10. README and Pages guidance when repository documentation or GitHub Pages is in scope: `docs/readme-guidelines.md`, `docs/github-pages-guidelines.md`, `docs/wiki-policy.md`, `docs/documentation-templates.md`, `docs/documentation-writing-style.md`, and `docs/ai-agent-instructions.md`. When adding or generating Pages, also load `prompts/add-github-pages.md`.
-11. AI-facing universal guidance: `prompts/universal.md`
-12. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
+11. Personality layer when user-facing text, errors, prompts, notifications, status messages, or input handling are in scope: `docs/personality-layer.md`, plus the repository's own `personality/` directory when one exists
+12. AI-facing universal guidance: `prompts/universal.md`
+13. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
 
 When standards overlap, prefer the most specific applicable document. For general source-code style, use `docs/code-style.md` as the canonical authority.
 
@@ -367,6 +368,8 @@ Do not manually wrap README.md prose or normal Markdown documentation paragraphs
 Use single-# comments for ordinary one-line descriptions above settings, commands, and configuration blocks.
 
 Comment functions when the comment adds operational value.
+
+Before writing or changing user-facing text (errors, hints, prompts, confirmations, notifications, status and waiting states), check for a `personality/` directory and follow it. User-facing applications without one should get one; see `docs/personality-layer.md` and the starter template in `directory_structures/personality-layer/`.
 
 Use neutral reusable examples. Do not include personal shell prompts, usernames, hostnames, machine names, home paths, private project paths, or environment-specific identifiers unless the exact environment is the subject being documented.
 

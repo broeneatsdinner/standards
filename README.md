@@ -124,6 +124,7 @@ For concrete examples of the operating architecture, see:
 - [docs/readme-guidelines.md](docs/readme-guidelines.md)
 - [docs/github-pages-guidelines.md](docs/github-pages-guidelines.md)
 - [docs/documentation-writing-style.md](docs/documentation-writing-style.md)
+- [docs/personality-layer.md](docs/personality-layer.md)
 - [pages/README.md](pages/README.md)
 - [opsec-as-systems-thinking.md](opsec-as-systems-thinking.md)
 - [prompts/repository-opsec-02-audit.md](prompts/repository-opsec-02-audit.md)

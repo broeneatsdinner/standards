@@ -6,14 +6,26 @@ The short version: Nothing Sans is beautiful when it is set large, light, and un
 
 ## Files and names
 
-| File | Family name in the file | Weights |
-| --- | --- | --- |
-| `assets/typefaces/sansserif/SansSerif-*.otf` | `SansSerif` | ExtraLight, Light, Book, Medium, SemiBold, Bold, ExtraBold, Black, each with an italic |
-| `assets/typefaces/serif/Serif-Regular.ttf` | `Serif` | Regular only |
+| File | Family name inside the file | Registered in CSS as | Weights |
+| --- | --- | --- | --- |
+| `assets/typefaces/sansserif/NothingSans-<Style>.otf` | `SansSerif` | `Nothing Sans`, plus `Nothing Sans Light` for Light | ExtraLight, Light, Book, Medium, SemiBold, Bold, ExtraBold, Black, each with an italic |
+| `assets/typefaces/serif/NothingSerif-Regular.ttf` | `Serif` | `Nothing Serif` | Regular only |
 
-The files call their families `SansSerif` and `Serif`. Register them in CSS under distinct names, such as `Nothing Sans`, `Nothing Sans Light`, and `Nothing Serif`, so they can never collide with the generic `sans-serif` and `serif` keywords.
+[`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css) is the canonical web setup: the `@font-face` declarations with the weight mapping, and the type rules from the setting below. Copy it with the font files rather than rewriting it.
 
 Version 1.000 of the sans. Measured metrics: x-height 0.523, cap height 0.718 of the em (San Francisco: 0.508 and 0.705).
+
+## Naming
+
+A font has three names, and they are handled differently on purpose.
+
+| Level | Name | Decision |
+| --- | --- | --- |
+| CSS family | `Nothing Sans`, `Nothing Sans Light`, `Nothing Serif` | Always register these names. The internal names `SansSerif` and `Serif` are too close to the generic `sans-serif` and `serif` keywords, and a typo or a missing font file then fails silently into the browser default. |
+| Filename | `NothingSans-<Style>.otf`, `NothingSerif-Regular.ttf` | Renamed from `SansSerif-*` and `Serif-Regular` on 2026-10-09 so a folder of fonts says what it is. Applied at the same time in every repository that carries the files. |
+| Internal name table | `SansSerif`, `Serif` (unchanged) | Left alone. This is what font menus show once a file is installed, and changing it means editing the font file itself, which a license may not allow. Revisit only with the license holder's agreement. |
+
+When a project needs the fonts, copy the renamed files and `nothing-sans.css` together. Do not reintroduce the old filenames.
 
 ## The setting that works
 
@@ -40,10 +52,10 @@ The about page declares the heavier files one step lighter than their names:
 
 | File | Declared as |
 | --- | --- |
-| `SansSerif-Book.otf` | 400 |
-| `SansSerif-SemiBold.otf` | 700 |
-| `SansSerif-Bold.otf` | 800 |
-| `SansSerif-Light.otf` | 400, as its own family `Nothing Sans Light` |
+| `NothingSans-Book.otf` | 400 |
+| `NothingSans-SemiBold.otf` | 700 |
+| `NothingSans-Bold.otf` | 800 |
+| `NothingSans-Light.otf` | 400, as its own family `Nothing Sans Light` |
 
 So anything that asks for `bold` gets SemiBold, and the heaviest headline is Bold, not Black. Keep this mapping; it is part of the look.
 
@@ -62,25 +74,7 @@ The about page is white on black. On a light background, keep the same rules and
 
 ## CSS starting point
 
-```css
-@font-face { font-family: "Nothing Sans"; src: url("SansSerif-Book.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: block; }
-@font-face { font-family: "Nothing Sans"; src: url("SansSerif-BookItalic.otf") format("opentype"); font-weight: 400; font-style: italic; font-display: block; }
-@font-face { font-family: "Nothing Sans"; src: url("SansSerif-SemiBold.otf") format("opentype"); font-weight: 700; font-style: normal; font-display: block; }
-@font-face { font-family: "Nothing Sans"; src: url("SansSerif-Bold.otf") format("opentype"); font-weight: 800; font-style: normal; font-display: block; }
-@font-face { font-family: "Nothing Sans Light"; src: url("SansSerif-Light.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: block; }
-@font-face { font-family: "Nothing Sans Light"; src: url("SansSerif-LightItalic.otf") format("opentype"); font-weight: 400; font-style: italic; font-display: block; }
-
-:root { --copy: 24px; --small: 16px; }
-@media (max-width: 1366px) { :root { --copy: 20px; --small: 14px; } }
-@media (max-width: 1024px) { :root { --copy: 18px; } }
-
-body { font: 400 var(--small)/1.3333 "Nothing Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; letter-spacing: 0; font-synthesis: none; }
-p { font-family: "Nothing Sans Light", "Nothing Sans", sans-serif; font-size: var(--copy); line-height: 1.46; }
-h1 { font-weight: 800; line-height: 0.98; }
-h2, h3 { font-weight: 400; font-size: calc(var(--copy) * 0.96); line-height: 1.25; text-transform: none; }
-```
-
-Set the headline size per project: as large as the layout allows, and only for a few words.
+Use [`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css). It declares every face with the weight mapping above, sets `font-display: block`, defines `--nothing-copy` and `--nothing-small` with the about page's breakpoints, and applies the setting: Book small text, Light paragraphs at 1.46, a Bold headline at 0.98, sentence-case section titles at 0.96 × copy, and letter-spacing 0. Set the headline size per project: as large as the layout allows, and only for a few words.
 
 ## Where the face struggles
 

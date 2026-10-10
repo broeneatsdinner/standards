@@ -29,7 +29,7 @@ The visual contract is:
 
 - dark animated gradient background
 - 8px rounded corners
-- local `SansSerif-SemiBold.otf` at 40px source size, white and non-italic
+- local `NothingSans-SemiBold.otf` at 40px source size, white and non-italic
 - white vector right arrow with a 4.5px stroke; no Unicode arrow glyph
 - text and arrow centered as one visual group
 - no GIF output
@@ -51,7 +51,7 @@ bin/generate-readme-button \
   --slug "read-the-operator-pipeline-manual" \
   --theme dark \
   --radius 8 \
-  --font assets/typefaces/sansserif/SansSerif-SemiBold.otf \
+  --font assets/typefaces/sansserif/NothingSans-SemiBold.otf \
   --source-frames assets/buttons/animated-gradient-no-text-8px/frames \
   --output-dir assets/buttons
 ```
@@ -64,7 +64,7 @@ and `ffprobe` on `PATH`.
 
 ## Size and placement
 
-Measure the label at 40px in `SansSerif-SemiBold.otf`, then add 48px of padding
+Measure the label at 40px in `NothingSans-SemiBold.otf`, then add 48px of padding
 on each side, a 24px text-to-arrow gap, and a 31px arrow width. Round the total
 up to the next 100px native width. The asset height remains 142px.
 

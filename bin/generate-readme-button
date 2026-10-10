@@ -46,7 +46,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--slug", required=True, help="Kebab-case asset name.")
     parser.add_argument("--theme", default=THEME, choices=(THEME,), help="Button theme.")
     parser.add_argument("--radius", type=int, default=RADIUS, help="Rounded-corner radius in source pixels.")
-    parser.add_argument("--font", type=Path, required=True, help="Path to SansSerif-SemiBold.otf.")
+    parser.add_argument("--font", type=Path, required=True, help="Path to NothingSans-SemiBold.otf.")
     parser.add_argument("--source-frames", type=Path, required=True, help="Directory containing frame-001.png through frame-391.png.")
     parser.add_argument("--output-dir", type=Path, required=True, help="Directory that will receive <slug>-8px/.")
     return parser.parse_args()
@@ -303,7 +303,7 @@ def validate_preview(path: Path) -> None:
 def write_metadata(output: Path, label: str, slug: str, label_width: int, native_width: int, source_hash: str, font_hash: str) -> None:
     metadata = {
         "arrow": {"gap_px": TEXT_ARROW_GAP, "stroke_px": ARROW_STROKE, "type": "white-vector-right-arrow", "width_px": ARROW_WIDTH},
-        "font": {"filename": "SansSerif-SemiBold.otf", "sha256": font_hash, "size_px": FONT_SIZE, "style": "non-italic"},
+        "font": {"filename": "NothingSans-SemiBold.otf", "sha256": font_hash, "size_px": FONT_SIZE, "style": "non-italic"},
         "frame_count": FRAME_COUNT,
         "label": label,
         "label_width_px": label_width,

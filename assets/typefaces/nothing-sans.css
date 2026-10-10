@@ -1,0 +1,118 @@
+/* ----------------------------------------------------------------------------
+   Nothing Sans: canonical web setup
+   ----------------------------------------------------------------------------
+   The brand typeface of Nothing LLC and Howblue Ltd, set the way
+   noth-ing.com/about sets it. See docs/nothing-sans.md for why each rule is
+   here, what was tried and rejected, and the face's known spacing issues.
+
+   To use it: copy this file and the font files it names into a project, keep
+   the relative paths (or change the url() values), and load it before the
+   project's own styles. The rules at the bottom set the type; the project's
+   own CSS should only add layout and color.
+
+   Names (see "Naming" in docs/nothing-sans.md):
+   - Files are named NothingSans-<Style>.otf and NothingSerif-Regular.ttf.
+   - The fonts' internal family names are still "SansSerif" and "Serif"; they
+     are registered here as "Nothing Sans", "Nothing Sans Light", and
+     "Nothing Serif" so they never collide with the generic sans-serif and
+     serif keywords.
+   ------------------------------------------------------------------------- */
+
+/* Weight mapping from the about page: SemiBold answers to 700 and Bold to
+   800, so anything asking for bold gets a notch lighter than its name. */
+@font-face {
+	font-family: "Nothing Sans";
+	src: url("sansserif/NothingSans-Book.otf") format("opentype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+@font-face {
+	font-family: "Nothing Sans";
+	src: url("sansserif/NothingSans-BookItalic.otf") format("opentype");
+	font-weight: 400;
+	font-style: italic;
+	font-display: block;
+}
+@font-face {
+	font-family: "Nothing Sans";
+	src: url("sansserif/NothingSans-SemiBold.otf") format("opentype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: block;
+}
+@font-face {
+	font-family: "Nothing Sans";
+	src: url("sansserif/NothingSans-Bold.otf") format("opentype");
+	font-weight: 800;
+	font-style: normal;
+	font-display: block;
+}
+
+/* Light is its own family so paragraph copy can ask for it by name. */
+@font-face {
+	font-family: "Nothing Sans Light";
+	src: url("sansserif/NothingSans-Light.otf") format("opentype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+@font-face {
+	font-family: "Nothing Sans Light";
+	src: url("sansserif/NothingSans-LightItalic.otf") format("opentype");
+	font-weight: 400;
+	font-style: italic;
+	font-display: block;
+}
+
+/* The serif has one weight; never let browsers synthesize a bold. */
+@font-face {
+	font-family: "Nothing Serif";
+	src: url("serif/NothingSerif-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+
+:root {
+	--nothing-copy: 24px;
+	--nothing-small: 16px;
+	--nothing-sans: "Nothing Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+	--nothing-light: "Nothing Sans Light", "Nothing Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+	--nothing-serif: "Nothing Serif", Georgia, serif;
+}
+@media screen and (max-width: 1366px) { :root { --nothing-copy: 20px; --nothing-small: 14px; } }
+@media screen and (max-width: 1024px) { :root { --nothing-copy: 18px; } }
+
+/* Small text in Book. letter-spacing stays 0 everywhere: the face only looks
+   right with its own spacing. */
+body {
+	font-family: var(--nothing-sans);
+	font-size: var(--nothing-small);
+	font-weight: 400;
+	line-height: 1.3333;
+	letter-spacing: 0;
+	font-synthesis: none;
+}
+
+/* Paragraph copy in Light at the copy size. */
+p {
+	font-family: var(--nothing-light);
+	font-size: var(--nothing-copy);
+	line-height: 1.46;
+}
+
+/* Headline in Bold (800), short and very large. Set the size per project. */
+h1 {
+	font-weight: 800;
+	line-height: 0.98;
+}
+
+/* Section titles in Book at 0.96 x the copy size, sentence case. */
+h2,
+h3 {
+	font-weight: 400;
+	font-size: calc(var(--nothing-copy) * 0.96);
+	line-height: 1.25;
+	text-transform: none;
+}

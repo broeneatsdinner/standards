@@ -23,7 +23,7 @@ label: exact visible button text without the arrow
 slug: kebab-case asset name
 theme: dark
 radius: 8px
-font: local SansSerif-SemiBold.otf path
+font: local NothingSans-SemiBold.otf path
 source frames: canonical 391-frame directory
 output directory: assets/buttons root
 ```

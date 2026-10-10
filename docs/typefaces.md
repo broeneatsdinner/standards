@@ -25,7 +25,7 @@ The system should feel:
 
 ## Owned brand typeface
 
-`Nothing Sans` is the Nothing LLC brand typeface; its files are in `assets/typefaces/`. It is at its best set the way [noth-ing.com/about](https://noth-ing.com/about/) sets it: Light paragraphs at 24px, Book for small text, a short and very large Bold headline, and letter-spacing left at 0. See [docs/nothing-sans.md](nothing-sans.md) for the full setting, its known spacing issues, what was tried and rejected, and how to evaluate changes.
+`Nothing Sans` is the brand typeface of Nothing LLC and Howblue Ltd, which hold its license; its files are in `assets/typefaces/`. It is at its best set the way [noth-ing.com/about](https://noth-ing.com/about/) sets it: Light paragraphs at 24px, Book for small text, a short and very large Bold headline, and letter-spacing left at 0. See [docs/nothing-sans.md](nothing-sans.md) for the full setting, its known spacing issues, what was tried and rejected, and how to evaluate changes.
 
 ## Core pairings
 
@@ -113,9 +113,9 @@ For gear, outdoor, inventory, or field-manual artifacts, `Tiempos Text + Proxima
 
 ## Asset handling
 
-Do not commit font files.
+Commit the brand font files under `assets/typefaces/`. The sans-serif (`assets/typefaces/sansserif/`) and serif (`assets/typefaces/serif/`) files are licensed to and used by Nothing LLC and Howblue Ltd, so they belong in the repository alongside the standards that describe them.
 
-Typography standards should document roles, usage, examples, and fallbacks, not proprietary font assets.
+Do not commit font files that neither company holds a license for, such as `Tiempos Text`, `Söhne`, `AGaramondPro-Regular`, or `Proxima`. For those, document roles, usage, examples, and fallbacks only.
 
 Private or unredacted screenshots belong under ignored private source-sample directories.
 

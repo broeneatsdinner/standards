@@ -23,6 +23,10 @@ The system should feel:
 | `AGaramondPro-Regular` | Snow Peak reference serif | Heritage, elegant, catalog/lifestyle |
 | `Proxima` | Snow Peak reference sans-serif | Warm, clean, commercial, useful for product tables and gear ledgers |
 
+## Owned brand typeface
+
+`Nothing Sans` is the Nothing LLC brand typeface; its files are in `assets/typefaces/`. It is at its best set the way [noth-ing.com/about](https://noth-ing.com/about/) sets it: Light paragraphs at 24px, Book for small text, a short and very large Bold headline, and letter-spacing left at 0. See [docs/nothing-sans.md](nothing-sans.md) for the full setting, its known spacing issues, what was tried and rejected, and how to evaluate changes.
+
 ## Core pairings
 
 | Pairing | Use | Personality |

@@ -14,6 +14,7 @@ Use the current working typeface system:
 | `Söhne` | Core sans-serif: modern, precise, operator-focused, quietly technical |
 | `AGaramondPro-Regular` | Snow Peak reference serif: heritage, elegant, catalog/lifestyle |
 | `Proxima` | Snow Peak reference sans-serif: warm, clean, commercial, useful for product tables and gear ledgers |
+| `Nothing Sans` | Nothing LLC brand sans: set large, light, and untouched; see `docs/nothing-sans.md` before using it |
 
 Compare type decisions against these pairings:
 
@@ -29,5 +30,7 @@ Keep the analysis practical and visual.
 Do not make the discussion academic unless asked.
 
 Do not commit or share font files.
+
+When the work uses `Nothing Sans`, start from the setting in `docs/nothing-sans.md` rather than tuning it from scratch.
 
 When screenshots are used as typography references, use only public-safe redacted images in committed assets. Keep unredacted source material in ignored private directories.

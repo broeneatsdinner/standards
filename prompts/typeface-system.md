@@ -29,7 +29,7 @@ Keep the analysis practical and visual.
 
 Do not make the discussion academic unless asked.
 
-Do not commit or share font files.
+The brand font files in `assets/typefaces/` (sans-serif and serif) are licensed to and used by Nothing LLC and Howblue Ltd; use and commit them. Do not commit or share font files that neither company holds a license for.
 
 When the work uses `Nothing Sans`, start from the setting in `docs/nothing-sans.md` rather than tuning it from scratch.
 

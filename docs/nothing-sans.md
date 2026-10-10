@@ -1,6 +1,6 @@
 # Nothing Sans
 
-This document records how to set the Nothing LLC brand typeface so it looks the way it does on [noth-ing.com/about](https://noth-ing.com/about/), and what goes wrong when it is set any other way. It exists so the next project starts from the setting that works instead of rediscovering it.
+This document records how to set the Nothing LLC and Howblue Ltd brand typeface so it looks the way it does on [noth-ing.com/about](https://noth-ing.com/about/), and what goes wrong when it is set any other way. It exists so the next project starts from the setting that works instead of rediscovering it.
 
 The short version: Nothing Sans is beautiful when it is set large, light, and untouched. Set it Light for paragraphs at 24px, Book for small text, Bold for a short and very large headline, and never change its letter-spacing.
 
@@ -111,7 +111,7 @@ These were tested on a light-background photo-essay site in October 2026 and sho
 
 - **San Francisco cannot be the cross-platform brand face.** It renders through `-apple-system` on Apple devices only. Apple's license does not allow self-hosting it on the web or embedding it in PDFs, even though the file's embedding flags are blank. For text that must look the same on Windows, Linux, and in PDFs, embed a font you are licensed to embed.
 - **Inter** (SIL Open Font License) was evaluated as the licensed stand-in for San Francisco and rejected on taste: it read as dated rather than editorial.
-- Confirm the Nothing LLC typeface license allows web embedding and PDF embedding before publishing a site or document that serves the files.
+- The sans-serif and serif files are licensed to and used by Nothing LLC and Howblue Ltd. Serve and embed them only on behalf of those companies.
 
 ## How to evaluate type changes
 

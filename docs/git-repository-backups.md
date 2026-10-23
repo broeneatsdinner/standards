@@ -47,7 +47,11 @@ The second list is not necessarily wrong. A repository that gained a remote may 
 
 ## What a backup contains
 
-### Repositories with commits
+Back up everything in the repository folder. `.gitignore` decides what goes into version control and what gets shared; it does not decide what is worth keeping. In a private repository, ignored files are often the most valuable thing in it: a `private/` folder of notes, images, or recordings, save files, a local database, personal data that must never be committed. Encryption removes the reason to leave them behind.
+
+Each repository gets up to two files per run: a bundle for history, and a files archive for everything else.
+
+### The bundle: history
 
 Use a git bundle of every ref:
 
@@ -58,46 +62,47 @@ git bundle verify <file>
 
 `--all` includes every branch, tag, and stash. A bundle is a single file, verifiable on its own, and restorable with `git clone`.
 
-A bundle does not include unstaged changes, untracked files, or ignored files. See [Uncommitted work](#uncommitted-work).
+A bundle does not include unstaged changes, untracked files, or ignored files. The files archive holds those. A repository with no commits has no bundle.
 
-### Repositories with no commits
+### The files archive: everything else
 
-A repository with no commits has nothing to bundle. Back up its working tree as a compressed tar, built through git with a throwaway git directory:
+The files archive holds everything on disk that the bundle does not:
+
+- untracked files
+- ignored files
+- tracked files that are changed or staged
+- a list of tracked files deleted from disk
+
+For a repository with no commits, that is the whole working tree. Unpacked over a clone of the bundle, it gives back the folder as it was, uncommitted work included.
+
+Build it through git with a throwaway git directory. Every read then goes through git, which matters on macOS (see [Scheduling on macOS](#scheduling-on-macos)), and the repository's own index is never touched:
 
 ```text
 tmp_git=$(mktemp -d)
 git --git-dir="$tmp_git" init -q --bare
-git --git-dir="$tmp_git" --work-tree=<repo> add -A
-tree=$(git --git-dir="$tmp_git" --work-tree=<repo> write-tree)
-git --git-dir="$tmp_git" archive --format=tar.gz --prefix=<name>/ -o <file> "$tree"
-rm -rf "$tmp_git"
+git --git-dir="$tmp_git" --work-tree=<repo> add -A -f -- . <exclude pathspecs>
 ```
 
-This does three things a plain `tar` does not:
+`-f` includes ignored files. Compare the snapshot with `HEAD`: `git ls-files -s` in the throwaway directory against `git ls-tree -r HEAD` in the repository. Keep the entries that are new or whose mode or blob differ, write them into a second index with `git update-index --index-info`, add a blob listing the tracked paths missing from the snapshot, and archive that tree with `git archive --prefix=<name>/`. Use NUL-separated output (`-z`) throughout; git quotes unusual filenames otherwise, and quoted names slip past pattern matching.
 
-- it honors `.gitignore`, so build output and caches stay out
-- it never touches the repository's own index or `.git` directory
-- every read goes through git, which matters on macOS (see [Scheduling on macOS](#scheduling-on-macos))
+### Exclusions
 
-Empty directories are not included. The tree hash doubles as the change fingerprint.
+Leave out only what can be rebuilt without the backup, and clutter:
 
-### Ignored files that hold real data
+- dependencies and virtual environments a package manager restores: `node_modules`, `.venv`, `venv`
+- Python byproducts: `__pycache__`, `*.pyc`, `*.egg-info`, test and type-checker caches
+- tool caches
+- macOS files: `.DS_Store`, `._*`
 
-Some repositories keep real data in ignored files: save files, a local database, generated assets that took hours to produce. A bundle and the tar above both skip them.
+Keep the list in one file, one glob per line, and pass each as a pathspec: `:(exclude,glob)**/node_modules/**`. Do not exclude by `.gitignore`. The list also keeps the archive stable: caches change whenever code runs, and without the list most repositories would look changed every night.
 
-Back these up only when a repository is explicitly flagged for it, as a separate archive with its own rotation:
+Two things git cannot capture: empty directories, and nested repositories inside the folder. git refuses to add a nested repository that has no commits, which fails the whole snapshot, so find nested repositories first (`git ls-files -o` lists them with a trailing `/`), exclude them, and log each one. A nested repository needs its own entry in the backup list.
 
-```text
-git -C <repo> ls-files -z -o -i --exclude-standard
-```
-
-Feed that list (minus `.DS_Store`) into a throwaway git directory with `git add -f --pathspec-from-file=- --pathspec-file-nul`, then archive it as above with the same `--prefix` as the main archive, so both unpack into the same folder.
-
-Do not flag a repository by default. Ignored files are often large, regenerable, or secret. An `.env` file is ignored for a reason.
+Ignored files include secrets such as `.env` files. They leave the machine encrypted to a key the machine cannot use, which is the threat model this standard accepts. If a repository's own rules forbid its files leaving the machine in any form, record an exception there before backing it up.
 
 ### Read only
 
-The job reads repositories; it never writes to them. Bundling, `for-each-ref`, and `ls-files` do not modify a repository, and the throwaway git directory keeps the tar path's index out of it. Set `GIT_OPTIONAL_LOCKS=0` in the job's environment anyway, so no git command it runs can take `index.lock` or refresh an index while an editor or git client has the repository open at the same moment.
+The job reads repositories; it never writes to them. Bundling, `for-each-ref`, `ls-files`, and `ls-tree` do not modify a repository, and the throwaway git directory keeps the snapshot's index out of it. Set `GIT_OPTIONAL_LOCKS=0` in the job's environment anyway, so no git command it runs can take `index.lock` or refresh an index while an editor or git client has the repository open at the same moment.
 
 ## Encryption
 
@@ -126,14 +131,16 @@ Use one dedicated subfolder. Write only `.age` files into it.
 
 ### Timestamped names
 
-Name each backup `<repo>-YYYY-MM-DD-HHMM.<kind>.age`, where `<kind>` is `bundle`, `tar.gz`, or, for ignored files, a separate `<repo>-ignored-...tar.gz` name. Never overwrite a previous backup. Each run writes a new file; rotation removes old ones.
+Name bundles `<repo>-YYYY-MM-DD-HHMM.bundle.age` and files archives `<repo>-files-YYYY-MM-DD-HHMM.tar.gz.age`. Never overwrite a previous backup. Each run writes a new file; rotation removes old ones.
 
 ### Skip unchanged repositories
 
 Fingerprint each repository before backing it up and skip it if the fingerprint matches the last successful backup:
 
-- repositories with commits: a hash of `git for-each-ref --format='%(objectname) %(refname)'`
-- repositories with no commits, and ignored files: the git tree hash from the throwaway directory
+- bundle: a hash of `git for-each-ref --format='%(objectname) %(refname)'`
+- files archive: the hash of the archived tree, plus the bundle's refs hash
+
+Including the refs hash means a new bundle always comes with a files archive from the same run, so the newest of each always belong together. When a repository that has had extras becomes clean, write an empty files archive rather than nothing; otherwise the newest files archive is stale and a restore would bring back files that were since committed or deleted. A repository that has never had extras needs no files archive.
 
 Store the fingerprint only after the encrypted file has been written and verified.
 
@@ -141,20 +148,24 @@ Also store a hash of the recipients file. When the key changes, clear every fing
 
 ### Rotation
 
-For each repository, keep:
+For each repository, and separately for bundles and files archives, keep:
 
 - the newest backup, always
 - the newest backup of each of the last 7 days
 - the newest backup of each of the last 4 weeks
 - the newest backup of each of the last 12 months
 
-Everything else is deleted. That is at most about 23 files per repository.
+Everything else is deleted. That is at most about 23 of each per repository.
 
 The first rule is not optional. Skipping unchanged repositories means an untouched repository's last backup may be its only backup. Without "always keep the newest", age-based rotation deletes it after a year and nothing replaces it.
 
 Rotate from a local list of the backups the job has written, not by listing the storage folder (see below). The list must tolerate duplicate entries without treating a file as an older copy of itself. Compute day boundaries at noon, not midnight, so a daylight saving change cannot shift a backup into the wrong day.
 
 A failed deletion is logged, kept on the list, and retried on the next run. Never delete backups by hand as routine; rotation is the only routine deletion.
+
+When the format changes and a kind of backup is no longer written, keep rotating its list under the same rules but without "always keep the newest", so the old files age out instead of one lingering forever.
+
+Files archives grow with what lives outside git. A large file there, such as a recording in a `private/` folder, is uploaded again whenever the repository changes, and kept under the rules above. Watch the archive sizes in the log; a repository that gains gigabytes of media may need its media split into an archive of its own.
 
 ## Scheduling on macOS
 
@@ -230,9 +241,13 @@ age-keygen -y /tmp/t/k.txt > /tmp/t/recipients.txt
 Point the job at throwaway destination, state, and list paths, run it, restore every kind of backup it produced, and delete the throwaway key afterward. Test at least:
 
 - a bundle with more than one branch, a tag, and a stash
-- a tar from a repository with no commits
-- an ignored-files archive unpacked over its tar
+- a files archive holding ignored, untracked, staged, modified, deleted, and non-ASCII-named files, restored over its bundle and compared file by file with the original folder
+- a repository with no commits, restored from its files archive alone
 - a second run that skips everything as unchanged
+- a change only inside an excluded cache, which must not trigger a backup
+- a commit, which must write a bundle and a files archive in the same run
+- a repository that becomes clean, which must get an empty files archive
+- a nested repository with no commits, which must be logged without failing its parent
 - a key change that re-encrypts everything
 - rotation over a simulated year of nightly backups, including a repository whose only backup is more than a year old
 - a failing repository, which must produce a failure count, a notification, and a non-zero status
@@ -247,7 +262,9 @@ Put the private key in a private temporary file and delete it when done:
 umask 077; k=$(mktemp); pbpaste > "$k"
 ```
 
-A bundle:
+Take the newest bundle and the newest files archive. The files archive's stamp should be the same as the bundle's or later; if it is earlier, a files backup failed after that bundle, so skip it. For an older point in time, take a bundle and the files archive with the same stamp or the first one after it.
+
+The bundle:
 
 ```text
 age -d -i "$k" <repo>-<stamp>.bundle.age > <repo>.bundle
@@ -255,18 +272,20 @@ git clone <repo>.bundle <repo> && cd <repo>
 git fetch --update-head-ok ../<repo>.bundle 'refs/*:refs/*'
 git remote remove origin
 git fsck
+cd ..
 ```
 
 `git clone` alone checks out the default branch and leaves the rest as remote-tracking refs. The fetch restores every branch, tag, and stash as local refs.
 
-A tar, then its ignored files if any:
+The files archive, unpacked over it, then the deletions it records:
 
 ```text
-age -d -i "$k" <repo>-<stamp>.tar.gz.age | tar xzf -
-age -d -i "$k" <repo>-ignored-<stamp>.tar.gz.age | tar xzf -
+age -d -i "$k" <repo>-files-<stamp>.tar.gz.age | tar xzf -
+cd <repo>
+tr '\n' '\0' < .git-backup-deleted | xargs -0 rm -f --; rm .git-backup-deleted
 ```
 
-The tar has no `.git`; run `git init` to start again.
+Skip the last line when the archive has no deletion list. A repository with no commits has only the files archive; it unpacks with no `.git`, so run `git init` to start again.
 
 Finally:
 
@@ -276,19 +295,15 @@ rm -f "$k"
 
 ## Uncommitted work
 
-Bundles back up commits. Unstaged changes and untracked files are not backed up for any repository that has a commit.
+The files archive backs up uncommitted work, but only as it stood at the last run, and only the newest state of each day survives rotation past a week. A commit is still the better record: it has a message, it survives every later edit, and it is in history.
 
-Commit before you stop for the day. If the work is not ready to commit, `git stash -u` puts it into a ref that the next bundle includes.
-
-drydock lists exactly the repositories whose work tonight's backup would miss:
+drydock lists the repositories with work that exists only as uncommitted files:
 
 ```text
 drydock list --no-remote --dirty --match-mode all
 ```
 
-For a repository with commits, every unstaged (`~`) or untracked (`?`) count in that list is work that exists only on this disk. For a repository with no commits yet (branch `(unborn)`), untracked files are covered by the tar; only ignored files are not.
-
-Stashes appear in drydock's stash count and in the bundle. They are backed up, but they are easy to forget; restore brings them back as `refs/stash`, not as files.
+Review it regularly, and commit what is real. Work that is not ready to commit can go into `git stash -u`, which puts it into a ref the bundle includes; restore brings it back as `refs/stash`, not as files.
 
 ## Operator checklist
 
@@ -298,8 +313,10 @@ Stashes appear in drydock's stash count and in the bundle. They are backed up, b
 - [ ] Post-quantum age key generated; private key in a password manager and one offline copy; no key file left on disk
 - [ ] Only the public key on the machine; the job refuses a private key
 - [ ] Encrypted files written to one subfolder of an existing sync folder
+- [ ] Bundle plus files archive per repository; ignored files included; only rebuildable output and clutter excluded
+- [ ] Nested repositories logged, and listed for backup in their own right
 - [ ] Timestamped names; unchanged repositories skipped; key change re-encrypts
-- [ ] Rotation keeps the newest always, plus 7 daily, 4 weekly, 12 monthly
+- [ ] Rotation keeps the newest always, plus 7 daily, 4 weekly, 12 monthly, for each kind
 - [ ] Job installed outside protected folders and scheduled with `launchd`
 - [ ] Tested with a throwaway key, then through `launchctl kickstart`
 - [ ] Failures notify; status command reports the last run

@@ -8,8 +8,8 @@ The short version: Nothing Sans is beautiful when it is set large, light, and un
 
 | File | Family name inside the file | Registered in CSS as | Weights |
 | --- | --- | --- | --- |
-| `assets/typefaces/sansserif/NothingSans-<Style>.otf` | `SansSerif` | `Nothing Sans`, plus `Nothing Sans Light` for Light | ExtraLight, Light, Book, Medium, SemiBold, Bold, ExtraBold, Black, each with an italic |
-| `assets/typefaces/serif/NothingSerif-Regular.ttf` | `Serif` | `Nothing Serif` | Regular only |
+| `assets/typefaces/sansserif/NothingSans-<Style>.otf` | `Nothing SansSerif` | `Nothing Sans`, plus `Nothing Sans Light` for Light | ExtraLight, Light, Book, Medium, SemiBold, Bold, ExtraBold, Black, each with an italic |
+| `assets/typefaces/serif/NothingSerif-Regular.ttf` | `Nothing Serif` | `Nothing Serif` | Regular only |
 
 [`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css) is the canonical web setup: the `@font-face` declarations with the weight mapping, and the type rules from the setting below. Copy it with the font files rather than rewriting it.
 
@@ -21,9 +21,9 @@ A font has three names, and they are handled differently on purpose.
 
 | Level | Name | Decision |
 | --- | --- | --- |
-| CSS family | `Nothing Sans`, `Nothing Sans Light`, `Nothing Serif` | Always register these names. The internal names `SansSerif` and `Serif` are too close to the generic `sans-serif` and `serif` keywords, and a typo or a missing font file then fails silently into the browser default. |
+| CSS family | `Nothing Sans`, `Nothing Sans Light`, `Nothing Serif` | Always register these names. The original internal names `SansSerif` and `Serif` were too close to the generic `sans-serif` and `serif` keywords, and a typo or a missing font file then fails silently into the browser default. |
 | Filename | `NothingSans-<Style>.otf`, `NothingSerif-Regular.ttf` | Renamed from `SansSerif-*` and `Serif-Regular` on 2026-10-09 so a folder of fonts says what it is. Applied at the same time in every repository that carries the files. |
-| Internal name table | `SansSerif`, `Serif` (unchanged) | Left alone. This is what font menus show once a file is installed, and changing it means editing the font file itself, which a license may not allow. Revisit only with the license holder's agreement. |
+| Internal name table | `Nothing SansSerif`, `Nothing Serif` | Renamed from `SansSerif` and `Serif` on 2026-10-23 with the license holder's approval, so font menus and Font Book show the brand. Family, full, and PostScript names (`NothingSansSerif-<Style>`, `NothingSerif-Regular`) were changed in the name table and, for the `.otf` files, the CFF table; nothing else in the files changed. An installed copy does not update: remove the old `SansSerif`/`Serif` fonts from Font Book and install the renamed files. |
 
 When a project needs the fonts, copy the renamed files and `nothing-sans.css` together. Do not reintroduce the old filenames.
 

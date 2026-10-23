@@ -12,10 +12,10 @@
 
    Names (see "Naming" in docs/nothing-sans.md):
    - Files are named NothingSans-<Style>.otf and NothingSerif-Regular.ttf.
-   - The fonts' internal family names are still "SansSerif" and "Serif"; they
-     are registered here as "Nothing Sans", "Nothing Sans Light", and
-     "Nothing Serif" so they never collide with the generic sans-serif and
-     serif keywords.
+   - The fonts' internal family names are "Nothing SansSerif" and "Nothing
+     Serif" (renamed 2026-10-23); they are registered here as "Nothing Sans",
+     "Nothing Sans Light", and "Nothing Serif" so pages never depend on an
+     installed copy.
    ------------------------------------------------------------------------- */
 
 /* Weight mapping from the about page: SemiBold answers to 700 and Bold to

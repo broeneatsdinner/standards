@@ -24,6 +24,7 @@ Apply the standards in this repo when helping with:
 - commit messages
 - terminal UI elements
 - reusable shell libraries
+- encrypted backups of repositories without a remote (`docs/git-repository-backups.md`)
 
 ## Core instructions
 

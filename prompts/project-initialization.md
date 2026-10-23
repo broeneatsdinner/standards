@@ -277,8 +277,9 @@ Apply these standards in order when relevant:
 9. Directory structures: `directory_structures/`
 10. README and Pages guidance when repository documentation or GitHub Pages is in scope: `docs/readme-guidelines.md`, `docs/github-pages-guidelines.md`, `docs/wiki-policy.md`, `docs/documentation-templates.md`, `docs/documentation-writing-style.md`, and `docs/ai-agent-instructions.md`. When adding or generating Pages, also load `prompts/add-github-pages.md`.
 11. Personality layer when user-facing text, errors, prompts, notifications, status messages, or input handling are in scope: `docs/personality-layer.md`, plus the repository's own `personality/` directory when one exists
-12. AI-facing universal guidance: `prompts/universal.md`
-13. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
+12. Repository backups when a repository has no remote, a new repository is created without one, a remote must not hold a repository's contents, or backup, restore, or uncommitted-work coverage is in scope: `docs/git-repository-backups.md`
+13. AI-facing universal guidance: `prompts/universal.md`
+14. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
 
 When standards overlap, prefer the most specific applicable document. For general source-code style, use `docs/code-style.md` as the canonical authority.
 

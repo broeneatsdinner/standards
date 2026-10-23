@@ -46,6 +46,7 @@ The goal is eliminating ambiguity.
 - commit message standards
 - filesystem and project-structure standards
 - multi-node secure systems repository standards
+- encrypted backup standards for repositories without a remote
 - shell prompt standards
 - AI prompt guidance for applying these standards
 - repository audit and refactor guidance
@@ -120,6 +121,7 @@ For concrete examples of the operating architecture, see:
 - [docs/standards-sync.md](docs/standards-sync.md)
 - [docs/media-asset-workflow.md](docs/media-asset-workflow.md)
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
+- [docs/git-repository-backups.md](docs/git-repository-backups.md)
 - [docs/typography.md](docs/typography.md)
 - [docs/nothing-sans.md](docs/nothing-sans.md)
 - [docs/readme-guidelines.md](docs/readme-guidelines.md)

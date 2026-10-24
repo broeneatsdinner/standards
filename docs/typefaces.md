@@ -27,6 +27,14 @@ The system should feel:
 
 `Nothing Sans` is the brand typeface of Nothing LLC and Howblue Ltd, which hold its license; its files are in `assets/typefaces/`. It is at its best set the way [noth-ing.com/about](https://noth-ing.com/about/) sets it: Light paragraphs at 24px, Book for small text, a short and very large Bold headline, and letter-spacing left at 0. See [docs/nothing-sans.md](nothing-sans.md) for the full setting, its known spacing issues, what was tried and rejected, and how to evaluate changes.
 
+## Fixed-width typeface
+
+`JetBrainsMono NFM` (JetBrains Mono, Nerd Fonts Mono build) is the fixed-width typeface: terminals, code, and number-heavy tables such as ledgers and spreadsheet-style pages. It matches the terminal font, and the Nerd Fonts build adds the terminal's icon glyphs at single width. Its files are in `assets/typefaces/monospace/` (Regular, Bold, Italic, Bold Italic), unchanged from the Nerd Fonts 3.5.1 release of JetBrains Mono 2.304.
+
+It is licensed under the SIL Open Font License 1.1 (`assets/typefaces/monospace/OFL.txt`), so it may be committed, bundled, and served anywhere. Keep `OFL.txt` with the files whenever they are copied into a project.
+
+On the web, serve the files from the project with `@font-face` rather than relying on an installed copy: Safari does not expose user-installed fonts to web pages.
+
 ## Core pairings
 
 | Pairing | Use | Personality |
@@ -101,6 +109,7 @@ The core system remains:
 | --- | --- |
 | Serif identity | `Tiempos Text` |
 | Sans-serif identity | `Söhne` |
+| Fixed-width | `JetBrainsMono NFM` |
 
 The Snow Peak-inspired subsystem is:
 
@@ -114,6 +123,8 @@ For gear, outdoor, inventory, or field-manual artifacts, `Tiempos Text + Proxima
 ## Asset handling
 
 Commit the brand font files under `assets/typefaces/`. The sans-serif (`assets/typefaces/sansserif/`) and serif (`assets/typefaces/serif/`) files are licensed to and used by Nothing LLC and Howblue Ltd, so they belong in the repository alongside the standards that describe them.
+
+Commit open-licensed fonts (SIL Open Font License) with their license file, as with `assets/typefaces/monospace/`.
 
 Do not commit font files that neither company holds a license for, such as `Tiempos Text`, `Söhne`, `AGaramondPro-Regular`, or `Proxima`. For those, document roles, usage, examples, and fallbacks only.
 

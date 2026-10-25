@@ -41,3 +41,7 @@ node_modules/
 private/
 scratch/
 .aider*
+
+# Licensed brand fonts: kept locally, never committed (docs/typefaces.md)
+assets/typefaces/sansserif/
+assets/typefaces/serif/

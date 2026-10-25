@@ -42,4 +42,4 @@ Every file here except `build.py` is shared. Sites keep them identical apart fro
 
 `site/assets/css/typography.css` is [`assets/typefaces/nothing-sans.css`](../../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/`. When the canonical file changes, regenerate it the same way.
 
-The fonts are not part of the kit and are never committed in a site repository; `scripts/sync-fonts.sh` copies them from the standards repository.
+The fonts are not part of the kit and are never committed in a site repository; `scripts/sync-fonts.sh` copies them from a local checkout of the standards repository, where they are git-ignored too.

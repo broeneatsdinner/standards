@@ -79,7 +79,7 @@ A site with special publishing needs may keep its own `build-deploy.sh` (for exa
 ## Fonts
 
 - Sites are set in Nothing Sans, following [docs/nothing-sans.md](nothing-sans.md). `site/assets/css/typography.css` holds the face declarations and type rules, with `url("../typefaces/...")` paths relative to `assets/css/`.
-- Font files are not committed in site repositories. `scripts/sync-fonts.sh` copies the faces the CSS references from the standards repository's `assets/typefaces/` (or `$FONTS_SRC`), and `scripts/check-no-fonts.sh` fails if git tracks one. `.gitignore` excludes `site/assets/typefaces/` and the font file types.
+- Font files are not committed in site repositories. `scripts/sync-fonts.sh` copies the faces the CSS references from a local checkout of the standards repository's `assets/typefaces/`, where they are git-ignored as well (or from `$FONTS_SRC`), and `scripts/check-no-fonts.sh` fails if git tracks one. `.gitignore` excludes `site/assets/typefaces/` and the font file types.
 - The deploy copies only the fonts the CSS and pages reference, and fails if one is missing, unless `--allow-fallback` is passed.
 
 ## Local server

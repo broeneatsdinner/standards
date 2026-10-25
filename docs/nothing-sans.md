@@ -13,7 +13,7 @@ The short version: Nothing Sans is beautiful when it is set large, light, and un
 | `assets/typefaces/sansserif/NothingSans-<Style>.otf` | `Nothing SansSerif` | `Nothing Sans`, plus `Nothing Sans Light` for Light | ExtraLight, Light, Book, Medium, SemiBold, Bold, ExtraBold, Black, each with an italic |
 | `assets/typefaces/serif/NothingSerif-Regular.ttf` | `Nothing Serif` | `Nothing Serif` | Regular only |
 
-[`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css) is the canonical web setup: the `@font-face` declarations with the weight mapping, and the type rules from the setting below. Copy it with the font files rather than rewriting it.
+[`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css) is the canonical web setup: the `@font-face` declarations with the weight mapping, and the type rules from the setting below. Copy it with the font files rather than rewriting it. The font files are git-ignored and never committed; see [docs/typefaces.md](typefaces.md#asset-handling).
 
 Version 1.000 of the sans. Measured metrics, as fractions of the em: x-height 0.523, cap height 0.718 (San Francisco: 0.508 and 0.705); ascent 1.0625 and descent 0.25 (the line box the browser reserves). The tall ascent matters for spacing; see "Spacing around text" below.
 

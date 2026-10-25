@@ -122,7 +122,7 @@ For gear, outdoor, inventory, or field-manual artifacts, `Tiempos Text + Proxima
 
 ## Asset handling
 
-Commit the brand font files under `assets/typefaces/`. The sans-serif (`assets/typefaces/sansserif/`) and serif (`assets/typefaces/serif/`) files are licensed to and used by Nothing LLC and Howblue Ltd, so they belong in the repository alongside the standards that describe them.
+Keep the brand font files under `assets/typefaces/`, but never commit them. The sans-serif (`assets/typefaces/sansserif/`) and serif (`assets/typefaces/serif/`) files are licensed to Nothing LLC and Howblue Ltd, and this repository is public, so `.gitignore` excludes those folders. A local checkout holds the files in place, and other repositories copy them from there (the photo sites do this with `scripts/sync-fonts.sh`; see [docs/photo-sites.md](photo-sites.md#fonts)). A new machine gets them from the license holder's copy, not from git.
 
 Commit open-licensed fonts (SIL Open Font License) with their license file, as with `assets/typefaces/monospace/`.
 

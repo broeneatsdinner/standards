@@ -148,18 +148,19 @@ h3 {
    muted mix of the text color, that thickens and takes the full text color
    on hover or keyboard focus. A standalone "go to" link carries class="go"
    for a trailing arrow after a no-break space; a link inside a sentence is
-   underlined only. Projects may set text-decoration-color from their own
-   tokens instead of the color-mix default. */
+   underlined only. A project sets the two underline colors from its own
+   tokens with --nothing-link-underline and --nothing-link-underline-hover;
+   without them, the underline is a mix of the text color. */
 a {
 	color: inherit;
 	text-decoration: underline;
-	text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+	text-decoration-color: var(--nothing-link-underline, color-mix(in srgb, currentColor 45%, transparent));
 	text-decoration-thickness: max(0.0313em, 1px);
 	text-underline-offset: 0.12em;
 }
 a:hover,
 a:focus-visible {
-	text-decoration-color: currentColor;
+	text-decoration-color: var(--nothing-link-underline-hover, currentColor);
 	text-decoration-thickness: max(0.0625em, 2px);
 }
 a.go::after { content: "\00a0\2192"; }

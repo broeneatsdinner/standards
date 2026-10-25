@@ -80,6 +80,7 @@ HEAD = """<!doctype html>
 <link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/gallery.css">
 <link rel="stylesheet" href="/assets/css/typography.css">
+<link rel="stylesheet" href="/assets/css/typography-site.css">
 <script>
 // Apply a saved Light or Dark choice before first paint (assets/js/theme.js).
 try {{

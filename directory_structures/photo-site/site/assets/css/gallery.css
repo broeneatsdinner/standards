@@ -48,7 +48,7 @@
 	border-top: 1px solid var(--rule);
 	margin-top: 4vh;
 }
-.series-count { margin: 0.4em 0 0; color: var(--faint); }
+.series-count { margin: 0.4em 0 0; line-height: 1.3333; color: var(--faint); }
 .series-count .count { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
 
 .gallery {
@@ -115,6 +115,9 @@ html.viewer-open { overflow: hidden; }
 .viewer-img:not(.is-front) { pointer-events: none; }
 
 .viewer-caption, .viewer-count {
+	font-family: var(--nothing-sans);
+	font-size: var(--nothing-small);
+	line-height: 1.3333;
 	position: absolute;
 	bottom: 1.6em;
 	margin: 0;

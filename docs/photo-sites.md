@@ -30,7 +30,8 @@ project/
 │       └── serve.py            local server (shared)
 ├── site/
 │   ├── assets/
-│   │   ├── css/                base.css (shared), layout, typography.css
+│   │   ├── css/                base.css, typography.css (shared), layout,
+│   │   │                       typography-site.css
 │   │   ├── js/                 viewer.js, theme.js, jump.js (shared)
 │   │   └── typefaces/          copied in by sync-fonts.sh; git-ignored
 │   └── ...                     generated pages, thumbnails, routes.json,
@@ -51,6 +52,8 @@ CSS and JS live under `site/assets/`, beside the typefaces. A site may add its o
 | `scripts/sync-fonts.sh`, `scripts/check-no-fonts.sh` | yes | none |
 | `site/assets/js/viewer.js`, `theme.js`, `jump.js` | yes | none |
 | `site/assets/css/base.css` | yes | none |
+| `site/assets/css/typography.css` | yes: [`nothing-sans.css`](../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/` | none |
+| `site/assets/css/typography-site.css` | no | the site's own type rules, loaded right after `typography.css`: the headline size, and type for selectors only this site uses |
 | `scripts/site/build.py` | no | everything: it knows the site's records and sections; set `PUBLIC_BASE` to the published folder |
 
 A site with special publishing needs may keep its own `build-deploy.sh` (for example, to leave out an editing page or copy videos), as long as `bin/deploy` can run it unchanged and it makes the same checks.
@@ -78,7 +81,7 @@ A site with special publishing needs may keep its own `build-deploy.sh` (for exa
 
 ## Fonts
 
-- Sites are set in Nothing Sans, following [docs/nothing-sans.md](nothing-sans.md). `site/assets/css/typography.css` holds the face declarations and type rules, with `url("../typefaces/...")` paths relative to `assets/css/`.
+- Sites are set in Nothing Sans, following [docs/nothing-sans.md](nothing-sans.md). `site/assets/css/typography.css` holds the face declarations and type rules, with `url("../typefaces/...")` paths relative to `assets/css/`. It is the canonical file, unchanged; a site's own type rules go in `typography-site.css`, loaded right after it. Class selectors in the layout CSS outrank the canonical element rules (`p`, `h3`, `th`, `td`), so a label set as a `<p>` keeps its layout line height only if its class sets one.
 - Font files are not committed in site repositories. `scripts/sync-fonts.sh` copies the faces the CSS references from a local checkout of the standards repository's `assets/typefaces/`, where they are git-ignored as well (or from `$FONTS_SRC`), and `scripts/check-no-fonts.sh` fails if git tracks one. `.gitignore` excludes `site/assets/typefaces/` and the font file types.
 - The deploy copies only the fonts the CSS and pages reference, and fails if one is missing, unless `--allow-fallback` is passed.
 

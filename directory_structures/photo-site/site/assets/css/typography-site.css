@@ -1,0 +1,18 @@
+/* Site typography: this site's additions to typography.css, which is the
+   standard Nothing Sans setup and is kept identical across the photo sites.
+   Loaded right after it. Only selectors this site's pages use belong here. */
+
+/* Headline size: as large as the layout allows, for a few words. */
+h1 {
+	font-size: clamp(56px, 7.4vw, 124px);
+}
+
+/* Section titles in the ink color. */
+h2 {
+	color: var(--ink);
+}
+
+/* Captions: the name in Book, the description in Light. */
+figcaption { font-family: var(--nothing-light); font-size: var(--nothing-small); line-height: 1.3333; }
+.photo-name { font-family: var(--nothing-sans); font-weight: 700; }
+.photo-meta { font-family: var(--nothing-sans); }

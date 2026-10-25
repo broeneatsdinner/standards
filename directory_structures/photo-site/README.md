@@ -15,7 +15,8 @@ photo-site/
 │       ├── build-deploy.sh
 │       └── serve.py
 └── site/assets/
-    ├── css/                      base.css, gallery.css, typography.css
+    ├── css/                      base.css, gallery.css, typography.css,
+    │                             typography-site.css
     └── js/                       viewer.js, theme.js, jump.js
 ```
 
@@ -25,6 +26,7 @@ photo-site/
 2. Set the per-site values:
     - `bin/deploy`: the deploy constants (`SUBDIR`, `HOST`, `WEB_ROOT`, `SITE_URL`). The values here are placeholders.
     - `scripts/site/serve.py`: `DEFAULT_PORT`, different from the other sites you run locally.
+    - `site/assets/css/typography-site.css`: the headline size and any type rules for the site's own classes.
     - `scripts/site/build.py`: `TITLE`, `KICKER`, `LEAD`, `PUBLIC_BASE` (`/<SUBDIR>/`), and optionally `PHOTO_ORDER` and `SECTION_SLUGS`.
 3. Add photos in one folder per section under `photos/`, and a row for each in `photos/captions.csv` (a row ending in `/` captions the folder). Delete the example rows.
 4. Copy the fonts in and view the site:
@@ -40,6 +42,6 @@ photo-site/
 
 Every file here except `build.py` is shared. Sites keep them identical apart from the marked constants (`bin/deploy`'s deploy constants and `serve.py`'s `DEFAULT_PORT`). When one site improves a shared file, copy the change back here and to the other sites in the same pass.
 
-`site/assets/css/typography.css` is [`assets/typefaces/nothing-sans.css`](../../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/`. When the canonical file changes, regenerate it the same way.
+`site/assets/css/typography.css` is [`assets/typefaces/nothing-sans.css`](../../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/`, identical in every site. When the canonical file changes, regenerate it the same way and copy it to each site. A site's own type rules (headline size, its own classes) go in `site/assets/css/typography-site.css`, which `build.py` loads right after it.
 
 The fonts are not part of the kit and are never committed in a site repository; `scripts/sync-fonts.sh` copies them from a local checkout of the standards repository, where they are git-ignored too.

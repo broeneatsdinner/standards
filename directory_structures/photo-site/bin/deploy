@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+# ------------------
+# --    deploy    --
+# ------------------
+# description: Build the public copy of the site and upload it to its folder on the web server
+"""Build the public copy of the site and upload it to <SITE_URL>/<SUBDIR>/.
+
+  bin/deploy                    build, show what would change, ask, upload
+  bin/deploy --dry-run          build and show what would change; upload nothing
+  bin/deploy --yes              build and upload without asking
+  bin/deploy --allow-fallback   build even if the brand fonts are missing
+
+1. Runs scripts/site/build-deploy.sh, which rebuilds the pages and writes
+   work/site-deploy/: photos resized to 2400px with all metadata (including
+   GPS) removed but the color profile, caption files left out, noindex on
+   every page, and no folder listings. It stops if any image still carries
+   other metadata.
+2. Asks rsync, without changing anything, what the upload would add or
+   replace on the server, and lists it.
+3. Asks before uploading (unless --yes), then uploads with rsync.
+
+Nothing is ever deleted on the server: files removed locally stay there
+until removed by hand.
+
+This file is shared by the project sites; only the deploy constants differ.
+The values below are placeholders: set them for the real server.
+"""
+
+import argparse
+import subprocess
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+DEPLOY = REPO / "work" / "site-deploy"
+# Deploy constants: the only lines that differ between sites.
+SUBDIR = "project"                        # this site's folder on the web server
+HOST = "deploy-host"                      # SSH host (an alias from ~/.ssh/config)
+WEB_ROOT = "/var/www/example.com/html"    # the domain's document root on HOST
+SITE_URL = "https://example.com"          # the domain, as visitors see it
+REMOTE = f"{HOST}:{WEB_ROOT}/{SUBDIR}/"
+URL = f"{SITE_URL}/{SUBDIR}/"
+SSH = "ssh -o RemoteCommand=none -o RequestTTY=no"
+# Compare by checksum (-c) and skip directory times (-O): every build
+# rewrites the files, so their times always differ even when nothing changed.
+RSYNC = ["rsync", "-c", "-O", "--chmod=D755,F644", "-e", SSH]
+
+
+def run(cmd, **kwargs):
+	"""Run a command from the repo root; stop with its exit code if it fails."""
+	result = subprocess.run(cmd, cwd=REPO, **kwargs)
+	if result.returncode != 0:
+		sys.exit(result.returncode)
+	return result
+
+
+def main():
+	parser = argparse.ArgumentParser(description="Build the site and upload it to " + URL)
+	parser.add_argument("--dry-run", action="store_true", help="show what would change; upload nothing")
+	parser.add_argument("-y", "--yes", action="store_true", help="upload without asking")
+	parser.add_argument("--allow-fallback", action="store_true", help="build even if the brand fonts are missing")
+	args = parser.parse_args()
+
+	build = ["scripts/site/build-deploy.sh"] + (["--allow-fallback"] if args.allow_fallback else [])
+	run(build)
+
+	# rsync -n lists what it would transfer without transferring it.
+	changes = run(RSYNC + ["-ain", f"{DEPLOY}/", REMOTE], capture_output=True, text=True).stdout
+	# Itemized lines starting with "." change only attributes such as times;
+	# "<" sends a file and "c" creates one. Only the latter are real changes.
+	lines = [l for l in changes.splitlines() if l.strip()]
+	real = [l for l in lines if not l.startswith(".")]
+	print(f"\nChanges to upload to {REMOTE}:")
+	if not real:
+		print("  none: the server already has the same content.")
+		return
+	print("\n".join("  " + l for l in real))
+	print(f"  ({len(real)} new or changed; {len(lines) - len(real)} unchanged)")
+
+	if args.dry_run:
+		print("\nDry run: nothing uploaded.")
+		return
+	if not args.yes:
+		try:
+			answer = input("\nUpload these changes? [y/N] ")
+		except EOFError:
+			answer = ""
+		if answer.strip().lower() != "y":
+			print("Not uploaded.")
+			return
+
+	run(RSYNC + ["-a", f"{DEPLOY}/", REMOTE])
+	print(f"Published: {URL}")
+
+
+if __name__ == "__main__":
+	main()

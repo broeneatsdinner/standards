@@ -1,0 +1,97 @@
+/* Color tokens and fallback type. Layout and the viewer are in gallery.css;
+   Nothing Sans is set in typography.css, loaded last. */
+
+:root {
+	--bg: #fbfaf7;
+	--ink: #1d1d1b;
+	--muted: #6b6a66;
+	--faint: #8f8c85;
+	--rule: #dcd9d2;
+	--reading: #3d3c39;
+	--small: 15px;
+	--copy: 20px;
+	--measure: calc(var(--small) * 38);
+	--wide: 72em;
+	--gutter: 16px;
+	color-scheme: light dark;
+}
+
+/* Night version. Follows the system appearance unless the Light / Dark /
+   Auto switch (assets/js/theme.js) sets data-theme on <html>. The two dark blocks
+   must stay identical. */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--bg: #141413;
+		--ink: #e8e6e1;
+		--muted: #a19e97;
+		--faint: #85827b;
+		--rule: #34332f;
+		--reading: #cfccc4;
+	}
+}
+:root[data-theme="dark"] {
+	--bg: #141413;
+	--ink: #e8e6e1;
+	--muted: #a19e97;
+	--faint: #85827b;
+	--rule: #34332f;
+	--reading: #cfccc4;
+	color-scheme: dark;
+}
+:root[data-theme="light"] { color-scheme: light; }
+@media screen and (max-width: 1024px) { :root { --copy: 18px; --small: 14px; } }
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+	font-size: var(--small);
+	line-height: 1.3333;
+	padding: 0 var(--gutter);
+	font-synthesis: none;
+}
+
+h1 {
+	font-weight: 700;
+	font-size: clamp(40px, 6vw, 88px);
+	line-height: 0.98;
+	letter-spacing: -0.01em;
+	margin: 0;
+}
+
+h2 {
+	font-weight: 400;
+	font-size: calc(var(--copy) * 0.96);
+	line-height: 1.25;
+	margin: 0;
+	color: var(--ink);
+}
+
+.kicker {
+	font-size: var(--small);
+	color: var(--muted);
+	margin: 0 0 0.75em;
+}
+
+.pending { color: var(--muted); font-style: italic; }
+
+/* Links, as on noth-ing.com: a thin underline in a muted color, set just
+   below the text, that thickens and darkens on hover or keyboard focus. A
+   standalone "go to" link (a record title, Next) carries class="go" for a
+   trailing arrow; links inside a sentence are underlined only. The arrow is
+   added here, after a no-break space, so it never wraps onto a line alone. */
+a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: var(--faint);
+	text-decoration-thickness: max(0.0313em, 1px);
+	text-underline-offset: 0.12em;
+}
+a:hover,
+a:focus-visible {
+	text-decoration-color: var(--ink);
+	text-decoration-thickness: max(0.0625em, 2px);
+}
+a.go::after { content: "\00a0\2192"; }

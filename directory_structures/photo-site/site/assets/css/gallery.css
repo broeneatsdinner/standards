@@ -1,0 +1,186 @@
+/* Layout: the top bar, one section per photo folder with a grid of photos
+   under each, and the full-screen viewer. Loaded after base.css, which
+   supplies the tokens; document pages add records.css. */
+
+.series-nav {
+	max-width: var(--wide);
+	margin: 0 auto;
+	padding: 1.5em 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6em 1.5em;
+	justify-content: space-between;
+}
+.series-nav a { color: inherit; text-decoration: none; }
+.series-nav a:hover { text-decoration: underline; }
+
+/* Light / Dark / Auto switch (assets/js/theme.js), at the right of the top bar. */
+.theme-switch { display: flex; gap: 0.9em; }
+.theme-switch button {
+	font: inherit;
+	color: var(--faint);
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+.theme-switch button:hover { color: var(--ink); }
+.theme-switch button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-underline-offset: 0.3em; }
+.theme-switch button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 0.9s;
+	animation-timing-function: ease-in-out;
+}
+
+.intro {
+	max-width: var(--wide);
+	margin: 0 auto;
+	padding: 12vh 0 4vh;
+}
+
+/* One header per photo folder. */
+.series-head {
+	max-width: var(--wide);
+	margin: 0 auto;
+	padding: 8vh 0 2.5em;
+	border-top: 1px solid var(--rule);
+	margin-top: 4vh;
+}
+.series-count { margin: 0.4em 0 0; color: var(--faint); }
+.series-count .count { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.gallery {
+	max-width: var(--wide);
+	margin: 0 auto 10vh;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(17em, 1fr));
+	gap: 3em 2em;
+}
+.gallery figure { margin: 0; min-width: 0; }
+.gallery img, .gallery .missing {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	background: var(--rule);
+}
+.gallery img { cursor: zoom-in; }
+.gallery img:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; }
+.gallery img.is-returned:focus-visible { outline: none; }
+
+figcaption {
+	margin: 0.8em 0 0;
+	color: var(--reading);
+	overflow-wrap: anywhere;
+}
+.photo-name { display: block; color: var(--ink); font-weight: 600; margin-bottom: 0.25em; }
+.photo-meta { display: block; margin-top: 0.4em; color: var(--faint); font-variant-numeric: tabular-nums; }
+.flag { color: #b5462f; }
+
+
+/* Viewer */
+html.viewer-open { overflow: hidden; }
+
+.viewer {
+	--v-bg: #111;
+	--v-ink: #e8e6e1;
+	--v-muted: rgba(232, 230, 225, 0.62);
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	background: var(--v-bg);
+	color: var(--v-ink);
+	opacity: 0;
+	transition: opacity 0.35s ease, background-color 0.6s ease;
+}
+/* --v-bg is set per photo by assets/js/viewer.js from the photo's own colors (a
+   dark tint), so the light ink stays readable. */
+.viewer.is-open { opacity: 1; }
+.viewer:focus { outline: none; }
+
+.viewer-stage { position: absolute; inset: 4.5em 4.5em 6.5em; cursor: zoom-out; }
+.viewer-img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	opacity: 0;
+	transition: opacity 0.6s ease;
+	cursor: pointer;
+}
+.viewer-img.is-front { opacity: 1; }
+.viewer-img:not(.is-front) { pointer-events: none; }
+
+.viewer-caption, .viewer-count {
+	position: absolute;
+	bottom: 1.6em;
+	margin: 0;
+	color: var(--v-muted);
+	transition: opacity 0.4s ease;
+}
+.viewer-caption { left: 4.5em; right: 9em; }
+.viewer-caption .photo-name { color: var(--v-ink); }
+.viewer-caption .photo-meta { color: var(--v-muted); }
+.viewer-count { right: 4.5em; font-variant-numeric: tabular-nums; }
+
+.viewer-btn {
+	position: absolute;
+	background: none;
+	border: 0;
+	color: var(--v-ink);
+	font: inherit;
+	font-size: 1.6rem;
+	line-height: 1;
+	padding: 0.5em;
+	cursor: pointer;
+	opacity: 0.7;
+	transition: opacity 0.4s ease;
+}
+.viewer-btn:hover, .viewer-btn:focus-visible { opacity: 1; }
+.viewer-prev { left: 0.6em; top: 50%; transform: translateY(-50%); }
+.viewer-next { right: 0.6em; top: 50%; transform: translateY(-50%); }
+.viewer-close { right: 0.6em; top: 0.6em; }
+
+/* Controls rest when the pointer does. */
+.viewer.is-idle .viewer-btn,
+.viewer.is-idle .viewer-caption,
+.viewer.is-idle .viewer-count { opacity: 0; }
+.viewer.is-idle, .viewer.is-idle .viewer-stage, .viewer.is-idle .viewer-img { cursor: none; }
+
+@media (max-width: 40em) {
+	.viewer-stage { inset: 3.5em 0.5em 7em; }
+	.viewer-caption { left: 1em; right: 5em; bottom: 1.2em; }
+	.viewer-count { right: 1em; bottom: 1.2em; }
+	.viewer-prev, .viewer-next { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.viewer, .viewer-img, .viewer-btn, .viewer-caption, .viewer-count { transition: none; }
+	::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+
+/* Section links under the intro (assets/js/jump.js). Shown when a page has
+   two or more sections. */
+.jump {
+	max-width: var(--wide);
+	margin: 0 auto;
+	padding: 0 0 2em;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em 1.5em;
+}
+.jump a { color: var(--muted); }
+/* Sections reached from the jump bar take focus; no ring. */
+.series-head:focus { outline: none; }
+
+/* Tables: the rules from the standards Pages kit, 3px under the header row,
+   1px between rows, none after the last row. Cell type and the optical
+   bottom padding come from typography.css (--nothing-optical-bottom). */
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; vertical-align: top; padding-right: 1.2em; border-bottom: 1px solid var(--rule); }
+th { color: var(--muted); }
+thead th { border-bottom-width: 3px; }
+tbody tr:last-child td { border-bottom: 0; }

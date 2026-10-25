@@ -1,0 +1,3 @@
+file,title,description,kind
+example-section/,Example section,"One line about this group of photos; it appears under the section title.",
+example-section/01-first-photo.jpg,First photo,"What the photo shows, in a sentence or two.",reference

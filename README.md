@@ -124,6 +124,7 @@ For concrete examples of the operating architecture, see:
 - [docs/git-repository-backups.md](docs/git-repository-backups.md)
 - [docs/typography.md](docs/typography.md)
 - [docs/nothing-sans.md](docs/nothing-sans.md)
+- [docs/photo-sites.md](docs/photo-sites.md)
 - [docs/readme-guidelines.md](docs/readme-guidelines.md)
 - [docs/github-pages-guidelines.md](docs/github-pages-guidelines.md)
 - [docs/documentation-writing-style.md](docs/documentation-writing-style.md)
@@ -230,6 +231,8 @@ assets/
 The `docs/` directory is the canonical authority for written standards. The `prompts/` directory should point AI tools at those standards and explain how to apply them. The `shell/` directory contains reusable implementation pieces. The `directory_structures/` directory contains example or starter filesystem layouts that can be copied, adapted, or used as references.
 
 `assets/typography/` contains reusable chat and document rendering fixtures for Markdown-to-HTML/PDF workflows.
+
+`directory_structures/photo-site/` is the starter kit for a project photo site: a static site generated from a repository's photos and records, described in `docs/photo-sites.md`.
 
 ## Current populated areas
 

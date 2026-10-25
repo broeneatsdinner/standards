@@ -26,7 +26,7 @@ The standards repository has four typography systems, and the brand face has two
 
 Across all of them, terminals, code, and number-heavy tables use the fixed-width face, `JetBrainsMono NFM` ([docs/typefaces.md](typefaces.md)).
 
-Open question, not yet decided: whether chat, document, and Pages typography should move from system fonts to the brand faces: Nothing Sans for text, and JetBrainsMono NFM for code, which their stylesheets do not yet use. Decide with a tear-sheet pass, as described below, not by swapping the font stacks.
+Chat, document, and Pages typography keep the system fonts, for text and for code. A tear-sheet pass in October 2026 compared them against JetBrainsMono NFM for code alone, and Nothing Sans (Book, and Light paragraphs) for text with JetBrainsMono for code; the system fonts were kept on taste. Revisit only with a new reason, and with the same side-by-side comparison, not by swapping the font stacks.
 
 ## Typography Domains
 

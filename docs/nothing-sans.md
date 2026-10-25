@@ -4,7 +4,7 @@ This document records how to set the Nothing LLC and Howblue Ltd brand typeface 
 
 It applies to noth-ing.com and to the project photo sites described in [docs/photo-sites.md](photo-sites.md), which set the face the same way and extend it to longer pages: rendered notes, lists, tables, and links.
 
-The short version: Nothing Sans is beautiful when it is set large, light, and untouched. Set it Light for paragraphs at 24px, Book for small text, Bold for a short and very large headline, and never change its letter-spacing.
+The short version: Nothing Sans is beautiful when it is set large, light, and untouched. Set it Light for paragraphs at 24px, Book for small text, Bold for a short and very large headline, and never change its letter-spacing. Posters and print pieces have a register of their own; see "The poster register" below.
 
 ## Files and names
 
@@ -131,9 +131,28 @@ These were tested on a light-background photo-essay site in October 2026 and sho
 - **Inter** (SIL Open Font License) was evaluated as the licensed stand-in for San Francisco and rejected on taste: it read as dated rather than editorial.
 - The sans-serif and serif files are licensed to and used by Nothing LLC and Howblue Ltd. Serve and embed them only on behalf of those companies.
 
-## Open: a poster register
+## The poster register
 
-A poster specimen (`assets/typography/Nothing SansSerif Typeface Test/`, not yet part of the standard) sets the face differently on purpose: Book for body, Medium for emphasis, Bold and ExtraBold for display, negative tracking on display lines, and tracked uppercase labels. It reads as a firmer print and poster voice rather than a mistake. Until it is decided whether that becomes a documented second register, with its own rules for display and print only, the rules in this document apply everywhere.
+Posters, covers, and other print or display pieces may use a second register: firmer, urban, and composed, where the reading setting above is light and open. The reference is [`assets/typography/nothing-poster-specimen.html`](../assets/typography/nothing-poster-specimen.html), with a printed copy in [`nothing-poster-specimen.pdf`](../assets/typography/nothing-poster-specimen.pdf).
+
+It is for display and print only. Web pages, the photo sites, and any page meant for reading use the setting above, and one page never mixes the two.
+
+| Role | Face | Size and line height | Letter-spacing |
+| --- | --- | --- | --- |
+| Display (one or two characters, a single word) | ExtraBold | very large (170px on the specimen), 0.88 | -0.07em |
+| Headline | Bold | large (112px), 0.92 | -0.05em |
+| Section line | Medium | 48px, 0.98 | -0.04em |
+| Figures, alphabet rows | Medium | 24px | -0.03em |
+| Subhead | Book | 28px, 1.15 | 0 |
+| Body | Book, Book Italic for emphasis in a sentence | 19px, 1.22, at most 34em wide | 0 |
+| Label, top line | Book, uppercase | 13 to 14px | +0.08em |
+| Small print | Book | 13px, 1.3 | 0 |
+
+- **Tracking tightens with size.** Negative tracking belongs to display lines only, and the larger the line, the tighter: from -0.03em at 24px to -0.07em at 170px. Body and small text stay at 0, as in the reading setting.
+- **Labels are the one place for tracked uppercase.** Short, Book, small, +0.08em.
+- **Book carries the text; Medium carries emphasis.** Light is not used, and neither is SemiBold.
+- **Ink on paper:** `#111` on `#f5f3ef`, white paper when printed. Blocks are separated by a 2px rule in the ink color.
+- **Do not load [`nothing-sans.css`](../assets/typefaces/nothing-sans.css) on a poster page.** Its letter-spacing rule (`0 !important` on every element) cancels the register's tracking. The specimen declares one family per face (`Nothing SansSerif Book`, `Nothing SansSerif Medium`, ...) from the same files, so its weights do not collide with the reading setting's weight mapping.
 
 ## How to evaluate type changes
 

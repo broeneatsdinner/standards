@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nothing Poster Specimen</title>
+
+<style>
+/* The poster register (docs/nothing-sans.md). The font files are git-ignored;
+   this page renders in a checkout that has them in assets/typefaces/. */
+@font-face { font-family: "Nothing SansSerif Book"; src: url("../typefaces/sansserif/NothingSans-Book.otf") format("opentype"); }
+@font-face { font-family: "Nothing SansSerif Book Italic"; src: url("../typefaces/sansserif/NothingSans-BookItalic.otf") format("opentype"); }
+@font-face { font-family: "Nothing SansSerif Medium"; src: url("../typefaces/sansserif/NothingSans-Medium.otf") format("opentype"); }
+@font-face { font-family: "Nothing SansSerif Bold"; src: url("../typefaces/sansserif/NothingSans-Bold.otf") format("opentype"); }
+@font-face { font-family: "Nothing SansSerif ExtraBold"; src: url("../typefaces/sansserif/NothingSans-ExtraBold.otf") format("opentype"); }
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: #f5f3ef;
+	color: #111;
+}
+
+body {
+	padding: 56px 64px 72px 64px;
+}
+
+.topline {
+	font-family: "Nothing SansSerif Book", sans-serif;
+	font-size: 14px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	margin-bottom: 40px;
+}
+
+.hero {
+	font-family: "Nothing SansSerif Bold", sans-serif;
+	font-size: 112px;
+	line-height: 0.92;
+	letter-spacing: -0.05em;
+	max-width: 1100px;
+	margin-bottom: 28px;
+}
+
+.subhero {
+	font-family: "Nothing SansSerif Book", sans-serif;
+	font-size: 28px;
+	line-height: 1.15;
+	max-width: 760px;
+	margin-bottom: 56px;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1.1fr 0.9fr;
+	gap: 44px;
+	align-items: start;
+}
+
+.block {
+	border-top: 2px solid #111;
+	padding-top: 16px;
+}
+
+.label {
+	font-family: "Nothing SansSerif Book", sans-serif;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	margin-bottom: 18px;
+}
+
+.bigline {
+	font-family: "Nothing SansSerif Medium", sans-serif;
+	font-size: 48px;
+	line-height: 0.98;
+	letter-spacing: -0.04em;
+	margin-bottom: 18px;
+}
+
+.body {
+	font-family: "Nothing SansSerif Book", sans-serif;
+	font-size: 19px;
+	line-height: 1.22;
+	max-width: 34em;
+}
+
+.italic {
+	font-family: "Nothing SansSerif Book Italic", sans-serif;
+}
+
+.massive {
+	font-family: "Nothing SansSerif ExtraBold", sans-serif;
+	font-size: 170px;
+	line-height: 0.88;
+	letter-spacing: -0.07em;
+	text-align: right;
+	margin-top: 18px;
+}
+
+.footer {
+	margin-top: 56px;
+	display: flex;
+	justify-content: space-between;
+	align-items: end;
+	gap: 24px;
+}
+
+.small {
+	font-family: "Nothing SansSerif Book", sans-serif;
+	font-size: 13px;
+	line-height: 1.3;
+	max-width: 420px;
+}
+
+.numbers {
+	font-family: "Nothing SansSerif Medium", sans-serif;
+	font-size: 24px;
+	letter-spacing: -0.03em;
+	text-align: right;
+}
+
+@media print {
+	html, body {
+		background: white;
+	}
+}
+</style>
+</head>
+<body>
+
+<div class="topline">TYPE / Nothing / Poster Study</div>
+
+<div class="hero">
+	Nothing is not neutral.<br>
+	It is disciplined.
+</div>
+
+<div class="subhero">
+	A neo-grotesk with memory, signage muscle, and editorial restraint.
+</div>
+
+<div class="grid">
+	<div class="block">
+		<div class="label">Why it works</div>
+		<div class="bigline">
+			Hard edges.<br>
+			Real gravity.<br>
+			No cheerfulness.
+		</div>
+		<div class="body">
+			Nothing becomes interesting when it is allowed to feel firm, urban, and composed.
+			It is strongest when used with scale, contrast, and intention — not when treated
+			like a generic default sans. In text, <span class="italic">Book</span> gives you a steady voice.
+			In hierarchy, Medium gives you pressure. In display, Bold and ExtraBold bring the steel.
+		</div>
+	</div>
+
+	<div class="block">
+		<div class="label">Display force</div>
+		<div class="massive">Aa</div>
+	</div>
+</div>
+
+<div class="footer">
+	<div class="small">
+		Big 3: Book for body copy. Medium for emphasis. Bold for headlines.
+	</div>
+	<div class="numbers">
+		ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+		0123456789
+	</div>
+</div>
+
+</body>
+</html>

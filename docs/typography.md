@@ -14,21 +14,19 @@ Typography work should support both screen inspection and PDF output. A style th
 
 ## Which typography standard applies
 
-The standards repository has four typography systems. Pick by what is being made, then follow that system's own document.
+The standards repository has four typography systems, and the brand face has two registers: one for reading, one for posters and print. Pick by what is being made, then follow that system's own document.
 
 | Making | System | Faces | Authority |
 | --- | --- | --- | --- |
 | A Nothing LLC or Howblue Ltd web page, or a project photo site | Nothing Sans brand setting | Nothing Sans (Light, Book, SemiBold, Bold) | [docs/nothing-sans.md](nothing-sans.md), [`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css), [docs/photo-sites.md](photo-sites.md) |
+| A poster, cover, or other print or display piece | Nothing Sans poster register | Nothing Sans (Book, Medium, Bold, ExtraBold) | "The poster register" in [docs/nothing-sans.md](nothing-sans.md#the-poster-register), [`assets/typography/nothing-poster-specimen.html`](../assets/typography/nothing-poster-specimen.html) |
 | A chat export, transcript, report, or formal document rendered to HTML or PDF | Chat and document typography (this document) | System UI fonts | this document, [`assets/typography/`](../assets/typography/) |
 | A repository's GitHub Pages manual | Pages kit | System UI fonts | [docs/github-pages-guidelines.md](github-pages-guidelines.md), [`pages/github-pages-docs-site/`](../pages/github-pages-docs-site/) |
 | A spreadsheet, gear ledger, or a discussion of type choices | Typeface reference set | Tiempos Text, Söhne, Proxima (documented, not licensed) | [docs/typefaces.md](typefaces.md) |
 
 Across all of them, terminals, code, and number-heavy tables use the fixed-width face, `JetBrainsMono NFM` ([docs/typefaces.md](typefaces.md)).
 
-Open questions, not yet decided:
-
-- Whether chat, document, and Pages typography should move from system fonts to the brand faces: Nothing Sans for text, and JetBrainsMono NFM for code, which their stylesheets do not yet use. Decide with a tear-sheet pass, as described below, not by swapping the font stacks.
-- Whether the poster specimen in `assets/typography/Nothing SansSerif Typeface Test/` becomes a documented display and print register; see "Open: a poster register" in [docs/nothing-sans.md](nothing-sans.md).
+Open question, not yet decided: whether chat, document, and Pages typography should move from system fonts to the brand faces: Nothing Sans for text, and JetBrainsMono NFM for code, which their stylesheets do not yet use. Decide with a tear-sheet pass, as described below, not by swapping the font stacks.
 
 ## Typography Domains
 

@@ -47,6 +47,13 @@ Current document files:
 
 The document system covers title pages, subtitles, author/date metadata, heading hierarchy, paragraphs, emphasis, links, lists, nested lists, blockquotes, pull quotes, tables, captions, footnotes, citations, callouts, code snippets, appendices, footer areas, page breaks, and print/PDF behavior.
 
+## Poster Typography
+
+The poster register of Nothing Sans is for posters, covers, and other print or display pieces. Its rules are in "The poster register" in [docs/nothing-sans.md](../../docs/nothing-sans.md#the-poster-register).
+
+- `nothing-poster-specimen.html` is the reference specimen. It loads the brand fonts from `../typefaces/sansserif/`, which are git-ignored, so it renders only in a checkout that has them.
+- `nothing-poster-specimen.pdf` is the same specimen printed to PDF, with its document metadata removed.
+
 ## Tear Sheets and Usage Examples
 
 A tear sheet is exhaustive component coverage.

@@ -10,6 +10,9 @@
    project's own styles. The rules at the bottom set the type; the project's
    own CSS should only add layout and color.
 
+   Used by noth-ing.com and by the project photo sites (docs/photo-sites.md),
+   which load it as assets/css/typography.css after their layout CSS.
+
    Names (see "Naming" in docs/nothing-sans.md):
    - Files are named NothingSans-<Style>.otf and NothingSerif-Regular.ttf.
    - The fonts' internal family names are "Nothing SansSerif" and "Nothing
@@ -77,6 +80,15 @@
 :root {
 	--nothing-copy: 24px;
 	--nothing-small: 16px;
+	/* Optical correction for a box of Nothing Sans text: add it to the bottom
+	   padding. The face reserves 1.0625em above the baseline and 0.25em below;
+	   caps are 0.718em and lowercase 0.523em tall. Centering on the midpoint of
+	   those heights (0.6205em) leaves 1.0625 - 0.6205 - 0.25 = 0.192em more
+	   space above the text than below it with equal padding. Chosen by eye on
+	   2026-10-25 between centering on caps (0.0945em, still top-heavy) and on
+	   lowercase (0.2895em, too much below). See "Spacing around text" in
+	   docs/nothing-sans.md. */
+	--nothing-optical-bottom: 0.192em;
 	--nothing-sans: "Nothing Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 	--nothing-light: "Nothing Sans Light", "Nothing Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 	--nothing-serif: "Nothing Serif", Georgia, serif;
@@ -85,7 +97,8 @@
 @media screen and (max-width: 1024px) { :root { --nothing-copy: 18px; } }
 
 /* Small text in Book. letter-spacing stays 0 everywhere: the face only looks
-   right with its own spacing. */
+   right with its own spacing. The second rule wins over any tracking a
+   project's layout CSS sets on labels or kickers. */
 body {
 	font-family: var(--nothing-sans);
 	font-size: var(--nothing-small);
@@ -94,6 +107,7 @@ body {
 	letter-spacing: 0;
 	font-synthesis: none;
 }
+body * { letter-spacing: 0 !important; }
 
 /* Paragraph copy in Light at the copy size. */
 p {
@@ -115,4 +129,57 @@ h3 {
 	font-size: calc(var(--nothing-copy) * 0.96);
 	line-height: 1.25;
 	text-transform: none;
+}
+
+/* Reading copy that is a list: in a .prose container, list items are set
+   like paragraphs, so a bulleted section reads like the text around it. */
+.prose li {
+	font-family: var(--nothing-light);
+	font-size: var(--nothing-copy);
+	line-height: 1.46;
+}
+
+/* Links, as on noth-ing.com: a thin underline set just below the text, in a
+   muted mix of the text color, that thickens and takes the full text color
+   on hover or keyboard focus. A standalone "go to" link carries class="go"
+   for a trailing arrow after a no-break space; a link inside a sentence is
+   underlined only. Projects may set text-decoration-color from their own
+   tokens instead of the color-mix default. */
+a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+	text-decoration-thickness: max(0.0313em, 1px);
+	text-underline-offset: 0.12em;
+}
+a:hover,
+a:focus-visible {
+	text-decoration-color: currentColor;
+	text-decoration-thickness: max(0.0625em, 2px);
+}
+a.go::after { content: "\00a0\2192"; }
+
+/* Table text in Book at the small size, optically centered between rules by
+   the extra bottom padding. Rule weights and colors belong to the project's
+   layout CSS (docs/photo-sites.md gives the standard ones). */
+table { font-variant-numeric: tabular-nums; }
+th,
+td {
+	font-family: var(--nothing-sans);
+	font-size: var(--nothing-small);
+	font-weight: 400;
+	line-height: 1.3333;
+	padding-top: 0.55em;
+	padding-bottom: calc(0.55em + var(--nothing-optical-bottom));
+}
+
+/* Loading without a flash (see docs/nothing-sans.md): pages add the
+   fonts-loading class to <html> before first paint with a short inline
+   script and swap it for fonts-ready once the faces load, or after 3
+   seconds. The page stays hidden only while fonts-loading is set, so
+   without JavaScript nothing is ever hidden. */
+html.fonts-loading body { opacity: 0; }
+html.fonts-ready body { opacity: 1; transition: opacity 180ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+	html.fonts-ready body { transition: none; }
 }

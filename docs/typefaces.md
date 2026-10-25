@@ -25,7 +25,7 @@ The system should feel:
 
 ## Owned brand typeface
 
-`Nothing Sans` is the brand typeface of Nothing LLC and Howblue Ltd, which hold its license; its files are in `assets/typefaces/`. It is at its best set the way [noth-ing.com/about](https://noth-ing.com/about/) sets it: Light paragraphs at 24px, Book for small text, a short and very large Bold headline, and letter-spacing left at 0. See [docs/nothing-sans.md](nothing-sans.md) for the full setting, its known spacing issues, what was tried and rejected, and how to evaluate changes.
+`Nothing Sans` is the brand typeface of Nothing LLC and Howblue Ltd, which hold its license; its files are in `assets/typefaces/`. It is at its best set the way [noth-ing.com/about](https://noth-ing.com/about/) sets it: Light paragraphs at 24px, Book for small text, a short and very large Bold headline, and letter-spacing left at 0. See [docs/nothing-sans.md](nothing-sans.md) for the full setting, its known spacing issues, what was tried and rejected, and how to evaluate changes. The project photo sites use the same setting; see [docs/photo-sites.md](photo-sites.md).
 
 ## Fixed-width typeface
 

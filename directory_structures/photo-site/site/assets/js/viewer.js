@@ -10,6 +10,9 @@
 // Controls hide after the pointer rests. Each photo has its own URL hash
 // (#photo-<section>-<name>). Swipe works on touch. Where the grid shows
 // thumbnails, the viewer opens each photo's data-full image instead.
+// On an upright screen, a photo much wider than the screen (a panorama,
+// sheet music) fills the screen's height and pans sideways, opening centered;
+// there a swipe steps only once the photo is panned to that edge.
 (function () {
 	var figures = Array.prototype.slice.call(document.querySelectorAll('figure[data-photo]'));
 	if (!figures.length) return;
@@ -46,6 +49,7 @@
 		'<button class="viewer-btn viewer-close" type="button" aria-label="Close">&times;</button>';
 	document.body.appendChild(viewer);
 
+	var stage = viewer.querySelector('.viewer-stage');
 	var layers = viewer.querySelectorAll('img.viewer-img');
 	var front = 0;
 	var current = -1;
@@ -92,6 +96,33 @@
 		return [h, s, l];
 	}
 
+	// On a screen taller than wide, pan a photo at least twice as wide as
+	// tall whose height-filling width is over 1.5 stage widths; fit any other
+	// whole, so an ordinary landscape photo on an upright phone is unchanged,
+	// and every photo on a wide screen, where a mouse can't easily pan.
+	// Recentered on every fit.
+	var PAN_ASPECT = 2;
+	var PAN_RATIO = 1.5;
+
+	function fit() {
+		var img = layers[front];
+		var other = layers[1 - front];
+		var ratio = current >= 0 ? photos[current].ratio : 0;
+		var w = stage.clientHeight * ratio;
+		var wide = img.classList.contains('is-front') && window.innerHeight > window.innerWidth &&
+			ratio >= PAN_ASPECT && w > stage.clientWidth * PAN_RATIO;
+		stage.classList.toggle('is-panning', wide);
+		img.classList.toggle('is-wide', wide);
+		img.style.width = wide ? Math.round(w) + 'px' : '';
+		stage.scrollLeft = wide ? (w - stage.clientWidth) / 2 : 0;
+		// The outgoing photo keeps its size until it has faded.
+		setTimeout(function () {
+			if (other.classList.contains('is-front')) return;
+			other.classList.remove('is-wide');
+			other.style.width = '';
+		}, 600);
+	}
+
 	function preload(i) {
 		if (i < 0 || i >= photos.length) return;
 		var im = new Image();
@@ -106,12 +137,14 @@
 		var loader = new Image();
 		loader.onload = loader.onerror = function () {
 			if (mine !== token) return;  // a later navigation won
+			p.ratio = loader.naturalWidth / loader.naturalHeight;
 			back.src = p.src;
 			back.alt = p.alt;
 			viewer.style.setProperty('--v-bg', backdrop(p, loader));
 			back.classList.add('is-front');
 			layers[front].classList.remove('is-front');
 			front = 1 - front;
+			fit();
 			captionEl.innerHTML = p.caption;
 			countEl.textContent = p.date + '  ' + (i + 1) + ' / ' + photos.length;
 		};
@@ -143,6 +176,7 @@
 			layers[0].classList.remove('is-front');
 			layers[1].classList.remove('is-front');
 			current = -1;
+			fit();
 		};
 		if (reducedMotion()) done(); else setTimeout(done, 350);
 		if (i >= 0) {
@@ -195,6 +229,13 @@
 		if (e.target.classList.contains('viewer-img')) step(1); else close();
 	});
 	viewer.addEventListener('mousemove', wake);
+	// Refit when the width changes (rotation, a resized window), not when a
+	// phone's toolbar slides and only the height moves.
+	var stageWidth = 0;
+	window.addEventListener('resize', function () {
+		if (!viewer.hidden && stage.clientWidth !== stageWidth) fit();
+		stageWidth = stage.clientWidth;
+	});
 
 	document.addEventListener('keydown', function (e) {
 		if (viewer.hidden) return;
@@ -220,11 +261,14 @@
 	// Swipe left/right to step. A pinch is never a swipe, and the click iOS
 	// can fire after one is swallowed.
 	var touchX = null;
+	var atStart = true, atEnd = true;  // panned to that edge at touchstart
 	var multiTouch = false;
 	var suppressClickUntil = 0;
 	viewer.addEventListener('touchstart', function (e) {
 		if (e.touches.length === 1) {
 			touchX = e.touches[0].clientX;
+			atStart = stage.scrollLeft <= 1;
+			atEnd = stage.scrollLeft >= stage.scrollWidth - stage.clientWidth - 1;
 			multiTouch = false;
 		} else {
 			multiTouch = true;
@@ -239,7 +283,8 @@
 			suppressClickUntil = Date.now() + 700;
 			return;
 		}
-		if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+		if (dx < -40 && atEnd) step(1);
+		else if (dx > 40 && atStart) step(-1);
 	});
 	viewer.addEventListener('touchcancel', function () { touchX = null; });
 

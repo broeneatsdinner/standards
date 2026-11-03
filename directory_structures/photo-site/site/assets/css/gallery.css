@@ -112,6 +112,18 @@ html.viewer-open { overflow: hidden; }
 	cursor: pointer;
 }
 .viewer-img.is-front { opacity: 1; }
+/* A wide photo pans sideways at the stage's height; assets/js/viewer.js sets
+   its width. It runs edge to edge. */
+.viewer-stage.is-panning {
+	left: 0;
+	right: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	overscroll-behavior-x: contain;
+	scrollbar-width: none;
+}
+.viewer-stage.is-panning::-webkit-scrollbar { display: none; }
+.viewer-img.is-wide { right: auto; max-width: none; }
 .viewer-img:not(.is-front) { pointer-events: none; }
 
 .viewer-caption, .viewer-count {

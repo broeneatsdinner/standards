@@ -53,6 +53,7 @@ CSS and JS live under `site/assets/`, beside the typefaces. A site may add its o
 | `site/assets/js/viewer.js`, `theme.js`, `jump.js` | yes | none |
 | `site/assets/css/base.css` | yes | none |
 | `site/assets/css/typography.css` | yes: [`nothing-sans.css`](../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/` | none |
+| `site/assets/css/gallery.css` | starts as the kit's copy | the site may add rules for its own sections and records, and keeps the kit's rules for anything a shared file draws (the viewer, the jump bar) |
 | `site/assets/css/typography-site.css` | no | the site's own type rules, loaded right after `typography.css`: the headline size, and type for selectors only this site uses |
 | `scripts/site/build.py` | no | everything: it knows the site's records and sections; set `PUBLIC_BASE` to the published folder |
 
@@ -84,17 +85,8 @@ A trial that is not kept is reverted in the trial site by copying the kit's file
 
 | Change | Files | Since | Status |
 | --- | --- | --- | --- |
-| Wide-photo panning | `viewer.js`, `gallery.css` | 2026-11-02 | live in one site, checked on an iPhone; not yet in the kit |
 
-**Wide-photo panning.** On an upright phone, a wide photo (a panorama, or sheet music laid out landscape) used to shrink to a thin strip across the middle of the viewer. Now:
-
-- A photo pans when it is at least twice as wide as tall (`PAN_ASPECT = 2`) and, filling the stage's height, would be more than 1.5 stage widths wide (`PAN_RATIO = 1.5`). Any other photo fits whole as before, including ordinary 3:2 and 16:10 photos on a phone, and wide photos on a wide screen.
-- A panning photo fills the stage's height, runs edge to edge (the stage drops its side insets), scrolls sideways with its scrollbar hidden, and opens centered.
-- A swipe steps to the next or previous photo only when the photo was already panned to that edge when the touch began; otherwise it just pans. Tapping the photo still steps, as before.
-- The fit is recomputed on each photo and when the stage's width changes (rotation, a resized window), not when only its height changes, so a phone's sliding toolbar does not recenter the photo mid-pan.
-- The aspect ratio is taken from the loaded image, not the layer, which may not have decoded yet. The outgoing layer keeps its width until its crossfade ends (600ms).
-
-To adopt it, follow steps 2 and 3 above: take `viewer.js` and `gallery.css` from the trial site and compare them with the kit. In `viewer.js`, the change adds the `fit()` function, the edge-swipe rule, and the resize handler; in `gallery.css`, it adds the `.viewer-stage.is-panning` and `.viewer-img.is-wide` rules. Then change the Photo viewer entry under Page design to mention panning.
+None at present.
 
 ## URLs
 
@@ -168,6 +160,12 @@ curl -s -o /dev/null -w '%{http_code}\n' https://example.com/<project>/photos/  
 - **Tables:** Book at the small size; a 3px rule under the header row, 1px between rows, none after the last row, the same rules as the Pages kit; bottom padding larger by `--nothing-optical-bottom` (0.192em).
 - **Top bar:** the site's name at the left, a plain brand mark linking home (no underline until hover), and the Light / Dark / Auto switch at the right (`theme.js`).
 - **Photo viewer** (`viewer.js`): full screen, arrow keys and swipe, a dark backdrop taken from each photo, a URL per photo (`#photo-<section>-<name>`).
+- **Wide photos** (`viewer.js`, with the `.viewer-stage.is-panning` and `.viewer-img.is-wide` rules in `gallery.css`): on a screen taller than wide, a wide photo (a panorama, or sheet music laid out landscape) would shrink to a thin strip across the middle of the viewer, so it pans instead.
+    - It pans when the window is taller than wide, the photo is at least twice as wide as tall (`PAN_ASPECT = 2`), and, filling the stage's height, it would be more than 1.5 stage widths wide (`PAN_RATIO = 1.5`). Any other photo fits whole, including ordinary 3:2 and 16:10 photos on a phone. On a wide screen every photo fits whole: a mouse has no easy way to pan, and a wide photo is large enough there already.
+    - A panning photo fills the stage's height, runs edge to edge (the stage drops its side insets), scrolls sideways with its scrollbar hidden, and opens centered.
+    - A swipe steps to the next or previous photo only when the photo was already panned to that edge when the touch began; otherwise it just pans. Tapping the photo still steps.
+    - The fit is recomputed on each photo and when the stage's width changes (rotation, a resized window), not when only its height changes, so a phone's sliding toolbar does not recenter the photo mid-pan.
+    - The aspect ratio is taken from the loaded image, not the layer, which may not have decoded yet. The outgoing layer keeps its width until its crossfade ends (600ms).
 - **Section jump** (`jump.js`): on pages with a bar of section links, a click cuts to 50px short of the section and slides into place over 700ms with an ease-out-expo curve, with no fade. Back and Forward glide between sections. With reduced motion preferred, it jumps. A page with a single section shows no bar but still handles section URLs and old links. On the local server, `?lead=`, `?fade=`, and `?duration=` override the settings for comparison.
 - **Colors** come from `base.css`: one palette, with a night version that follows the system appearance.
 

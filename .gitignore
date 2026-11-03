@@ -45,3 +45,6 @@ scratch/
 # Licensed brand fonts: kept locally, never committed (docs/typefaces.md)
 assets/typefaces/sansserif/
 assets/typefaces/serif/
+# A poster specimen with the licensed fonts embedded in its HTML and PDF:
+# kept locally (and in the encrypted git-backup), never committed
+assets/typography/Nothing SansSerif Typeface Test/

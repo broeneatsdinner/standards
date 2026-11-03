@@ -88,8 +88,9 @@ A trial that is not kept is reverted in the trial site by copying the kit's file
 
 | Change | Files | Since | Status |
 | --- | --- | --- | --- |
+| Hand edits shown twice | `hand_edits.py` | 2026-11-03 | in one site, checked on all four with the file copied in; not yet in the kit |
 
-None at present.
+**Hand edits shown twice.** A text edit is written back only when the rebuild changes nothing but the edited lines, so an edit to text the page shows twice (a photo description that is also its alt text) is kept in `site/hand-edits.json` instead of reaching its source. The trial's `echoes()` accepts the write-back when every other line the rebuild changes is the same text change somewhere the hand edit left alone, and takes the change there too, so the alt text follows the caption. Any other side effect still keeps the edit. To adopt it, copy `hand_edits.py` from the trial site into the kit, drop "text that renders in two places" from the kept list under [Editing a page by hand](#editing-a-page-by-hand), and roll it out.
 
 ## Editing a page by hand
 

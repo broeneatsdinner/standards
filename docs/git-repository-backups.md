@@ -207,8 +207,9 @@ A backup that fails silently is worse than no backup, because it is trusted.
 
 - Log every run to a local file: a start line, one line per repository, and a final count of failures. Rotate the log by size.
 - Continue past a failing repository; one bad repository must not stop the others.
-- Show a desktop notification when any repository fails or the run aborts (`osascript -e 'display notification ...'` works from a user agent).
-- Write a last-run file with a timestamp and failure count, and provide a status command that exits non-zero if the last run is older than 36 hours or had failures.
+- Show a desktop notification when any repository fails or the run aborts (`osascript -e 'display notification ...'` works from a user agent). macOS files these under Script Editor, and a Focus such as Do Not Disturb or Sleep holds them back without a banner, so a nightly failure may only be seen later in Notification Center. Do not rely on the notification alone.
+- Write a last-run file with a timestamp and failure count, and provide a status command that exits non-zero if the last run is older than 36 hours or had failures. Follow each kind of problem it reports with the next step to take (a moved repository, a failed copy into storage, a job that is not loaded), so the person reading it knows what to do, not only what is wrong.
+- Write a small machine-readable summary at the end of each run (when it ran, how many repositories, which failed, the total size of the backups on record) for other tools, such as a desktop dashboard that keeps backup health in view. An aborted run leaves the previous summary, so a stopped job shows as an old timestamp.
 - Take a lock at start so a manual `kickstart` cannot overlap the scheduled run. Store the holder's process ID and clear a lock whose process no longer exists, or a crash blocks every later run.
 
 A healthy log shows, for each repository, either a written file with its size or `unchanged, skipped`, possibly followed by rotation lines, and ends with zero failures:
@@ -314,7 +315,7 @@ Review it regularly, and commit what is real. Work that is not ready to commit c
 - [ ] Rotation keeps only the newest bundle and files archive per repository
 - [ ] Job installed outside protected folders and scheduled with `launchd`
 - [ ] Tested with a throwaway key, then through `launchctl kickstart`
-- [ ] Failures notify; status command reports the last run
+- [ ] Failures notify; status command reports the last run and the next step for each problem; a summary file for other tools
 - [ ] One real restore done with the real key, from the storage provider
 
 ## Related standards

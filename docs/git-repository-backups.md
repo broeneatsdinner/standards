@@ -148,24 +148,19 @@ Also store a hash of the recipients file. When the key changes, clear every fing
 
 ### Rotation
 
-For each repository, and separately for bundles and files archives, keep:
+Keep one copy: for each repository, the newest bundle and the newest files archive. Each run that writes a new one deletes the one before it, once the new file has been written and verified.
 
-- the newest backup, always
-- the newest backup of each of the last 7 days
-- the newest backup of each of the last 4 weeks
-- the newest backup of each of the last 12 months
+One copy is enough because the bundle carries the repository's whole history: the newest bundle restores any commit. What a single copy gives up is older states of files outside git. A file deleted from an ignored folder is gone from the backup after the next run. That is the intent: the backup holds the latest state of everything git does not, not an archive of it. The storage provider's own recovery of deleted files covers a mistake noticed soon after. If older states of a folder outside git matter, commit them, or back that folder up with its own retention.
 
-Everything else is deleted. That is at most about 23 of each per repository.
+Keep the newest even when it is old. Skipping unchanged repositories means an untouched repository's last backup is its only backup; nothing replaces it if it is deleted.
 
-The first rule is not optional. Skipping unchanged repositories means an untouched repository's last backup may be its only backup. Without "always keep the newest", age-based rotation deletes it after a year and nothing replaces it.
-
-Rotate from a local list of the backups the job has written, not by listing the storage folder (see below). The list must tolerate duplicate entries without treating a file as an older copy of itself. Compute day boundaries at noon, not midnight, so a daylight saving change cannot shift a backup into the wrong day.
+Rotate from a local list of the backups the job has written, not by listing the storage folder (see below). The list must tolerate duplicate entries without treating a file as an older copy of itself.
 
 A failed deletion is logged, kept on the list, and retried on the next run. Never delete backups by hand as routine; rotation is the only routine deletion.
 
-When the format changes and a kind of backup is no longer written, keep rotating its list under the same rules but without "always keep the newest", so the old files age out instead of one lingering forever.
+When the format changes and a kind of backup is no longer written, rotate its list keeping none, so the old files are deleted instead of one lingering forever.
 
-Files archives grow with what lives outside git. A large file there, such as a recording in a `private/` folder, is uploaded again whenever the repository changes, and kept under the rules above. Watch the archive sizes in the log; a repository that gains gigabytes of media may need its media split into an archive of its own.
+Files archives grow with what lives outside git. A large file there, such as a recording in a `private/` folder, is uploaded again whenever the repository changes, though only the newest copy is kept. Watch the archive sizes in the log; a repository that gains gigabytes of media may need its media split into an archive of its own.
 
 ## Scheduling on macOS
 
@@ -249,7 +244,7 @@ Point the job at throwaway destination, state, and list paths, run it, restore e
 - a repository that becomes clean, which must get an empty files archive
 - a nested repository with no commits, which must be logged without failing its parent
 - a key change that re-encrypts everything
-- rotation over a simulated year of nightly backups, including a repository whose only backup is more than a year old
+- rotation that deletes every older backup of each kind, keeps the newest of an unchanged repository however old, and deletes all of a kind no longer written
 - a failing repository, which must produce a failure count, a notification, and a non-zero status
 
 Then restore one real backup with the real key, from the storage provider rather than the local machine, at least once after setup and after any change to the format.
@@ -295,7 +290,7 @@ rm -f "$k"
 
 ## Uncommitted work
 
-The files archive backs up uncommitted work, but only as it stood at the last run, and only the newest state of each day survives rotation past a week. A commit is still the better record: it has a message, it survives every later edit, and it is in history.
+The files archive backs up uncommitted work, but only as it stood at the last run: the next run replaces it. A commit is still the better record: it has a message, it survives every later edit, and it is in history.
 
 drydock lists the repositories with work that exists only as uncommitted files:
 
@@ -316,7 +311,7 @@ Review it regularly, and commit what is real. Work that is not ready to commit c
 - [ ] Bundle plus files archive per repository; ignored files included; only rebuildable output and clutter excluded
 - [ ] Nested repositories logged, and listed for backup in their own right
 - [ ] Timestamped names; unchanged repositories skipped; key change re-encrypts
-- [ ] Rotation keeps the newest always, plus 7 daily, 4 weekly, 12 monthly, for each kind
+- [ ] Rotation keeps only the newest bundle and files archive per repository
 - [ ] Job installed outside protected folders and scheduled with `launchd`
 - [ ] Tested with a throwaway key, then through `launchctl kickstart`
 - [ ] Failures notify; status command reports the last run

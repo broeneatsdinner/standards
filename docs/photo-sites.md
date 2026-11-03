@@ -9,7 +9,7 @@ This standard is the shape that three such sites converged on in October 2026. T
 - **The repository is the source; the site is a view of it.** Pages are generated from the photos, captions, and Markdown records on every build. Generated pages are not edited by hand.
 - **Originals never leave the machine.** Photos in the repository keep their full metadata, including GPS. Only resized copies, stripped of everything but their color profile, are published, and the build fails if anything else survives.
 - **Nothing is published by accident.** Publishing shows exactly what would change and asks first. It never deletes anything on the server.
-- **Shared files stay identical.** A file the sites share is the same file in every site, except for clearly marked constants. Improve it in one site, then copy it to the others.
+- **Shared files stay identical.** A file the sites share is the same file in every site, except for clearly marked constants. Improve it in one site, then copy it to the others ([Changing a shared file](#changing-a-shared-file)).
 
 ## Repository layout
 
@@ -57,6 +57,44 @@ CSS and JS live under `site/assets/`, beside the typefaces. A site may add its o
 | `scripts/site/build.py` | no | everything: it knows the site's records and sections; set `PUBLIC_BASE` to the published folder |
 
 A site with special publishing needs may keep its own `build-deploy.sh` (for example, to leave out an editing page or copy videos), as long as `bin/deploy` can run it unchanged and it makes the same checks.
+
+### Changing a shared file
+
+A change to a shared file is tried in one site, adopted into the starter kit, then rolled out to every site. Until it is adopted, it is a trial, listed under [Trials](#trials).
+
+1. Trial in one site. Change only that site's copy.
+    - Record the divergence in the site's `AGENTS.md`, next to its shared-files rule: what changed, since when, and what to do if the trial is kept or dropped.
+    - Check it on the local server at the sizes it affects, then publish after a dry run, and check it on a real device.
+    - Keep before and after screenshots in the site's `docs/screenshots/<change>/`, outside the published folders.
+    - List it under Trials below.
+
+2. Adopt it into the starter kit.
+    - Diff the trial site's copy against the kit's copy: the only differences should be the change.
+    - Copy the file into `directory_structures/photo-site/`, update this document (the shared-file description, Page design), and move the trial out of Trials.
+    - Commit in the standards repository before touching another site.
+
+3. Roll it out to each site, one commit and one deploy per site.
+    - Diff the site's copy against the kit's previous version (`git show <commit>:<path>`). If it differs in ways other than the change, stop and reconcile it first.
+    - Copy the kit's file in, check the site on its local server, run `bin/deploy --dry-run`, and publish only with the owner's go-ahead for that site.
+    - Finally, remove the divergence note from the trial site's `AGENTS.md`.
+
+A trial that is not kept is reverted in the trial site by copying the kit's file back over it.
+
+### Trials
+
+| Change | Files | Since | Status |
+| --- | --- | --- | --- |
+| Wide-photo panning | `viewer.js`, `gallery.css` | 2026-11-02 | live in one site, checked on an iPhone; not yet in the kit |
+
+**Wide-photo panning.** On an upright phone, a wide photo (a panorama, or sheet music laid out landscape) used to shrink to a thin strip across the middle of the viewer. Now:
+
+- A photo pans when it is at least twice as wide as tall (`PAN_ASPECT = 2`) and, filling the stage's height, would be more than 1.5 stage widths wide (`PAN_RATIO = 1.5`). Any other photo fits whole as before, including ordinary 3:2 and 16:10 photos on a phone, and wide photos on a wide screen.
+- A panning photo fills the stage's height, runs edge to edge (the stage drops its side insets), scrolls sideways with its scrollbar hidden, and opens centered.
+- A swipe steps to the next or previous photo only when the photo was already panned to that edge when the touch began; otherwise it just pans. Tapping the photo still steps, as before.
+- The fit is recomputed on each photo and when the stage's width changes (rotation, a resized window), not when only its height changes, so a phone's sliding toolbar does not recenter the photo mid-pan.
+- The aspect ratio is taken from the loaded image, not the layer, which may not have decoded yet. The outgoing layer keeps its width until its crossfade ends (600ms).
+
+To adopt it, follow steps 2 and 3 above: take `viewer.js` and `gallery.css` from the trial site and compare them with the kit. In `viewer.js`, the change adds the `fit()` function, the edge-swipe rule, and the resize handler; in `gallery.css`, it adds the `.viewer-stage.is-panning` and `.viewer-img.is-wide` rules. Then change the Photo viewer entry under Page design to mention panning.
 
 ## URLs
 

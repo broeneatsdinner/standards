@@ -6,7 +6,7 @@ This standard is the shape that three such sites converged on in October 2026. T
 
 ## Principles
 
-- **The repository is the source; the site is a view of it.** Pages are generated from the photos, captions, and Markdown records on every build. Generated pages are not edited by hand.
+- **The repository is the source; the site is a view of it.** Pages are generated from the photos, captions, and Markdown records on every build. A generated page may also be edited by hand: the next build writes the change back to its source, or keeps it in a tracked file, so the repository still holds everything the page shows ([Editing a page by hand](#editing-a-page-by-hand)).
 - **Originals never leave the machine.** Photos in the repository keep their full metadata, including GPS. Only resized copies, stripped of everything but their color profile, are published, and the build fails if anything else survives.
 - **Nothing is published by accident.** Publishing shows exactly what would change and asks first. It never deletes anything on the server.
 - **Shared files stay identical.** A file the sites share is the same file in every site, except for clearly marked constants. Improve it in one site, then copy it to the others ([Changing a shared file](#changing-a-shared-file)).
@@ -27,6 +27,7 @@ project/
 │   └── site/
 │       ├── build.py            generate the pages, routes, and rules (per site)
 │       ├── build-deploy.sh     build the public copy and check it (shared)
+│       ├── hand_edits.py       keep hand edits to the pages (shared)
 │       └── serve.py            local server (shared)
 ├── site/
 │   ├── assets/
@@ -34,6 +35,7 @@ project/
 │   │   │                       typography-site.css
 │   │   ├── js/                 viewer.js, theme.js, jump.js (shared)
 │   │   └── typefaces/          copied in by sync-fonts.sh; git-ignored
+│   ├── hand-edits.json         hand edits no source produces; tracked
 │   └── ...                     generated pages, thumbnails, routes.json,
 │                               htaccess; all git-ignored
 └── work/
@@ -50,12 +52,13 @@ CSS and JS live under `site/assets/`, beside the typefaces. A site may add its o
 | `scripts/site/serve.py` | yes | `DEFAULT_PORT`: give each site its own, so several can run at once |
 | `scripts/site/build-deploy.sh` | yes, unless the site has special publishing needs | none |
 | `scripts/sync-fonts.sh`, `scripts/check-no-fonts.sh` | yes | none |
+| `scripts/site/hand_edits.py` | yes | none: `build.py` names the pages and the sources it settles |
 | `site/assets/js/viewer.js`, `theme.js`, `jump.js` | yes | none |
 | `site/assets/css/base.css` | yes | none |
 | `site/assets/css/typography.css` | yes: [`nothing-sans.css`](../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/` | none |
 | `site/assets/css/gallery.css` | starts as the kit's copy | the site may add rules for its own sections and records, and keeps the kit's rules for anything a shared file draws (the viewer, the jump bar) |
 | `site/assets/css/typography-site.css` | no | the site's own type rules, loaded right after `typography.css`: the headline size, and type for selectors only this site uses |
-| `scripts/site/build.py` | no | everything: it knows the site's records and sections; set `PUBLIC_BASE` to the published folder |
+| `scripts/site/build.py` | no | everything: it knows the site's records and sections; set `PUBLIC_BASE` to the published folder; write every page through `hand_edits.settle()` |
 
 A site with special publishing needs may keep its own `build-deploy.sh` (for example, to leave out an editing page or copy videos), as long as `bin/deploy` can run it unchanged and it makes the same checks.
 
@@ -87,6 +90,16 @@ A trial that is not kept is reverted in the trial site by copying the kit's file
 | --- | --- | --- | --- |
 
 None at present.
+
+## Editing a page by hand
+
+A page can be edited either way: through its sources, or directly in its generated file in `site/` (for example, fixing a caption while looking at the page). `build.py` writes each page through `hand_edits.settle(page, generate, sources)`, which compares the page with the last one it wrote (kept in `work/hand-edits/`). On the next build (a page load on the local server, a plain build, or a deploy), a difference is a hand edit, and it:
+
+- writes a change to the text between two tags back to the source it came from (`photos/captions.csv`, a Markdown record: the `sources` `build.py` names), when a rebuild from the changed source shows the edit, and names each change it writes;
+- keeps everything else (new markup, attributes, text that renders in two places, text set in `build.py` itself) in `site/hand-edits.json`, tracked, and applies it on every build;
+- carries a hand edit onto source changes made in the meantime, and stops rather than lose either one when both touch the same lines or a kept edit no longer fits. The local server warns and leaves the page as it is; a plain build or a deploy fails.
+
+`bin/deploy` commits `site/hand-edits.json` and the sources edits were written back to, and only those, after the upload is approved and before it uploads, so what is published is in the history. A dry run builds, so it may write edits back, but commits nothing. A source with other uncommitted changes is committed whole, so commit or stash work in progress before deploying. To drop a kept edit, undo it in the page or remove it from `site/hand-edits.json`; `scripts/site/build.py --discard-hand-edits` drops edits not yet built, saving a copy in `work/hand-edits/`. `hand-edits.json` stays in the repository: `build-deploy.sh` copies only the pages, assets, and photos.
 
 ## URLs
 
@@ -131,7 +144,7 @@ None at present.
 
 | Command | Effect |
 | --- | --- |
-| `bin/deploy` | build, list changes, ask, upload |
+| `bin/deploy` | build, list changes, ask, commit hand edits, upload |
 | `bin/deploy --dry-run` | build and list changes; upload nothing |
 | `bin/deploy --yes` | build and upload without asking |
 | `bin/deploy --allow-fallback` | build even if a font is missing |

@@ -17,7 +17,10 @@
    other metadata.
 2. Asks rsync, without changing anything, what the upload would add or
    replace on the server, and lists it.
-3. Asks before uploading (unless --yes), then uploads with rsync.
+3. Asks before uploading (unless --yes), then commits the hand edits the
+   build settled (site/hand-edits.json and the sources edits were written
+   back to; scripts/site/hand_edits.py), and only those, so what is
+   published is in the history. Then uploads with rsync.
 
 Nothing is ever deleted on the server: files removed locally stay there
 until removed by hand.
@@ -33,6 +36,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 DEPLOY = REPO / "work" / "site-deploy"
+EDITS = "site/hand-edits.json"
+# Sources hand edits were written back to; scripts/site/hand_edits.py.
+WRITTEN = REPO / "work" / "hand-edits" / "written-back.txt"
 # Deploy constants: the only lines that differ between sites.
 SUBDIR = "project"                        # this site's folder on the web server
 HOST = "deploy-host"                      # SSH host (an alias from ~/.ssh/config)
@@ -52,6 +58,20 @@ def run(cmd, **kwargs):
 	if result.returncode != 0:
 		sys.exit(result.returncode)
 	return result
+
+
+def commit_hand_edits():
+	"""Commit site/hand-edits.json and the sources hand edits were written
+	back to, alone. A site without hand edits has nothing to commit."""
+	paths = sorted({EDITS, *(WRITTEN.read_text(encoding="utf-8").split("\n") if WRITTEN.is_file() else [])} - {""})
+	status = run(["git", "status", "--porcelain", "-z", "--", *paths], capture_output=True, text=True).stdout
+	dirty = [entry[3:] for entry in status.split("\0") if entry]
+	if dirty:
+		run(["git", "add", "-A", "--", *dirty])
+		message = "Record hand edits to the site's pages\n\nCommitted by bin/deploy before publishing: " + ", ".join(dirty) + "."
+		run(["git", "commit", "-q", "-m", message, "--", *dirty])
+		print("Committed hand edits: " + ", ".join(dirty), flush=True)
+	WRITTEN.unlink(missing_ok=True)
 
 
 def main():
@@ -89,6 +109,7 @@ def main():
 			print("Not uploaded.")
 			return
 
+	commit_hand_edits()
 	run(RSYNC + ["-a", f"{DEPLOY}/", REMOTE])
 	print(f"Published: {URL}")
 

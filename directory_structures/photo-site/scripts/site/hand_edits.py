@@ -15,10 +15,11 @@ build, or a deploy):
 2. A change to the text between two tags is written back to the source that
    produces it (photos/captions.csv, a Markdown record: whatever build.py
    passes as sources) when the edited text is found there and a rebuild
-   from the changed source shows the edit. Otherwise the source is put back
-   as it was.
-3. What no source produces (new markup, attributes, text that renders in
-   two places) is kept in site/hand-edits.json, tracked: per page, a list of
+   from the changed source shows the edit. If the rebuild also shows the
+   same text change somewhere the hand edit left alone (an alt attribute
+   repeating a caption), the page takes that too. Otherwise the source is
+   put back as it was.
+3. What no source produces (new markup, attributes) is kept in site/hand-edits.json, tracked: per page, a list of
    "before" lines from the generated page and the "after" lines that
    replace them, with enough unchanged lines around them to be found
    exactly once. Every build applies them. To drop one, undo it in the page
@@ -172,9 +173,34 @@ def changed_lines(edits):
 				yield {"before": e["before"][i1:i2], "after": e["after"][j1:j2]}
 
 
+def echoes(page, trial, target, change):
+	"""target with the lines where a rebuild (trial) shows the same text
+	change somewhere the hand edit left alone, such as an alt attribute
+	repeating a caption; None if the rebuild changes anything else."""
+	old, new = change
+	out = list(target)
+	have = {html.unescape(l) for l in target}
+	for tag, i1, i2, j1, j2 in SequenceMatcher(None, page, trial, autojunk=False).get_opcodes():
+		if tag == "equal":
+			continue
+		if tag != "replace" or i2 - i1 != j2 - j1:
+			return None
+		for before, after in zip(page[i1:i2], trial[j1:j2]):
+			if html.unescape(after) in have:
+				continue
+			if html.unescape(before).replace(old, new) != html.unescape(after):
+				return None
+			hits = [k for k, l in enumerate(out) if l == before]
+			if len(hits) != 1:
+				return None
+			out[hits[0]] = after
+	return out
+
+
 def write_back(change, sources, generate, target):
 	"""Write a text change into the one place in sources that makes the
-	page closer to target. Returns (path, page) or None."""
+	page closer to target, taking the same change wherever else the source
+	shows it (echoes()). Returns (path, page, target) or None."""
 	old, new = change
 	page = generate()
 	now = misses(page, target)
@@ -186,7 +212,10 @@ def write_back(change, sources, generate, target):
 			path.write_text(text[:m.start()] + new + text[m.end():], encoding="utf-8")
 			trial = generate()
 			if closer(trial, target, now):
-				return path, trial
+				return path, trial, target
+			echoed = echoes(page, trial, target, change)
+			if echoed is not None and closer(trial, echoed, now):
+				return path, trial, echoed
 			path.write_text(text, encoding="utf-8")
 	return None
 
@@ -248,7 +277,7 @@ def _settle(page, generate, sources, discard):
 	for change in filter(None, map(text_change, changed_lines(new))):
 		done = write_back(change, sources, gen, target)
 		if done:
-			path, generated = done
+			path, generated, target = done
 			with WRITTEN.open("a", encoding="utf-8") as log:
 				log.write(path.relative_to(REPO).as_posix() + "\n")
 			print(f"Hand edit written to {path.relative_to(REPO)}: {change[0]!r} -> {change[1]!r}", file=sys.stderr)

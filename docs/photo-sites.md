@@ -88,16 +88,15 @@ A trial that is not kept is reverted in the trial site by copying the kit's file
 
 | Change | Files | Since | Status |
 | --- | --- | --- | --- |
-| Hand edits shown twice | `hand_edits.py` | 2026-11-03 | in one site, checked on all four with the file copied in; not yet in the kit |
 
-**Hand edits shown twice.** A text edit is written back only when the rebuild changes nothing but the edited lines, so an edit to text the page shows twice (a photo description that is also its alt text) is kept in `site/hand-edits.json` instead of reaching its source. The trial's `echoes()` accepts the write-back when every other line the rebuild changes is the same text change somewhere the hand edit left alone, and takes the change there too, so the alt text follows the caption. Any other side effect still keeps the edit. To adopt it, copy `hand_edits.py` from the trial site into the kit, drop "text that renders in two places" from the kept list under [Editing a page by hand](#editing-a-page-by-hand), and roll it out.
+None at present.
 
 ## Editing a page by hand
 
 A page can be edited either way: through its sources, or directly in its generated file in `site/` (for example, fixing a caption while looking at the page). `build.py` writes each page through `hand_edits.settle(page, generate, sources)`, which compares the page with the last one it wrote (kept in `work/hand-edits/`). On the next build (a page load on the local server, a plain build, or a deploy), a difference is a hand edit, and it:
 
-- writes a change to the text between two tags back to the source it came from (`photos/captions.csv`, a Markdown record: the `sources` `build.py` names), when a rebuild from the changed source shows the edit, and names each change it writes;
-- keeps everything else (new markup, attributes, text that renders in two places, text set in `build.py` itself) in `site/hand-edits.json`, tracked, and applies it on every build;
+- writes a change to the text between two tags back to the source it came from (`photos/captions.csv`, a Markdown record: the `sources` `build.py` names), when a rebuild from the changed source shows the edit, and names each change it writes. If the source shows the same text in a second place the edit left alone (a photo description that is also its alt text), the page takes the change there too;
+- keeps everything else (new markup, attributes, text set in `build.py` itself, a text change whose rebuild would change anything else) in `site/hand-edits.json`, tracked, and applies it on every build;
 - carries a hand edit onto source changes made in the meantime, and stops rather than lose either one when both touch the same lines or a kept edit no longer fits. The local server warns and leaves the page as it is; a plain build or a deploy fails.
 
 `bin/deploy` commits `site/hand-edits.json` and the sources edits were written back to, and only those, after the upload is approved and before it uploads, so what is published is in the history. A dry run builds, so it may write edits back, but commits nothing. A source with other uncommitted changes is committed whole, so commit or stash work in progress before deploying. To drop a kept edit, undo it in the page or remove it from `site/hand-edits.json`; `scripts/site/build.py --discard-hand-edits` drops edits not yet built, saving a copy in `work/hand-edits/`. `hand-edits.json` stays in the repository: `build-deploy.sh` copies only the pages, assets, and photos.

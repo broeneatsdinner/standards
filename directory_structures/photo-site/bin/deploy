@@ -9,6 +9,8 @@
   bin/deploy --dry-run          build and show what would change; upload nothing
   bin/deploy --yes              build and upload without asking
   bin/deploy --allow-fallback   build even if the brand fonts are missing
+  bin/deploy --dry-run --diff   also show how each changed page, stylesheet,
+                                and script differs from the server's copy
 
 1. Runs scripts/site/build-deploy.sh, which rebuilds the pages and writes
    work/site-deploy/: photos resized to 2400px with all metadata (including
@@ -16,7 +18,9 @@
    every page, and no folder listings. It stops if any image still carries
    other metadata.
 2. Asks rsync, without changing anything, what the upload would add or
-   replace on the server, and lists it.
+   replace on the server, and lists it. With --diff, it also copies the
+   server's version of each changed text file into work/site-live/ and
+   shows the difference.
 3. Asks before uploading (unless --yes), then commits the hand edits the
    build settled (site/hand-edits.json and the sources edits were written
    back to; scripts/site/hand_edits.py), and only those, so what is
@@ -30,12 +34,17 @@ The values below are placeholders: set them for the real server.
 """
 
 import argparse
+import difflib
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 DEPLOY = REPO / "work" / "site-deploy"
+# The server's copies of changed text files, for --diff.
+LIVE = REPO / "work" / "site-live"
+TEXT = {".html", ".css", ".js", ".htaccess"}
 EDITS = "site/hand-edits.json"
 # Sources hand edits were written back to; scripts/site/hand_edits.py.
 WRITTEN = REPO / "work" / "hand-edits" / "written-back.txt"
@@ -60,6 +69,25 @@ def run(cmd, **kwargs):
 	return result
 
 
+def show_diffs(real):
+	"""Show how each changed text file in the upload differs from the
+	server's copy. New files have no copy to compare and are only listed."""
+	items = [l.split(" ", 1) for l in real]
+	paths = [p for code, p in items if code[1] == "f" and "+" not in code
+		and (Path(p).suffix in TEXT or Path(p).name in TEXT)]
+	if not paths:
+		return
+	shutil.rmtree(LIVE, ignore_errors=True)
+	LIVE.mkdir(parents=True)
+	run(RSYNC + ["-a", "--files-from=-", REMOTE, f"{LIVE}/"], input="\n".join(paths) + "\n", text=True)
+	for p in paths:
+		old = (LIVE / p).read_text(encoding="utf-8", errors="replace").splitlines()
+		new = (DEPLOY / p).read_text(encoding="utf-8", errors="replace").splitlines()
+		print()
+		for line in difflib.unified_diff(old, new, f"live/{p}", f"new/{p}", n=1, lineterm=""):
+			print("  " + line)
+
+
 def commit_hand_edits():
 	"""Commit site/hand-edits.json and the sources hand edits were written
 	back to, alone. A site without hand edits has nothing to commit."""
@@ -79,6 +107,7 @@ def main():
 	parser.add_argument("--dry-run", action="store_true", help="show what would change; upload nothing")
 	parser.add_argument("-y", "--yes", action="store_true", help="upload without asking")
 	parser.add_argument("--allow-fallback", action="store_true", help="build even if the brand fonts are missing")
+	parser.add_argument("--diff", action="store_true", help="show how each changed page, stylesheet, and script differs from the server's copy")
 	args = parser.parse_args()
 
 	build = ["scripts/site/build-deploy.sh"] + (["--allow-fallback"] if args.allow_fallback else [])
@@ -96,6 +125,8 @@ def main():
 		return
 	print("\n".join("  " + l for l in real))
 	print(f"  ({len(real)} new or changed; {len(lines) - len(real)} unchanged)")
+	if args.diff:
+		show_diffs(real)
 
 	if args.dry_run:
 		print("\nDry run: nothing uploaded.")

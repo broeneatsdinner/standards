@@ -148,6 +148,7 @@ A page can be edited either way: through its sources, or directly in its generat
 | `bin/deploy --dry-run` | build and list changes; upload nothing |
 | `bin/deploy --yes` | build and upload without asking |
 | `bin/deploy --allow-fallback` | build even if a font is missing |
+| `bin/deploy --dry-run --diff` | also show how each changed page, stylesheet, and script differs from the server's copy (fetched into `work/site-live/`); new files are only listed |
 
 `build-deploy.sh` fails the build if any of these is true:
 

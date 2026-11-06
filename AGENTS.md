@@ -10,6 +10,10 @@ This repository defines reusable engineering standards. Treat `docs/` as the can
 - Do not commit, push, publish, delete, or deploy without explicit operator direction.
 - When changing a standard, update direct indexes and references that describe the same system.
 
+## Coding session wrap-up
+
+Follow `docs/session-wrap-up.md` when the operator asks whether everything is committed and pushed or signals that they are ending a coding session. Briefly remind them to check drydock before closing the terminal or chat, once per wrap-up exchange unless already checked or explicitly skipped.
+
 ## Pages work
 
 When a task concerns project documentation sites, read `docs/readme-guidelines.md`, `docs/github-pages-guidelines.md`, `docs/wiki-policy.md`, `docs/documentation-templates.md`, `docs/documentation-writing-style.md`, and `docs/ai-agent-instructions.md`.

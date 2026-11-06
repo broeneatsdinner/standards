@@ -271,7 +271,7 @@ Apply these standards in order when relevant:
 3. Script headers: `docs/script-headers.md`
 4. Script body comments and examples: `docs/script-content.md`
 5. Comments and descriptions: `docs/comments-and-descriptions.md`
-6. Commit behavior: `docs/commit-standards.md`
+6. Commit behavior: `docs/commit-standards.md`; when checking commit/push status or ending a coding session, follow `docs/session-wrap-up.md`
 7. Repository organization: `docs/repo-organization.md`
 8. Repository taxonomy: `docs/repo-taxonomy.md`
 9. Directory structures: `directory_structures/`

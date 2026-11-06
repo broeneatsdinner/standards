@@ -43,6 +43,10 @@ Follow these principles:
 - avoid cleverness when clarity is better
 - write code that future operators can understand quickly
 
+## Coding session wrap-up
+
+When the operator asks whether everything is committed and pushed, or signals that they are wrapping up, walking away, or closing the terminal or chat after coding, answer the status question first and briefly remind them to check drydock before leaving. Follow `docs/session-wrap-up.md`. Give the reminder once per wrap-up exchange; skip it if they already checked drydock or ask to skip it.
+
 ## Voice
 
 Be direct, practical, and operator-focused.

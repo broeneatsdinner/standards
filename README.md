@@ -44,6 +44,7 @@ The goal is eliminating ambiguity.
 - color definitions and palette pairings
 - typography and PDF-oriented output standards
 - commit message standards
+- [coding session wrap-up and drydock reminders](docs/session-wrap-up.md)
 - filesystem and project-structure standards
 - multi-node secure systems repository standards
 - encrypted backup standards for repositories without a remote

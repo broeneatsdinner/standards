@@ -15,7 +15,7 @@ The short version: Nothing Sans is beautiful when it is set large, light, and un
 
 [`assets/typefaces/nothing-sans.css`](../assets/typefaces/nothing-sans.css) is the canonical web setup: the `@font-face` declarations with the weight mapping, and the type rules from the setting below. Copy it with the font files rather than rewriting it. The font files are git-ignored and never committed; see [docs/typefaces.md](typefaces.md#asset-handling).
 
-Version 1.000 of the sans. Measured metrics, as fractions of the em: x-height 0.523, cap height 0.718 (San Francisco: 0.508 and 0.705); ascent 1.0625 and descent 0.25 (the line box the browser reserves). The tall ascent matters for spacing; see "Spacing around text" below.
+Version 1.000 of the sans. Measured metrics, as fractions of the em: x-height 0.523 in Book, 0.525 in Medium, 0.527 in Bold; cap height 0.718 (San Francisco: 0.508 and 0.705); ascent 1.0625 and descent 0.25 (the line box the browser reserves). The tall ascent matters for spacing; see "Spacing around text" below.
 
 ## Naming
 
@@ -133,7 +133,7 @@ These were tested on a light-background photo-essay site in October 2026 and sho
 
 ## The poster register
 
-Posters, covers, and other print or display pieces may use a second register: firmer, urban, and composed, where the reading setting above is light and open. The reference is [`assets/typography/nothing-poster-specimen.html`](../assets/typography/nothing-poster-specimen.html), with a printed copy in [`nothing-poster-specimen.pdf`](../assets/typography/nothing-poster-specimen.pdf).
+Posters, covers, and other print or display pieces may use a second register: firmer, urban, and composed, where the reading setting above is light and open. The reference is [`assets/typography/nothing-poster-specimen.html`](../assets/typography/nothing-poster-specimen.html), with a printed copy in [`nothing-poster-specimen.pdf`](../assets/typography/nothing-poster-specimen.pdf). New forms and other small pieces start from [`culture-shopping-tag.html`](../assets/typography/culture-shopping-tag.html); see "Small print pieces" below.
 
 It is for display and print only. Web pages, the photo sites, and any page meant for reading use the setting above, and one page never mixes the two.
 
@@ -144,15 +144,32 @@ It is for display and print only. Web pages, the photo sites, and any page meant
 | Section line | Medium | 48px, 0.98 | -0.04em |
 | Figures, alphabet rows | Medium | 24px | -0.03em |
 | Subhead | Book | 28px, 1.15 | 0 |
-| Body | Book, Book Italic for emphasis in a sentence | 19px, 1.22, at most 34em wide | 0 |
+| Body | Book; Medium for emphasis, Book Italic to set off a named word | 19px, 1.22, at most 34em wide | 0 |
 | Label, top line | Book, uppercase | 13 to 14px | +0.08em |
 | Small print | Book | 13px, 1.3 | 0 |
 
-- **Tracking tightens with size.** Negative tracking belongs to display lines only, and the larger the line, the tighter: from -0.03em at 24px to -0.07em at 170px. Body and small text stay at 0, as in the reading setting.
+- **Tracking tightens with size.** Negative tracking belongs to display lines only, and the larger the line, the tighter: from -0.03em at 24px to -0.07em at 170px. Small print pieces hold -0.03em down to 19px. Body and small text stay at 0, as in the reading setting.
 - **Labels are the one place for tracked uppercase.** Short, Book, small, +0.08em.
 - **Book carries the text; Medium carries emphasis.** Light is not used, and neither is SemiBold.
-- **Ink on paper:** `#111` on `#f5f3ef`, white paper when printed. Blocks are separated by a 2px rule in the ink color.
+- **Ink on paper:** `#111` on `#f5f3ef`, white paper when printed. Blocks are separated by a 2px rule in the ink color. One lead-in label on a piece may take the muted `#6b6a66` from the light-background setting; it is the only thing the register borrows from the reading setting.
 - **Do not load [`nothing-sans.css`](../assets/typefaces/nothing-sans.css) on a poster page.** Its letter-spacing rule (`0 !important` on every element) cancels the register's tracking. The specimen declares one family per face (`Nothing SansSerif Book`, `Nothing SansSerif Medium`, ...) from the same files, so its weights do not collide with the reading setting's weight mapping.
+
+### Small print pieces
+
+The sizes above are for a poster read from a distance. A form or tag is read in the hand and written on, so it keeps the same roles and rules at a smaller scale. These values come from 4 x 9 in forms, checked on test prints.
+
+| Role | Face | Size and line height | Letter-spacing |
+| --- | --- | --- | --- |
+| Headline | Bold | 58px, 0.92 | -0.04em |
+| Section line | Medium | 19px, 1 | -0.03em |
+| Figures in boxes | Medium | 24px | -0.03em |
+| Body | Book; Medium for emphasis | 12 to 12.5px, 1.3 | 0 |
+| Label | Book, uppercase | 13px; 9 to 9.5px in tight rows | +0.08em |
+| Label above a label | Book, uppercase | 7px, the smallest size that has printed crisply | about +0.07em, fitted to the width of the label below |
+| Small print | Book | 9px | 0 |
+
+- **Section lines name a block; labels name a field.** A column header in a table is a label, even at the top of a block.
+- **A chip sits on the headline.** A word in a solid ink box beside the headline runs from the headline's baseline to its x-height: 0.527 of the Bold size, rounded to whole pixels because print layout snaps a box to them. Lift it onto the baseline with a bottom margin measured on the rendered PDF, and set `print-color-adjust: exact` so the box prints.
 
 ## How to evaluate type changes
 

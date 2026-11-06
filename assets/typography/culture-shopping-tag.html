@@ -99,14 +99,31 @@ html, body {
 	letter-spacing: -0.04em;
 }
 
+/* The chip runs from the headline's baseline to its x-height: 527/1000 of 58px
+   is 30.6px, and print layout snaps a box to whole px, so 31px. The margin
+   lifts it from the line box onto the baseline, measured on the rendered PDF. */
 .chip {
 	box-sizing: border-box;
-	width: 92px;
-	padding: 8px 0 7px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 108px;
+	height: 31px;
+	margin-bottom: 4px;
+	padding-bottom: 1px;
 	background: var(--ink);
 	color: #fff;
-	text-align: center;
+	font-size: 16px;
 	print-color-adjust: exact;
+}
+
+/* The register's section line: Medium carries the pressure, tightened for its
+   size, over the Book labels and fields. */
+.head {
+	font-family: "Nothing SansSerif Medium", sans-serif;
+	font-size: 19px;
+	line-height: 1;
+	letter-spacing: -0.03em;
 }
 
 .fields {
@@ -296,7 +313,7 @@ html, body {
 		</div>
 
 		<div class="block">
-			<div class="label">Overall condition</div>
+			<div class="head">Overall condition</div>
 			<div class="grades">
 				<div>UNUSED</div>
 				<div>S</div>
@@ -318,7 +335,7 @@ html, body {
 		</div>
 
 		<div class="block notes">
-			<div class="label">Notes</div>
+			<div class="head">Notes</div>
 			<i></i>
 			<i></i>
 			<i></i>

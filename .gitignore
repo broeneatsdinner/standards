@@ -48,3 +48,5 @@ assets/typefaces/serif/
 # A poster specimen with the licensed fonts embedded in its HTML and PDF:
 # kept locally (and in the encrypted git-backup), never committed
 assets/typography/Nothing SansSerif Typeface Test/
+# Printed from culture-shopping-tag.html, with the licensed fonts embedded
+assets/typography/culture-shopping-tag.pdf

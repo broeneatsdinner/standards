@@ -53,6 +53,8 @@ The poster register of Nothing Sans is for posters, covers, and other print or d
 
 - `nothing-poster-specimen.html` is the reference specimen. It loads the brand fonts from `../typefaces/sansserif/`, which are git-ignored, so it renders only in a checkout that has them.
 - `nothing-poster-specimen.pdf` is the same specimen printed to PDF, with its document metadata removed.
+- `culture-shopping-tag.html` is a working print piece in the register: a 4 x 9 in condition tag for handwritten entries, set two to a US Letter sheet with cut marks. Like the specimen, it renders only in a checkout that has the brand fonts.
+- `culture-shopping-tag.pdf` is the same sheet printed to PDF. It carries the brand fonts, so it is git-ignored and made locally from the HTML.
 
 ## Tear Sheets and Usage Examples
 

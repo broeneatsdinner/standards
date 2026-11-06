@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Culture Shopping Tag</title>
+
+<style>
+/* A condition tag in the poster register (docs/nothing-sans.md). The font
+   files are git-ignored; this page renders in a checkout that has them in
+   assets/typefaces/. Two 4 x 9 in tags print on one US Letter sheet. Sizes
+   are CSS px: a tag is 384 x 864. */
+@font-face { font-family: "Nothing SansSerif Book"; src: url("../typefaces/sansserif/NothingSans-Book.otf") format("opentype"); }
+@font-face { font-family: "Nothing SansSerif Medium"; src: url("../typefaces/sansserif/NothingSans-Medium.otf") format("opentype"); }
+@font-face { font-family: "Nothing SansSerif Bold"; src: url("../typefaces/sansserif/NothingSans-Bold.otf") format("opentype"); }
+
+@page {
+	size: 8.5in 11in;
+	margin: 0;
+}
+
+:root {
+	--ink: #111;
+	--line: 1px solid var(--ink);
+	--rule: 2px solid var(--ink);
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: #f5f3ef;
+	color: var(--ink);
+}
+
+.sheet {
+	position: relative;
+	width: 8.5in;
+	height: 11in;
+	margin: 0 auto;
+	overflow: hidden;
+	background: #fff;
+	font-family: "Nothing SansSerif Book", sans-serif;
+}
+
+.tags {
+	position: absolute;
+	top: 1in;
+	left: 0.25in;
+	display: flex;
+}
+
+.tag {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width: 4in;
+	height: 9in;
+	padding: 40px 40px 34px;
+}
+
+.label {
+	font-size: 13px;
+	line-height: 1;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.top {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	border-top: var(--rule);
+	padding-top: 12px;
+}
+
+.number {
+	display: flex;
+	align-items: flex-end;
+	gap: 7px;
+}
+
+.number i {
+	width: 72px;
+	border-bottom: var(--line);
+}
+
+.title {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin-top: 22px;
+}
+
+.title h1 {
+	margin: 0;
+	font-family: "Nothing SansSerif Bold", sans-serif;
+	font-size: 58px;
+	font-weight: normal;
+	line-height: 0.92;
+	letter-spacing: -0.04em;
+}
+
+.chip {
+	box-sizing: border-box;
+	width: 92px;
+	padding: 8px 0 7px;
+	background: var(--ink);
+	color: #fff;
+	text-align: center;
+	print-color-adjust: exact;
+}
+
+.fields {
+	margin-top: 16px;
+}
+
+.field {
+	display: grid;
+	grid-template-columns: 88px 1fr;
+	align-items: end;
+	height: 35px;
+}
+
+.field i {
+	border-bottom: var(--line);
+}
+
+.block {
+	margin-top: 23px;
+	border-top: var(--rule);
+	padding-top: 13px;
+}
+
+.grades {
+	display: grid;
+	grid-template-columns: 78px repeat(5, 1fr);
+	height: 47px;
+	margin-top: 12px;
+	border: var(--line);
+}
+
+.grades div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-left: var(--line);
+	font-family: "Nothing SansSerif Medium", sans-serif;
+	font-size: 24px;
+	letter-spacing: -0.03em;
+}
+
+.grades div:first-child {
+	border-left: 0;
+	font-family: "Nothing SansSerif Book", sans-serif;
+	font-size: 13px;
+	letter-spacing: 0.08em;
+}
+
+.legend {
+	margin-top: 12px;
+	font-size: 12px;
+	line-height: 1.3;
+}
+
+.parts {
+	display: grid;
+	grid-template-columns: 104px 60px 1fr;
+}
+
+.parts > * {
+	box-sizing: border-box;
+	height: 29px;
+	border-bottom: var(--line);
+}
+
+.parts > :nth-child(3n + 2) {
+	border-left: var(--line);
+	border-right: var(--line);
+}
+
+.parts .label {
+	height: 21px;
+	border-left: 0 !important;
+	border-right: 0 !important;
+}
+
+.parts .label:nth-child(n + 2) {
+	padding-left: 2px;
+}
+
+.notes {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.notes i {
+	flex: 1;
+	border-bottom: var(--line);
+}
+
+.notes i:last-child {
+	border-bottom: 0;
+}
+
+.amount {
+	display: flex;
+	align-items: flex-end;
+}
+
+.amount.retail {
+	margin-top: 10px;
+}
+
+.amount.retail span {
+	margin-left: auto;
+	font-size: 14px;
+	line-height: 1;
+}
+
+.amount.retail i {
+	flex: 0 0 96px;
+	margin-left: 12px;
+	border-bottom: var(--line);
+}
+
+.amount.price {
+	margin-top: 16px;
+}
+
+.amount.price span {
+	margin: 0 9px 0 10px;
+	font-family: "Nothing SansSerif Bold", sans-serif;
+	font-size: 38px;
+	line-height: 0.92;
+}
+
+.amount.price i {
+	flex: 1;
+	border-bottom: var(--rule);
+}
+
+.site {
+	margin-top: 12px;
+	font-size: 13px;
+	line-height: 1;
+	text-align: right;
+}
+
+/* The end of each mark sits on a cut: the marks also carry the vertical cuts,
+   and the sheet's side margins are too narrow to print a horizontal mark. */
+.mark {
+	position: absolute;
+	width: 0;
+	height: 0.3in;
+	border-left: 0.5pt solid var(--ink);
+}
+
+.mark.above { top: 0.7in; }
+.mark.below { top: 10in; }
+.mark.left { left: 0.25in; }
+.mark.center { left: 4.25in; }
+.mark.right { left: 8.25in; }
+
+.small {
+	position: absolute;
+	top: 10.4in;
+	left: 0.4in;
+	font-size: 7pt;
+	line-height: 1.3;
+}
+
+@media print {
+	html, body {
+		background: #fff;
+	}
+}
+</style>
+</head>
+<body>
+<template id="tag">
+	<section class="tag">
+		<div class="top label">
+			<span>Nothing LLC</span>
+			<span class="number">No. <i></i></span>
+		</div>
+
+		<div class="title">
+			<h1>Culture</h1>
+			<div class="chip label">Shopping</div>
+		</div>
+
+		<div class="fields">
+			<div class="field"><span class="label">Brand</span><i></i></div>
+			<div class="field"><span class="label">Product</span><i></i></div>
+			<div class="field"><span class="label">Model no.</span><i></i></div>
+		</div>
+
+		<div class="block">
+			<div class="label">Overall condition</div>
+			<div class="grades">
+				<div>UNUSED</div>
+				<div>S</div>
+				<div>A</div>
+				<div>B</div>
+				<div>C</div>
+				<div>D</div>
+			</div>
+			<div class="legend">S like new &middot; A light wear &middot; B visible wear<br>C heavy wear &middot; D as-is, for parts</div>
+		</div>
+
+		<div class="block parts">
+			<div class="label">Parts</div>
+			<div class="label">Grade</div>
+			<div class="label">Details</div>
+			<div></div><div></div><div></div>
+			<div></div><div></div><div></div>
+			<div></div><div></div><div></div>
+		</div>
+
+		<div class="block notes">
+			<div class="label">Notes</div>
+			<i></i>
+			<i></i>
+			<i></i>
+			<i></i>
+		</div>
+
+		<div class="block" style="margin-top: 0">
+			<div class="amount retail">
+				<div class="label">Original retail</div>
+				<span>$</span>
+				<i></i>
+			</div>
+			<div class="amount price">
+				<div class="label">Price</div>
+				<span>$</span>
+				<i></i>
+			</div>
+		</div>
+
+		<div class="site">noth-ing.com</div>
+	</section>
+</template>
+
+<main class="sheet">
+	<i class="mark above left"></i><i class="mark above center"></i><i class="mark above right"></i>
+	<div class="tags"></div>
+	<i class="mark below left"></i><i class="mark below center"></i><i class="mark below right"></i>
+	<div class="small">Print at 100%. Cut where the marks end, and down each line of marks. Each tag trims to 4 x 9 in.</div>
+</main>
+
+<script>
+const tag = document.getElementById("tag");
+const tags = document.querySelector(".tags");
+tags.append(tag.content.cloneNode(true), tag.content.cloneNode(true));
+</script>
+</body>
+</html>

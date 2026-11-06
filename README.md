@@ -230,7 +230,7 @@ assets/
 
 The `docs/` directory is the canonical authority for written standards. The `prompts/` directory should point AI tools at those standards and explain how to apply them. The `shell/` directory contains reusable implementation pieces. The `directory_structures/` directory contains example or starter filesystem layouts that can be copied, adapted, or used as references.
 
-`assets/typography/` contains reusable chat and document rendering fixtures for Markdown-to-HTML/PDF workflows.
+`assets/typography/` contains reusable chat and document rendering fixtures for Markdown-to-HTML/PDF workflows, and reference pieces for the poster register.
 
 `directory_structures/photo-site/` is the starter kit for a project photo site: a static site generated from a repository's photos and records, described in `docs/photo-sites.md`.
 

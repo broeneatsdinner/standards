@@ -1,6 +1,6 @@
 # typography assets
 
-Reusable CSS and HTML fixtures for rendering exported Markdown into branded, readable, publishable formats.
+Reusable CSS and HTML fixtures for rendering exported Markdown into branded, readable, publishable formats, and reference pieces for print.
 
 These assets support conversion workflows such as:
 
@@ -12,11 +12,13 @@ The goal is not to create decorative pages.
 
 The goal is to make exported technical material readable, consistent, reviewable, and safe to publish.
 
+Poster pieces are the exception to the Markdown workflow: they are composed by hand and printed. See "Poster Typography" below.
+
 ## Purpose
 
 `assets/typography/` contains typography systems for common exported-document shapes.
 
-Each system has a reusable stylesheet and one or more HTML fixtures. The fixtures are not application pages. They are reference documents for inspecting spacing, hierarchy, component coverage, and print/PDF behavior.
+The chat and document systems each have a reusable stylesheet and one or more HTML fixtures. Poster pieces are self-contained HTML, each carrying its own CSS. The fixtures are not application pages. They are reference documents for inspecting spacing, hierarchy, component coverage, and print/PDF behavior.
 
 The styles should be restrained, operator-readable, and suitable for public standards material. They should make Markdown output look intentional without hiding the structure of the source material.
 
@@ -53,8 +55,30 @@ The poster register of Nothing Sans is for posters, covers, and other print or d
 
 - `nothing-poster-specimen.html` is the reference specimen. It loads the brand fonts from `../typefaces/sansserif/`, which are git-ignored, so it renders only in a checkout that has them.
 - `nothing-poster-specimen.pdf` is the same specimen printed to PDF, with its document metadata removed.
-- `culture-shopping-tag.html` is a working print piece in the register: a 4 x 9 in condition tag for handwritten entries, set two to a US Letter sheet with cut marks. Like the specimen, it renders only in a checkout that has the brand fonts.
-- `culture-shopping-tag.pdf` is the same sheet printed to PDF.
+- `culture-shopping-tag.html` is a working print piece in the register: a 4 x 9 in condition tag for handwritten entries, set two to a US Letter sheet with cut marks. Like the specimen, it renders only in a checkout that has the brand fonts. It is the starting point for new forms.
+- `culture-shopping-tag.pdf` is the same sheet printed to PDF, with its document metadata removed apart from a modification date.
+
+### Rendering a print piece
+
+Render with headless Chrome from this directory, then rewrite the PDF without its metadata. `qpdf` keeps only a modification date:
+
+```text
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
+	--no-pdf-header-footer --virtual-time-budget=8000 --user-data-dir="$(mktemp -d)" \
+	--print-to-pdf="$PWD/raw.pdf" "file://$PWD/<piece>.html"
+qpdf --remove-info --remove-metadata raw.pdf <piece>.pdf && rm raw.pdf
+```
+
+Then check the result. A missing font file falls back to the system sans without an error, so the font list is the real test:
+
+```text
+pdfinfo <piece>.pdf
+pdffonts <piece>.pdf
+```
+
+`pdfinfo` should show the expected page count and page size, and `pdffonts` only Nothing Sans. Chrome embeds the fonts as Type 3 subsets, where the specimen's PDF has Type 1C. That is expected: a test print from this path came out clean.
+
+Judge the PDF, not the browser, and test-print a sheet at 100% before calling a piece final.
 
 ## Tear Sheets and Usage Examples
 
@@ -96,7 +120,6 @@ Examples should teach the shape of the workflow without exposing live operationa
 Possible future additions:
 
 - visual regression screenshots
-- PDF examples
 - additional document templates
 - citation variants
 - long-form stress tests

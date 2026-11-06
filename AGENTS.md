@@ -17,3 +17,12 @@ When a task concerns project documentation sites, read `docs/readme-guidelines.m
 The reusable implementation kit lives at `pages/github-pages-docs-site/`. It is copied into a consumer repository and adapted to that repository's real documentation. Do not treat this standards repository as a Pages deployment target merely because it contains the kit.
 
 When the operator asks to add, generate, or apply Pages in a repository, follow `prompts/add-github-pages.md` after the required repository inspection. It defines the README snapshot, narrative migration, local validation, and local-commit workflow.
+
+## Print pieces
+
+When a task concerns a poster, form, or other print piece, read "The poster register" in `docs/nothing-sans.md` and start from the closest piece in `assets/typography/`. Render and check it as `assets/typography/README.md` describes.
+
+- Keep personal variants in `private/<project>/`, numbered `name-v1`, `name-v2`, and so on, and keep every version for comparison.
+- Re-render the PDF after every HTML change, and judge the PDF rather than the browser.
+- Have the operator test-print before calling a piece final.
+- Only generic improvements move back to `assets/typography/`.

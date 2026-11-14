@@ -102,6 +102,28 @@ Move prompt rendering into reusable functions so Bash and Zsh startup files
 can share the same behavior without duplicating logic.
 ```
 
+## Pull request descriptions
+
+A pull request description should explain the change in plain language before it gets technical.
+
+A reviewer should not have to translate code terms into a human explanation to learn what the change does.
+
+Use this order:
+
+```text
+What this fixes
+What it changes
+What it doesn't change
+Implementation notes
+Testing
+```
+
+The first three sections should make sense to someone who has not read the diff. Describe the problem as a user would meet it, then the behavior after the change, then any limits or follow-up work left out on purpose.
+
+Implementation notes and testing come after, for the reviewer reading the code.
+
+Keep terms the project already uses, but explain each one where it first appears.
+
 ## Public repositories
 
 Public repos should have especially readable commits.

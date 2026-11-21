@@ -160,6 +160,15 @@ A page can be edited either way: through its sources, or directly in its generat
 
 Nothing is deleted on the server. A file removed locally stays there until removed by hand.
 
+### Running a deploy
+
+An agent runs the deploy itself. It does not hand the operator a command to paste.
+
+1. Run `bin/deploy --dry-run` (with `--diff` when pages changed) and show what would upload.
+2. With the operator's go-ahead for that deploy, run the real deploy in the operator's named visible tmux pane ([docs/visible-terminal-workflow.md](visible-terminal-workflow.md)), not in a hidden command runner, so the operator watches it run and can answer any prompt there. A go-ahead given before the dry run, such as "send it" or "commit, push, and deploy", covers the deploy once the dry run lists only the expected changes; anything unexpected is shown and asked about first. One go-ahead covers one deploy.
+3. If no visible pane is named, or the pane is in use elsewhere (on another host, or at a prompt), say so and ask how to proceed rather than handing over the command.
+4. After the upload, check that the changed pages respond and show the change, for example with `curl` against their live URLs, and report what was checked.
+
 After the first deploy, and after any URL change, check the live site:
 
 ```sh

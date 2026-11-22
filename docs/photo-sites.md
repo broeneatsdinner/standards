@@ -216,6 +216,17 @@ A photo site can live in a folder of a domain whose own site is deployed some ot
 - **Section jump** (`jump.js`): on pages with a bar of section links, a click cuts to 50px short of the section and slides into place over 700ms with an ease-out-expo curve, with no fade. Back and Forward glide between sections. With reduced motion preferred, it jumps. A page with a single section shows no bar but still handles section URLs and old links. On the local server, `?lead=`, `?fade=`, and `?duration=` override the settings for comparison.
 - **Colors** come from `base.css`: one palette, with a night version that follows the system appearance.
 
+## Recordings
+
+Some sites play recordings next to their photos. This is not in the starter kit: a site that needs it carries it in its own files, `build.py` (the player markup and script), a preview server that adds byte-range responses for seeking, a deploy wrapper that uploads only the recordings the pages reference, and its own stylesheet. Recordings stay git-ignored and out of the repository's remote.
+
+- **The player:** page-styled controls (Play/Pause, a seek bar, elapsed and total time, mute and volume, and 15-second skips, which a site may hide on recordings shorter than a skip), with the browser's own player as the fallback without JavaScript.
+- **Versions of one recording share one player.** When a section's recordings are versions of the same thing (a phrase at everyday speed and slowed down, a song and its demo), show one player under a single label, with a link below it for each version, set like the section links: the loaded one in the ink color, the others muted. The first version loads by default. A link loads its recording into the player and keeps playing if the player was; without JavaScript, it opens the recording. The deploy wrapper must upload the recordings these links name, not only the one in the `<audio>` element.
+- **Separate recordings get separate players**, each labeled, in file-name order.
+- **More than two:** links work for two or three versions. For more, or for recordings meant to be heard one after another, develop playlist behavior instead: a list under one player that shows the current track and advances to the next when one ends. Not built yet.
+
+The player has been copied from one site to another so far. Before copying it again, consider adopting it into the starter kit through [Changing a shared file](#changing-a-shared-file), so its copies stay identical.
+
 ## Deployment details
 
 Each site's `bin/deploy` names the SSH host, the web root, and the site's folder. Those values are personal infrastructure and are not part of this public standard. The starter kit uses placeholders.

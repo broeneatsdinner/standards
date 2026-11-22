@@ -177,6 +177,30 @@ curl -s -o /dev/null -w '%{http_code}\n' https://example.com/<project>/<section>
 curl -s -o /dev/null -w '%{http_code}\n' https://example.com/<project>/photos/       # 403
 ```
 
+### Publishing into another site's domain
+
+A photo site can live in a folder of a domain whose own site is deployed some other way. Where it goes depends on how that domain's web root is managed.
+
+- **A web root nothing else manages** (files placed by hand, no deploy script): put the photo site in a folder inside it, owned by the account `bin/deploy` uploads as. The domain must allow `.htaccess` in that folder.
+- **A web root another deploy manages** (for example, a script that runs `rsync --delete`, then `chown` and `chmod`, over the whole root): do not publish inside it. That deploy would delete the photo site, or re-own it so `bin/deploy` can no longer write there. Excluding the folder from that deploy couples two repositories through privileged configuration, such as the other script's exact sudoers lines. Instead:
+    1. Create a folder beside the web root, not in it, owned by the account `bin/deploy` uploads as: `/var/www/example.com/<project>/` next to `/var/www/example.com/html/`.
+    2. Map the URL to it in the domain's HTTPS virtual host, and allow `.htaccess` in that folder only. The rest of the domain keeps its own setting.
+
+        ```apache
+        Alias /<project> /var/www/example.com/<project>
+        <Directory /var/www/example.com/<project>>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+        </Directory>
+        ```
+
+    3. Back up the virtual host first, run `apache2ctl configtest`, and reload only if it passes.
+    4. Set `bin/deploy`'s web root to the folder that holds `<project>/`, so the upload lands in the aliased folder.
+    5. Record the alias in both repositories' agent orientation: in the photo site's, how it is published, and in the domain's own, that the path belongs to another repository and must not be moved into the web root or removed.
+
+    The other deploy, its sudoers entry, and its web root stay unchanged, and neither site can damage the other. An empty aliased folder returns 403, which confirms the alias before the first deploy. `.htaccess` rules still work under an `Alias`, because `build.py` writes `RewriteBase` from `PUBLIC_BASE`.
+
 ## Page design
 
 - **Type** follows [docs/nothing-sans.md](nothing-sans.md): Light reading copy, Book small text, a huge Bold headline, letter-spacing 0, the link style with the `go` arrow, list items in reading copy set like paragraphs.

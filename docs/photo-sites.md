@@ -207,6 +207,12 @@ A photo site can live in a folder of a domain whose own site is deployed some ot
 - **Tables:** Book at the small size; a 3px rule under the header row, 1px between rows, none after the last row, the same rules as the Pages kit; bottom padding larger by `--nothing-optical-bottom` (0.192em).
 - **Top bar:** the site's name at the left, a plain brand mark linking home (no underline until hover), and the Light / Dark / Auto switch at the right (`theme.js`).
 - **Photo viewer** (`viewer.js`): full screen, arrow keys and swipe, a dark backdrop taken from each photo, a URL per photo (`#photo-<section>-<name>`).
+- **Drag down to close** (`viewer.js`): on touch, dragging a photo down closes the viewer, as Escape and the close button do, returning to that photo on the page.
+    - It closes when released more than 100px down (`DRAG_CLOSE`) unless the finger is moving back up, or on a flick: more than 30px (`FLICK_MIN`) at over 0.5px per millisecond (`FLICK_SPEED`). Otherwise the photo returns to its place.
+    - Each touch locks to one direction after 10px (`DRAG_LOCK`), so a drag down that drifts sideways never steps to another photo.
+    - While dragging, the photo follows the finger whole, the backdrop thins to show the page, and the caption and controls hide.
+    - A second finger cancels the drag, and while pinch-zoomed a drag moves around the photo. Mouse and keyboard are unaffected.
+    - Test it on a phone: touch emulation does not show how iOS Safari handles vertical drags.
 - **Wide photos** (`viewer.js`, with the `.viewer-stage.is-panning` and `.viewer-img.is-wide` rules in `gallery.css`): on a screen taller than wide, a wide photo (a panorama, or sheet music laid out landscape) would shrink to a thin strip across the middle of the viewer, so it pans instead.
     - It pans when the window is taller than wide, the photo is at least twice as wide as tall (`PAN_ASPECT = 2`), and, filling the stage's height, it would be more than 1.5 stage widths wide (`PAN_RATIO = 1.5`). Any other photo fits whole, including ordinary 3:2 and 16:10 photos on a phone. On a wide screen every photo fits whole: a mouse has no easy way to pan, and a wide photo is large enough there already.
     - A panning photo fills the stage's height, runs edge to edge (the stage drops its side insets), scrolls sideways with its scrollbar hidden, and opens centered.

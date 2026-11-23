@@ -8,8 +8,9 @@
 // Photos step in page order, across every photo folder, and crossfade.
 // The background fades to a dark color taken from each photo (backdrop()).
 // Controls hide after the pointer rests. Each photo has its own URL hash
-// (#photo-<section>-<name>). Swipe works on touch. Where the grid shows
-// thumbnails, the viewer opens each photo's data-full image instead.
+// (#photo-<section>-<name>). On touch, swipe sideways to step and drag down to
+// close. Where the grid shows thumbnails, the viewer opens each photo's
+// data-full image instead.
 // On an upright screen, a photo much wider than the screen (a panorama,
 // sheet music) fills the screen's height and pans sideways, opening centered;
 // there a swipe steps only once the photo is panned to that edge.
@@ -168,6 +169,8 @@
 
 	function close() {
 		var i = current;
+		touchX = null;  // a drag still under way ends here
+		viewer.style.transition = '';
 		viewer.classList.remove('is-open');
 		document.documentElement.classList.remove('viewer-open');
 		history.replaceState(null, '', location.pathname + location.search);
@@ -176,6 +179,7 @@
 			layers[0].classList.remove('is-front');
 			layers[1].classList.remove('is-front');
 			current = -1;
+			stage.style.transform = stage.style.transition = viewer.style.backgroundColor = '';
 			fit();
 		};
 		if (reducedMotion()) done(); else setTimeout(done, 350);
@@ -258,35 +262,109 @@
 		wake();
 	});
 
-	// Swipe left/right to step. A pinch is never a swipe, and the click iOS
-	// can fire after one is swallowed.
+	// Swipe left/right to step; drag down to close. The first DRAG_LOCK pixels
+	// decide which, so a drag down that drifts sideways never steps. A pinch is
+	// never either, and the click iOS can fire after one is swallowed.
+	var DRAG_LOCK = 10;
+	var DRAG_CLOSE = 100;    // released past this many pixels, a drag closes
+	var FLICK_MIN = 30;      // a flick closes from this many pixels,
+	var FLICK_SPEED = 0.5;   // at this many pixels per millisecond
 	var touchX = null;
+	var touchY = 0;
+	var axis = null;         // 'x', 'down', or 'up', once locked
+	var moves = [];          // recent [time, y] pairs, for the release speed
 	var atStart = true, atEnd = true;  // panned to that edge at touchstart
 	var multiTouch = false;
 	var suppressClickUntil = 0;
+
+	// Leave vertical drags to this script instead of the browser, except while
+	// pinch-zoomed, when they pan around the photo.
+	function setTouchAction() {
+		viewer.style.touchAction = stage.style.touchAction = pinchZoomed() ? '' : 'pan-x pinch-zoom';
+	}
+	setTouchAction();
+	if (window.visualViewport) window.visualViewport.addEventListener('resize', setTouchAction);
+
+	// The photo follows the finger, whole; the backdrop thins to show the page,
+	// and the caption and controls rest.
+	function dragTo(dy) {
+		dy = Math.max(dy, 0);
+		stage.style.transition = viewer.style.transition = 'none';
+		stage.style.transform = 'translateY(' + dy + 'px)';
+		var bg = Math.round(100 - 70 * Math.min(dy / (window.innerHeight * 0.6), 1));
+		viewer.style.backgroundColor = 'color-mix(in srgb, var(--v-bg) ' + bg + '%, transparent)';
+		viewer.classList.add('is-idle');
+	}
+
+	function dragBack() {
+		stage.style.transition = reducedMotion() ? 'none' : 'transform 0.25s ease';
+		stage.style.transform = viewer.style.backgroundColor = viewer.style.transition = '';
+		wake();
+	}
+
+	// Downward pixels per millisecond over the last tenth of a second
+	function releaseSpeed(now, y) {
+		var recent = moves.filter(function (m) { return now - m[0] <= 100; });
+		if (!recent.length || now <= recent[0][0]) return 0;
+		return (y - recent[0][1]) / (now - recent[0][0]);
+	}
+
 	viewer.addEventListener('touchstart', function (e) {
 		if (e.touches.length === 1) {
 			touchX = e.touches[0].clientX;
+			touchY = e.touches[0].clientY;
+			axis = null;
+			moves = [[e.timeStamp, touchY]];
 			atStart = stage.scrollLeft <= 1;
 			atEnd = stage.scrollLeft >= stage.scrollWidth - stage.clientWidth - 1;
 			multiTouch = false;
 		} else {
 			multiTouch = true;
+			if (axis === 'down') dragBack();
+			axis = null;
 		}
 	}, { passive: true });
+	viewer.addEventListener('touchmove', function (e) {
+		if (touchX === null || multiTouch || pinchZoomed()) return;
+		var dx = e.touches[0].clientX - touchX;
+		var y = e.touches[0].clientY;
+		var dy = y - touchY;
+		moves.push([e.timeStamp, y]);
+		if (!axis) {
+			if (Math.max(Math.abs(dx), Math.abs(dy)) < DRAG_LOCK) return;
+			axis = Math.abs(dx) >= Math.abs(dy) ? 'x' : dy > 0 ? 'down' : 'up';
+		}
+		if (axis !== 'down') return;
+		if (e.cancelable) e.preventDefault();
+		dragTo(dy);
+	}, { passive: false });
 	viewer.addEventListener('touchend', function (e) {
 		if (e.touches.length > 0) return;  // wait for the last finger
 		if (touchX === null) return;
 		var dx = e.changedTouches[0].clientX - touchX;
+		var y = e.changedTouches[0].clientY;
+		var dy = y - touchY;
 		touchX = null;
 		if (multiTouch || pinchZoomed()) {
+			if (axis === 'down') dragBack();
 			suppressClickUntil = Date.now() + 700;
 			return;
 		}
+		if (axis === 'down') {
+			suppressClickUntil = Date.now() + 700;
+			var speed = releaseSpeed(e.timeStamp, y);
+			if ((dy > DRAG_CLOSE && speed > -0.2) || (dy > FLICK_MIN && speed > FLICK_SPEED)) close();
+			else dragBack();
+			return;
+		}
+		if (axis === 'up') return;
 		if (dx < -40 && atEnd) step(1);
 		else if (dx > 40 && atStart) step(-1);
 	});
-	viewer.addEventListener('touchcancel', function () { touchX = null; });
+	viewer.addEventListener('touchcancel', function () {
+		if (axis === 'down' && touchX !== null) dragBack();
+		touchX = null;
+	});
 
 	// Deep link: #photo-<section>-<name> opens that photo.
 	var m = location.hash.match(/^#photo-(.+)$/);

@@ -9,6 +9,7 @@ This standard is the shape that three such sites converged on in October 2026. T
 - **The repository is the source; the site is a view of it.** Pages are generated from the photos, captions, and Markdown records on every build. A generated page may also be edited by hand: the next build writes the change back to its source, or keeps it in a tracked file, so the repository still holds everything the page shows ([Editing a page by hand](#editing-a-page-by-hand)).
 - **Originals never leave the machine.** Photos in the repository keep their full metadata, including GPS. Only resized copies, stripped of everything but their color profile, are published, and the build fails if anything else survives.
 - **Nothing is published by accident.** Publishing shows exactly what would change and asks first. It never deletes anything on the server.
+- **A site stands on its own.** It belongs to no domain's repository: its own repository builds and publishes it, and the domain only serves its folder. Moving it to another domain changes its deploy constants and base path, not the site ([Moving to another domain](#moving-to-another-domain)).
 - **Shared files stay identical.** A file the sites share is the same file in every site, except for clearly marked constants. Improve it in one site, then copy it to the others ([Changing a shared file](#changing-a-shared-file)).
 
 ## Repository layout
@@ -213,6 +214,17 @@ A photo site can live in a folder of a domain whose own site is deployed some ot
     5. Record the alias in both repositories' agent orientation: in the photo site's, how it is published, and in the domain's own, that the path belongs to another repository and must not be moved into the web root or removed.
 
     The other deploy, its sudoers entry, and its web root stay unchanged, and neither site can damage the other. An empty aliased folder returns 403, which confirms the alias before the first deploy. `.htaccess` rules still work under an `Alias`, because `build.py` writes `RewriteBase` from `PUBLIC_BASE`.
+
+### Moving to another domain
+
+A site can move between domains, whether it lives in a folder inside a web root or is aliased in from beside one. What ties it to a domain is the deploy constants in `bin/deploy` (`SUBDIR`, `HOST`, `WEB_ROOT`, `SITE_URL`), its base path, and any server path the site names itself, such as a password file. Pages link relatively, so they do not change.
+
+1. Prepare the new place as in [Publishing into another site's domain](#publishing-into-another-sites-domain), with the folder empty and owned by the account `bin/deploy` uploads as. For a site behind a password, put the password file on the new server first, outside the web root.
+2. Set the deploy constants. If the path changes, set the base path to match `SUBDIR` (`PUBLIC_BASE` in `build.py`), so the rewrite rules fit the new folder.
+3. Run `bin/deploy --dry-run` and confirm the destination it names is the new one. It lists every file, because the new folder is empty. Deploy with the owner's go-ahead.
+4. Check the new address as after a first deploy ([Running a deploy](#running-a-deploy)), including a section URL, the 403 on `photos/`, and, for a site behind a password, the 401.
+5. Redirect the old address permanently (301), paths included, in the old domain's virtual host (`RedirectMatch 301 "^/<project>(/.*)?$" "https://new.example.com/<project>$1"`), so old links keep working. Take the old files, and any old `Alias`, off the server by hand only after the redirect works.
+6. Update the orientation of the site's repository and of both domains' repositories.
 
 ## Page design
 

@@ -43,6 +43,7 @@ The goal is eliminating ambiguity.
 - loader and terminal text-effect conventions
 - color definitions and palette pairings
 - typography and PDF-oriented output standards
+- [LLM chat preservation and reading PDFs](docs/chat-archives.md)
 - commit message standards
 - [coding session wrap-up and drydock reminders](docs/session-wrap-up.md)
 - filesystem and project-structure standards
@@ -124,6 +125,7 @@ For concrete examples of the operating architecture, see:
 - [docs/multi-node-repo-layout.md](docs/multi-node-repo-layout.md)
 - [docs/git-repository-backups.md](docs/git-repository-backups.md)
 - [docs/typography.md](docs/typography.md)
+- [docs/chat-archives.md](docs/chat-archives.md)
 - [docs/nothing-sans.md](docs/nothing-sans.md)
 - [docs/photo-sites.md](docs/photo-sites.md)
 - [docs/readme-guidelines.md](docs/readme-guidelines.md)
@@ -257,7 +259,7 @@ assets/
     typography fixtures and visual reference assets
 ```
 
-The `examples/` directory is intentionally present as a planned expansion area.
+The `examples/` directory includes a synthetic chat-archive fixture for testing source preservation, message boundaries, links, and PDF rendering.
 
 ## AI handoff workflows
 

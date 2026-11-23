@@ -1,0 +1,103 @@
+/* Nothing Sans reading edition for immutable Markdown conversation archives. */
+
+@page {
+	size: Letter;
+	margin: 0.78in 0.82in;
+	@top-left {
+		content: "Conversation archive";
+		font: 8.2pt ArchiveLabel;
+		color: #6b6a66;
+	}
+	@top-right {
+		content: "Reading edition";
+		font: 8.2pt ArchiveLabel;
+		color: #6b6a66;
+	}
+	@bottom-left {
+		content: "Source preserved separately";
+		font: 8.2pt ArchiveLabel;
+		color: #6b6a66;
+	}
+	@bottom-right {
+		content: counter(page) " / " counter(pages);
+		font: 8.2pt ArchiveLabel;
+		color: #6b6a66;
+	}
+}
+
+@page:first {
+	@top-left { content: none; }
+	@top-right { content: none; }
+}
+
+* { box-sizing: border-box; letter-spacing: 0; }
+
+body {
+	font: 13pt/1.46 ArchiveRead, ArchiveEmoji;
+	font-synthesis: none;
+	color: #3d3c39;
+	margin: 0;
+}
+
+p { margin: 0 0 10pt; orphans: 3; widows: 3; }
+a { color: #315767; text-decoration: underline; overflow-wrap: anywhere; }
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: ArchiveLabel;
+	font-weight: 400;
+	color: #1d1d1b;
+	line-height: 1.25;
+	break-after: avoid;
+	margin: 17pt 0 9pt;
+}
+
+h1 { font-size: 22pt; }
+h2 { font-size: 16pt; }
+h3 { font-size: 14pt; }
+h4, h5, h6 { font-size: 13pt; }
+ul, ol { margin: 0 0 12pt; padding-left: 20pt; }
+li { margin: 0 0 5pt; orphans: 3; widows: 3; }
+li p { margin: 0 0 5pt; }
+
+blockquote {
+	border-left: 1.5pt solid #b8b3aa;
+	margin: 12pt 0;
+	padding: 1pt 0 1pt 13pt;
+	color: #605d57;
+}
+
+blockquote p:last-child { margin-bottom: 0; }
+table { width: 100%; border-collapse: collapse; font: 10.5pt/1.4 ArchiveLabel; margin: 14pt 0; }
+th, td { text-align: left; vertical-align: top; padding: 7pt 8pt 9pt; border-bottom: 0.5pt solid #d3cfc6; overflow-wrap: anywhere; }
+thead { background: #f2f0eb; }
+tr { break-inside: avoid; }
+hr { border: 0; border-top: 0.6pt solid #d3cfc6; margin: 17pt 0; }
+
+code, pre, kbd {
+	font-family: ArchiveMono;
+	font-size: 0.88em;
+	font-weight: 400;
+	font-style: normal;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+pre { padding: 10pt; background: #f2f0eb; }
+.source-emoji { font-family: ArchiveEmoji; }
+.cover { break-after: page; padding-top: 0.6in; }
+.eyebrow { font: 11pt ArchiveLabel; color: #6b6a66; margin-bottom: 30pt; }
+.cover h1 { font: 800 48pt/1.01 ArchiveDisplay; margin: 0 0 27pt; color: #1d1d1b; overflow-wrap: anywhere; }
+.source-label { font: 18pt/1.3 ArchiveRead; margin-bottom: 40pt; }
+.edition-note { border-top: 1pt solid #1d1d1b; padding-top: 13pt; font: 10.5pt/1.5 ArchiveLabel; }
+.edition-note h2 { font: 11pt ArchiveLabel; margin: 0 0 9pt; }
+.source-hash { overflow-wrap: anywhere; }
+.source-metadata { font: 10.5pt/1.5 ArchiveLabel; margin-bottom: 26pt; }
+.message { margin-bottom: 23pt; }
+.message-head { border-top: 0.7pt solid #b8b3aa; padding-top: 10pt; margin-bottom: 13pt; break-inside: avoid; break-after: avoid; }
+.speaker { font: 700 12pt ArchiveLabel; color: #1d1d1b; }
+.timestamp { font: 8.8pt/1.4 ArchiveLabel; color: #6b6a66; margin-top: 3pt; }
+.timestamp p { margin: 0; }
+.user .message-head { border-top-color: #315767; }
+.message-body > :first-child { margin-top: 0; }

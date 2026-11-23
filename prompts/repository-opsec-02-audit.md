@@ -132,6 +132,10 @@ If raw assets were ever committed, recommend reviewing git history for exposed m
 
 Report media risks and recommended remediation only. Do not strip metadata, move files, delete files, rewrite history, or otherwise modify assets automatically.
 
+## Conversation archives and reading editions
+
+When chat exports or their derivatives are in scope, apply [docs/chat-archives.md](../docs/chat-archives.md). Inspect original exports, PDF link annotations and metadata, render reports, and review images for personal content, account-wide data, signed attachment URLs, private file paths, and unreviewed font assets. A PDF is a separate exposure surface even when its Markdown source is ignored. Public examples must be synthetic or deliberately sanitized copies; primary private sources remain outside the public publication set. Report findings only unless changes are separately authorized.
+
 ## Risks to flag
 
 Flag credentials and access material, including:

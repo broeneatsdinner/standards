@@ -280,7 +280,8 @@ Apply these standards in order when relevant:
 12. Repository backups when a repository has no remote, a new repository is created without one, a remote must not hold a repository's contents, or backup, restore, or uncommitted-work coverage is in scope: `docs/git-repository-backups.md`
 13. Photo sites when building, changing, or publishing a project photo site, or its typography: `docs/photo-sites.md`, `docs/nothing-sans.md`, and the starter kit in `directory_structures/photo-site/`
 14. AI-facing universal guidance: `prompts/universal.md`
-15. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
+15. LLM conversation preservation or reading PDFs: `docs/chat-archives.md` and `docs/typography.md`; use `prompts/archive-chat.md` when the archive workflow is requested
+16. Publication, audit, and OPSEC guidance when preparing public repositories or public artifacts
 
 When standards overlap, prefer the most specific applicable document. For general source-code style, use `docs/code-style.md` as the canonical authority.
 

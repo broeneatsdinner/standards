@@ -112,6 +112,7 @@ Any deviation should be intentional, not accidental.
 
 ## Specialized workflow prompts
 
+- `archive-chat.md` - preserve a supplied LLM conversation export and produce a Nothing Sans reading PDF under `docs/chat-archives.md`.
 - `hitl-review-packet.md` — specialized human-in-the-loop review packet workflow for clipboard-based pre-commit review.
 - `transcript-handoff.md` — lightweight clipboard handoff workflow for the most recent operator prompt and terminal-visible assistant output.
 

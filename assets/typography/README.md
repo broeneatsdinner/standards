@@ -30,9 +30,12 @@ It is intended for workflows where an AI conversation is exported, normalized to
 
 Current chat files:
 
-- `chats.css` is the reusable stylesheet for chat and transcript rendering.
+- `chat-reading.css` is the Nothing Sans profile for file-based conversation reading PDFs, used by `bin/render-chat-pdf`. Its pinned Python requirements are in `chat-pdf-requirements.txt`. See [the archive procedure](../../docs/chat-archives.md) for source preservation, dependencies, licensing, and checks.
+- `chats.css` is the existing system-font component stylesheet for chat and transcript rendering.
 - `chats-tearsheet.html` is the component coverage fixture for chat export elements.
 - `chats-conversation.html` is a realistic usage example showing a developer and AI assistant conversation flow.
+
+The archive-reading profile is the routine choice for archived LLM conversations. The system-font chat fixtures below remain a separate component system; their font stacks are unchanged. Test the archive profile with [`examples/chat-archive/conversation-export.md`](../../examples/chat-archive/conversation-export.md), then inspect the resulting PDF pages.
 
 The chat system covers message roles, transcript metadata, user bubbles, assistant prose, system/developer/tool notes, code blocks, command blocks, terminal output, diff output, tables, callouts, path chips, citations, images, and print behavior.
 
@@ -93,6 +96,8 @@ Use a usage example to inspect whether the typography still works when the conte
 ## Workflow
 
 The intended workflow is:
+
+For LLM conversation archives, follow [docs/chat-archives.md](../../docs/chat-archives.md) before this general rendering sequence. Preserve the source first and verify source completeness separately from PDF rendering.
 
 1. Export source material to Markdown.
 2. Convert Markdown to HTML using the appropriate stylesheet.

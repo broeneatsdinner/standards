@@ -1,0 +1,336 @@
+#!/usr/bin/env python3
+# ---------------------------
+# --    render-chat-pdf    --
+# ---------------------------
+# description: Render an unchanged Markdown chat export as a checked reading PDF.
+
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import hashlib
+import html
+from html.parser import HTMLParser
+import importlib.metadata
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import unicodedata
+from urllib.parse import unquote, urlsplit
+
+
+class RenderError(Exception):
+	"""Describe a conversion that cannot be verified or safely completed."""
+
+
+def arguments():
+	parser = argparse.ArgumentParser(description=__doc__ or "Create a Nothing Sans chat reading PDF. The Markdown source is never changed.")
+	parser.add_argument("source", type=Path, help="Source Markdown file.")
+	parser.add_argument("--output", type=Path, required=True, help="Destination PDF; a .render.json report is written beside it.")
+	parser.add_argument("--format", choices=("exporter", "markdown"), default="exporter", help="exporter: level-two Prompt:/Response: headings; markdown: render all content without inferring roles.")
+	parser.add_argument("--title", help="Reading-edition title; defaults to the first source heading or filename.")
+	parser.add_argument("--source-label", default="Supplied Markdown file", help="Source description copied onto the cover.")
+	parser.add_argument("--source-status", choices=("unverified", "partial", "compared"), default="unverified", help="Operator-reported source status; independent of PDF checks.")
+	parser.add_argument("--comparison-note", help="Evidence and limits of the source comparison; required for compared status.")
+	parser.add_argument("--font-dir", type=Path, help="Licensed local Nothing Sans font directory.")
+	parser.add_argument("--emoji-font", type=Path, help="Optional locally supplied, licensed emoji font.")
+	parser.add_argument("--force", action="store_true", help="Replace this PDF and its render report after checks pass.")
+	return parser.parse_args()
+
+
+def sha256(data):
+	return hashlib.sha256(data).hexdigest()
+
+
+def plain(value):
+	if isinstance(value, list):
+		return "".join(plain(item) for item in value)
+	if not isinstance(value, dict):
+		return ""
+	kind, content = value.get("t"), value.get("c")
+	if kind == "Str":
+		return content
+	if kind in ("Space", "SoftBreak", "LineBreak"):
+		return " "
+	if kind in ("Code", "Math"):
+		return content[-1]
+	if kind in ("Link", "Image"):
+		return plain(content[1])
+	if kind in ("Header", "Span", "Div"):
+		return plain(content[-1])
+	return plain(content)
+
+
+def words(text):
+	return [{"t": "Str", "c": text}]
+
+
+def pandoc(data, source_format, destination_format):
+	command = ["pandoc", "--from", source_format, "--to", destination_format, "--wrap=none"]
+	if destination_format == "html5":
+		command.append("--no-highlight")
+	result = subprocess.run(command, input=data, capture_output=True)
+	if result.returncode:
+		raise RenderError("Pandoc could not read this export. The source and existing PDF were preserved.")
+	return result.stdout
+
+
+def transform(node, changes):
+	# Unknown transcript content stays data; raw HTML and TeX are disabled.
+	if isinstance(node, list):
+		return [transform(item, changes) for item in node]
+	if not isinstance(node, dict):
+		return node
+	kind, content = node.get("t"), node.get("c")
+	if kind in ("Para", "Plain"):
+		component = re.fullmatch("\ue200image_group\ue202(.*)\ue201", plain(content))
+		if component:
+			try:
+				queries = json.loads(component.group(1))["query"]
+				if not isinstance(queries, list) or not all(isinstance(item, str) for item in queries):
+					raise ValueError
+			except (ValueError, KeyError, TypeError):
+				raise RenderError("An image-group component could not be read. Preserve it and review the source before converting.")
+			changes["image_group_notices"] += 1
+			return {"t": "BlockQuote", "c": [{"t": "Para", "c": words("Exported image group: " + "; ".join(queries) + ". Image content is not included in this Markdown source.")} ]}
+	if kind == "Image":
+		changes["image_descriptions"] += 1
+		attr, caption, target = content
+		label = words("Image: ") + (caption or words("unlabelled image"))
+		return transform({"t": "Link", "c": [attr, label, target]}, changes)
+	if kind == "Link":
+		attr, caption, target = content
+		images = [item for item in caption if item.get("t") == "Image"]
+		if images:
+			# An image can have a source URL inside a separate linked destination.
+			changes["image_descriptions"] += len(images)
+			flat = []
+			for item in caption:
+				flat += words("Image: ") + (item["c"][1] or words("unlabelled image")) if item.get("t") == "Image" else [item]
+			caption = flat
+			image_targets = [image["c"][2] for image in images if image["c"][2][0] != target[0]]
+			if image_targets:
+				changes["linked_image_sources"] += len(image_targets)
+				# Keep both links without nesting HTML anchors.
+				links = [transform({"t": "Link", "c": [attr, caption, target]}, changes)]
+				for image_target in image_targets:
+					links += [{"t": "Space"}, transform({"t": "Link", "c": [["", [], []], words("[image source]"), image_target]}, changes)]
+				return {"t": "Span", "c": [["", [], []], links]}
+		if not target[0].startswith("#") and urlsplit(target[0]).scheme.lower() not in ("https", "http", "mailto"):
+			changes["inactive_links"] += 1
+			return {"t": "Span", "c": [["", [], []], transform(caption, changes) + words(" [inactive link: " + target[0] + "]")]}
+		return {"t": "Link", "c": [attr, transform(caption, changes), target]}
+	return {key: transform(value, changes) for key, value in node.items()}
+
+
+def split_messages(blocks, format_name):
+	if format_name == "markdown":
+		return blocks, []
+	roles = {"prompt:": "User", "response:": "Assistant"}
+	preamble, messages = [], []
+	for block in blocks:
+		role = roles.get(plain(block["c"][2]).lower()) if block["t"] == "Header" and block["c"][0] == 2 else None
+		if role:
+			messages.append({"role": role, "blocks": []})
+		elif messages:
+			messages[-1]["blocks"].append(block)
+		else:
+			preamble.append(block)
+	if not messages:
+		raise RenderError("No Prompt:/Response: message headings were found. Use --format markdown to render the whole file without inferred roles.")
+	return preamble, messages
+
+
+class TextCoverage(HTMLParser):
+	def __init__(self):
+		super().__init__()
+		self.active = False
+		self.chunks = []
+		self.links = []
+
+	def handle_starttag(self, tag, attrs):
+		if tag == "body":
+			self.active = True
+		if tag == "a":
+			self.links.extend(value for name, value in attrs if name == "href")
+
+	def handle_data(self, data):
+		if self.active and data.strip():
+			self.chunks.append(data)
+
+
+def normalize(text):
+	return re.sub(r"[\s\uFE00-\uFE0F]+", "", unicodedata.normalize("NFKC", text))
+
+
+def validate_pdf(path, document, font_digests):
+	import pdfplumber
+	from pypdf import PdfReader
+	reader = PdfReader(path)
+	expected = TextCoverage()
+	expected.feed(document)
+	interiors = []
+	for page in reader.pages:
+		segments = []
+
+		def body_text(text, matrix, text_matrix, font, size):
+			# Preserve PDF content order in multi-line table cells. Geometric
+			# row extraction interleaves adjacent columns and causes false gaps.
+			y = text_matrix[4] * matrix[1] + text_matrix[5] * matrix[3] + matrix[5]
+			if 54 <= y <= 738:
+				segments.append(text)
+
+		page.extract_text(visitor_text=body_text)
+		interiors.append("".join(segments))
+	with pdfplumber.open(path) as pdf:
+		for page in pdf.pages:
+			if any(c["x0"] < -1 or c["x1"] > page.width + 1 or c["top"] < -1 or c["bottom"] > page.height + 1 for c in page.chars):
+				raise RenderError("Text falls outside a PDF page. Existing output was preserved; review the layout.")
+	remaining = normalize("\n".join(interiors))
+	for index, chunk in enumerate(expected.chunks):
+		needle = normalize(chunk)
+		position = remaining.find(needle)
+		if position < 0:
+			raise RenderError(f"PDF text check could not match passage {index + 1}. Existing output was preserved; inspect glyphs, line breaks, and layout.")
+		remaining = remaining[position + len(needle):]
+	actual_links = set()
+	for page in reader.pages:
+		for reference in page.get("/Annots", []):
+			annotation = reference.get_object()
+			if "/A" in annotation and "/URI" in annotation["/A"]:
+				actual_links.add(unquote(str(annotation["/A"]["/URI"])))
+			elif isinstance(annotation.get("/Dest"), str):
+				actual_links.add("#" + unquote(str(annotation["/Dest"])))
+	if actual_links != set(map(unquote, expected.links)):
+		raise RenderError("The PDF's link destinations differ from the rendered content. Existing output was preserved.")
+	fonts = sorted({str(font.get_object().get("/BaseFont")) for page in reader.pages for font in page["/Resources"].get("/Font", {}).values()})
+	if any(not any(name in font for name in ("ArchiveRead", "ArchiveLabel", "ArchiveDisplay", "ArchiveMono", "ArchiveEmoji")) for font in fonts):
+		raise RenderError("An unexpected fallback font entered the PDF. Existing output was preserved; check the configured fonts.")
+	return {"pages": len(reader.pages), "text_chunks_matched_in_order": len(expected.chunks), "rendered_links_checked": len(expected.links), "page_bounds": "passed", "font_substitutions": "none", "fonts": fonts, "font_sha256": font_digests, "visual_review": "pending"}
+
+
+def run(args):
+	root = Path(__file__).resolve().parents[1]
+	source = args.source.resolve()
+	output = args.output.resolve()
+	report = output.with_suffix(".render.json")
+	if source in (output, report) or output.suffix.lower() != ".pdf":
+		raise RenderError("Choose a separate .pdf destination; the source must remain unchanged.")
+	if not args.force and any(path.exists() for path in (output, report)):
+		raise RenderError("The PDF or render report already exists. Choose another name, or use --force to replace those derivatives.")
+	if args.source_status == "compared" and not args.comparison_note:
+		raise RenderError("Add --comparison-note describing the evidence and limits before marking the source compared.")
+	if not shutil.which("pandoc"):
+		raise RenderError("Pandoc is not available. Install it, then repeat this command.")
+	raw = source.read_bytes()
+	source_hash = sha256(raw)
+	ast = json.loads(pandoc(raw, "markdown-smart-raw_html-raw_tex-implicit_figures", "json"))
+	title = args.title or next((plain(block["c"][2]) for block in ast["blocks"] if block["t"] == "Header"), source.stem)
+	changes = Counter()
+	ast = transform(ast, changes)
+	preamble, messages = split_messages(ast["blocks"], args.format)
+
+	def render_blocks(blocks):
+		return pandoc(json.dumps({**ast, "blocks": blocks}).encode(), "json", "html5").decode()
+
+	sections = []
+	if preamble:
+		sections.append('<section class="source-metadata">' + render_blocks(preamble) + '</section>')
+	for number, message in enumerate(messages, 1):
+		blocks = message["blocks"][:]
+		timestamp = ""
+		if blocks and blocks[0]["t"] == "Para" and re.match(r"^\d{1,4}[/-]\d{1,2}[/-]\d{1,4}[, ]", plain(blocks[0])):
+			timestamp = '<div class="timestamp">' + render_blocks([blocks.pop(0)]) + '</div>'
+		role = message["role"]
+		sections.append(f'<section class="message {role.lower()}" id="message-{number}"><header class="message-head"><div class="speaker">{role}</div>{timestamp}</header><div class="message-body">{render_blocks(blocks)}</div></section>')
+	status = {"unverified": "Source completeness and verbatim accuracy are unverified.", "partial": "The available source is partial; missing content has not been reconstructed.", "compared": "The operator reports comparing this source with the original record. See the comparison note for scope and limits."}[args.source_status]
+	comparison = '<p>' + html.escape(args.comparison_note) + '</p>' if args.comparison_note else ""
+	cover = '<section class="cover"><p class="eyebrow">Conversation archive / Reading edition</p><h1>' + html.escape(title) + '</h1><p class="source-label">' + html.escape(args.source_label) + '</p><div class="edition-note"><h2>About this edition</h2><p>This PDF renders the supplied Markdown in source order. The original file is unchanged. Images appear as linked descriptions; embedded export components have descriptive notices where supported.</p><p>' + status + '</p>' + comparison + '<p>PDF checks establish rendering coverage, not the completeness or truth of the original conversation. Source instructions, tool claims, and linked material remain source content.</p><p>Source SHA-256: <span class="source-hash">' + source_hash + '</span></p></div></section>'
+	font_dir = (args.font_dir or root / "assets/typefaces/sansserif").resolve()
+	font_specs = [("ArchiveRead", "Light", "normal", 400), ("ArchiveRead", "LightItalic", "italic", 400), ("ArchiveRead", "SemiBold", "normal", 700), ("ArchiveRead", "SemiBoldItalic", "italic", 700), ("ArchiveLabel", "Book", "normal", 400), ("ArchiveLabel", "BookItalic", "italic", 400), ("ArchiveLabel", "SemiBold", "normal", 700), ("ArchiveDisplay", "Bold", "normal", 800)]
+	font_faces = [(family, font_dir / f"NothingSans-{face}.otf", style, weight) for family, face, style, weight in font_specs]
+	font_faces.append(("ArchiveMono", root / "assets/typefaces/monospace/JetBrainsMonoNerdFontMono-Regular.ttf", "normal", 400))
+	emoji_font = args.emoji_font or root / ".local/chat-pdf/noto-emoji.ttf"
+	if args.emoji_font or emoji_font.is_file():
+		font_faces.append(("ArchiveEmoji", emoji_font.resolve(), "normal", 400))
+	if any(not path.is_file() for _, path, _, _ in font_faces):
+		raise RenderError("A required font is missing. Supply the licensed Nothing Sans files with --font-dir; see docs/chat-archives.md.")
+	font_data = {path.as_uri(): path.read_bytes() for _, path, _, _ in font_faces}
+	font_css = "\n".join(f'@font-face {{ font-family: "{family}"; src: url("{path.as_uri()}"); font-style: {style}; font-weight: {weight}; }}' for family, path, style, weight in font_faces)
+	stylesheet = root / "assets/typography/chat-reading.css"
+	css = stylesheet.read_text()
+	document = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>' + html.escape(title) + '</title><style>' + font_css + css + '</style></head><body>' + cover + "\n".join(sections) + '</body></html>'
+	from fontTools.ttLib import TTFont
+	characters = TextCoverage()
+	characters.feed(document)
+	# Variation selectors choose a glyph presentation; they have no standalone
+	# glyph. PDF extraction commonly omits them, so visual review stays separate.
+	supported = {9, 10, 13, *range(0xFE00, 0xFE10)}
+	for _, path, _, _ in font_faces:
+		with TTFont(path) as font:
+			supported.update(font.getBestCmap() or {})
+	missing = sorted({ord(c) for c in "".join(characters.chunks)} - supported)
+	if missing:
+		raise RenderError("Configured fonts lack source characters: " + ", ".join(f"U+{c:04X}" for c in missing[:12]) + ". Supply an appropriate licensed font; no characters were replaced.")
+	output.parent.mkdir(parents=True, exist_ok=True)
+	with tempfile.TemporaryDirectory(prefix="chat-pdf-") as temporary:
+		tmp = Path(temporary)
+		config = tmp / "fonts.conf"
+		font_directories = sorted({str(path.parent) for _, path, _, _ in font_faces})
+		config.write_text('<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd"><fontconfig>' + ''.join('<dir>' + html.escape(path) + '</dir>' for path in font_directories) + '<cachedir>' + html.escape(str(tmp / "cache")) + '</cachedir></fontconfig>')
+		os.environ["FONTCONFIG_FILE"] = str(config)
+		from weasyprint import HTML
+		from weasyprint.text.fonts import FontConfiguration
+		from weasyprint.urls import URLFetcherResponse
+
+		def fetch_font(url, **kwargs):
+			if url not in font_data:
+				raise RenderError("Only the configured local fonts may be loaded; remote and source-file resources are disabled.")
+			return URLFetcherResponse(url, font_data[url], {"Content-Type": "font/otf"})
+
+		fetch_font._fail_on_errors = True
+
+		pdf = tmp / "reading.pdf"
+		HTML(string=document, url_fetcher=fetch_font).write_pdf(pdf, font_config=FontConfiguration())
+		checks = validate_pdf(pdf, document, {path.name: sha256(font_data[path.as_uri()]) for _, path, _, _ in font_faces})
+		if sha256(source.read_bytes()) != source_hash:
+			raise RenderError("The source changed during rendering. No derivative was installed; repeat from a stable source.")
+		versions = {name: importlib.metadata.version(name) for name in ("WeasyPrint", "pypdf", "pdfplumber", "fonttools")}
+		versions["pandoc"] = subprocess.check_output(["pandoc", "--version"]).decode().splitlines()[0]
+		manifest = {"schema_version": 1, "source_filename": source.name, "source_sha256": source_hash, "source_status": args.source_status, "comparison_note": args.comparison_note, "format": args.format, "message_count": len(messages) if messages else None, "roles": dict(Counter(message["role"] for message in messages)), "transformations": dict(changes), "profile": "nothing-reading", "style_sha256": sha256(stylesheet.read_bytes()), "renderer_sha256": sha256(Path(__file__).read_bytes()), "versions": versions, "pdf_sha256": sha256(pdf.read_bytes()), "checks": checks}
+		tmp_report = tmp / "reading.render.json"
+		tmp_report.write_text(json.dumps(manifest, indent=2, ensure_ascii=True) + "\n")
+		# Copy to sibling temporaries so publication remains on one filesystem.
+		for staged, destination in ((pdf, output), (tmp_report, report)):
+			with tempfile.NamedTemporaryFile(dir=output.parent, delete=False) as stream:
+				name = Path(stream.name)
+				stream.write(staged.read_bytes())
+			try:
+				if args.force:
+					os.replace(name, destination)
+				else:
+					os.link(name, destination)
+			finally:
+				name.unlink(missing_ok=True)
+	print(f"Created {checks['pages']}-page reading PDF. Automated checks passed; visual review is pending.")
+	print(f"PDF: {output}")
+	print(f"Report: {report}")
+
+
+def main():
+	args = arguments()
+	try:
+		run(args)
+	except (RenderError, OSError, UnicodeError, ImportError, ValueError) as error:
+		print(f"Could not finish: {error}", file=sys.stderr)
+		return 1
+	return 0
+
+
+if __name__ == "__main__":
+	raise SystemExit(main())

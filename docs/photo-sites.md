@@ -44,6 +44,19 @@ project/
 
 CSS and JS live under `site/assets/`, beside the typefaces. A site may add its own files (an editing page, a video viewer, a database of records), but the shared files and this layout stay as they are.
 
+## A site in its own repository
+
+A photo site usually lives in the repository whose photos and records it shows. Give it a repository of its own when that repository also holds private material the site never shows (inventory, orders, locations, notes), so that work on the site does not need it and each has its own commits. Both repositories stay private: separating them does not make either safe to publish.
+
+1. **Split the history.** Filter a fresh clone, never the working repository, down to the site's paths, including any earlier names they had (`git filter-repo --path ...`). Leave licensed fonts out. Check that every carried file matches the original, then scan the whole new history, commit messages included, for private details, and every image in it for metadata.
+2. **Keep the originals where they are.** The site's repository holds only the stripped copies. The image builder reads the archive from a path set by a variable, by default the other checkout beside this one, and needs it only to bring in a new photo.
+3. **Carry what git ignores.** Copy working files and `work/hand-edits/` by hand, after a build in the old repository, so no unbuilt hand edit is lost.
+4. **Prove it with a dry run.** From the new repository, with the same deploy constants, `bin/deploy --dry-run --diff` shows no change to a page, stylesheet, script, or `.htaccess`. Photos can be listed if the image tools changed since the last deploy; compare those with the live copies.
+5. **Back it up.** Create the private remote, confirm it is private, and add the repository to the backups if it holds ignored files ([git-repository-backups.md](git-repository-backups.md)).
+6. **Deploy from one repository only.** Once the new one has deployed and been checked, remove the site's files from the old one, `bin/deploy` included, and point its orientation at the new one. Until then, a deploy from the old one can put older files back.
+
+Splitting the repository changes nothing on the server: the URL and folder stay. Where a site is served from is a separate question ([Publishing into another site's domain](#publishing-into-another-sites-domain)).
+
 ## Shared files and per-site settings
 
 | File | Shared | Per-site setting |

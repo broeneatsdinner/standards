@@ -33,8 +33,9 @@ project/
 ├── site/
 │   ├── assets/
 │   │   ├── css/                base.css, typography.css (shared), layout,
-│   │   │                       typography-site.css
-│   │   ├── js/                 viewer.js, theme.js, jump.js (shared)
+│   │   │                       typography-site.css, intro.css (shared, optional)
+│   │   ├── js/                 viewer.js, theme.js, jump.js (shared);
+│   │   │                       intro.js (shared, optional)
 │   │   └── typefaces/          copied in by sync-fonts.sh; git-ignored
 │   ├── hand-edits.json         hand edits no source produces; tracked
 │   └── ...                     generated pages, thumbnails, routes.json,
@@ -68,6 +69,7 @@ Splitting the repository changes nothing on the server: the URL and folder stay.
 | `scripts/sync-fonts.sh`, `scripts/check-no-fonts.sh` | yes | none |
 | `scripts/site/hand_edits.py` | yes | none: `build.py` names the pages and the sources it settles |
 | `site/assets/js/viewer.js`, `theme.js`, `jump.js` | yes | none |
+| `site/assets/js/intro.js`, `site/assets/css/intro.css` | yes, where a site uses [the Nothing intro](#the-nothing-intro) | none: the byline is the page's kicker |
 | `site/assets/css/base.css` | yes | none |
 | `site/assets/css/typography.css` | yes: [`nothing-sans.css`](../assets/typefaces/nothing-sans.css) with its `url()` paths pointing at `../typefaces/` | none |
 | `site/assets/css/gallery.css` | starts as the kit's copy | the site may add rules for its own sections and records, and keeps the kit's rules for anything a shared file draws (the viewer, the jump bar) |
@@ -246,6 +248,17 @@ A site can move between domains, whether it lives in a folder inside a web root 
     - The aspect ratio is taken from the loaded image, not the layer, which may not have decoded yet. The outgoing layer keeps its width until its crossfade ends (600ms).
 - **Section jump** (`jump.js`): on pages with a bar of section links, a click cuts to 50px short of the section and slides into place over 700ms with an ease-out-expo curve, with no fade. Back and Forward glide between sections. With reduced motion preferred, it jumps. A page with a single section shows no bar but still handles section URLs and old links. On the local server, `?lead=`, `?fade=`, and `?duration=` override the settings for comparison.
 - **Colors** come from `base.css`: one palette, with a night version that follows the system appearance.
+
+## The Nothing intro
+
+An optional full-screen intro for Nothing LLC and Howblue Ltd sites (`intro.js`, `intro.css`): drifting rings and the Nothing wordmark over the home page, with the page's kicker as a byline. The rings light the wordmark and the byline as they pass. A tap, click, Enter, Space, or Escape fades to the page, which has loaded underneath. [The kit's README](../directory_structures/photo-site/README.md#the-nothing-intro-optional) says how to turn it on.
+
+- **When it shows:** once per browser session for each site, on the home page only. A section or photo link skips it, and arriving on one counts as having seen it. With reduced motion preferred, or without JavaScript, the page just loads.
+- **The byline** is the text of the page's first `.kicker`, so it has no source of its own. It is Nothing Sans Book at the small-text size, set outside the scaled stage so it stays readable on a phone. Characters the face lacks use the device's font.
+- **Type and timing:** the wordmark is Bold at 58px on an 840 by 600 stage that scales down to fit. It comes into focus in 1.25 seconds, and the byline follows half a second behind.
+- **Scope:** the intro sits outside `<body>`, and every rule in `intro.css` applies only to it, so it changes nothing on the page. If it fails to start, the page shows.
+- **Session storage:** it keeps one value per site, under `nothing-intro:` and the site's base path.
+- **Going back:** a browser can restore a page frozen rather than reload it. The animation clock skips that time, so the rings resume where they stopped.
 
 ## Recordings
 

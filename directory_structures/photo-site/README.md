@@ -17,8 +17,9 @@ photo-site/
 │       └── serve.py
 └── site/assets/
     ├── css/                      base.css, gallery.css, typography.css,
-    │                             typography-site.css
-    └── js/                       viewer.js, theme.js, jump.js
+    │                             typography-site.css, intro.css (optional)
+    └── js/                       viewer.js, theme.js, jump.js, intro.js
+                                  (optional)
 ```
 
 ## Start a new site
@@ -39,6 +40,17 @@ photo-site/
 
 5. Edit the text either way: in `photos/captions.csv`, or straight in the generated `site/index.html`, which the next build writes back to the captions ([docs/photo-sites.md](../../docs/photo-sites.md#editing-a-page-by-hand)).
 6. Publish when ready: `bin/deploy --dry-run` shows what would be uploaded; `bin/deploy` asks before uploading. After the first deploy, run the live checks in [docs/photo-sites.md](../../docs/photo-sites.md#publishing).
+
+## The Nothing intro (optional)
+
+`intro.js` and `intro.css` show the Nothing rings and wordmark over the home page ([docs/photo-sites.md](../../docs/photo-sites.md#the-nothing-intro)). They are for Nothing LLC and Howblue Ltd sites; another site can delete both files. The kit's `build.py` does not link them. To turn the intro on, add two lines to `HEAD` in the site's `build.py`:
+
+```html
+<link rel="stylesheet" href="/assets/css/intro.css">
+<script src="/assets/js/intro.js"></script>
+```
+
+The stylesheet goes after `typography-site.css`. The script goes just before `viewer.js`, without `defer`: it hides the page before first paint.
 
 ## Keeping sites aligned
 
